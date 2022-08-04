@@ -20,7 +20,8 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   
   //check to see if the fields are not empty
-  const login = () => {
+  const login = (e) => {
+    e.preventDefault()
     if ((username == "") & (password == "")) {
       console.log('blah')
       return;
@@ -41,6 +42,8 @@ export default function LoginForm() {
         .catch(function (error) {
           console.log('found an error')
           console.log(error, "error");
+          console.debug(error)
+          console.debug(error.config)
         });
     }
   };
@@ -70,56 +73,5 @@ export default function LoginForm() {
         </div>
       </div>
     </>
-  );
-}
-
-export function OldLoginForm() {
-	// React States
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = async (event) => {
-    // Prevent page reload
-    event.preventDefault();
-
-    const username = event.currentTarget.elements.username.value
-    const password = event.currentTarget.elements.password.value
-
-    const token_data = await authUser(username, password)
-		if (token_data === null) {
-			setErrorMessages({ name: "uname", message: "terrible" });
-    }
-    alert(token_data)
-    setIsSubmitted(true)
-  };
-
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
-
-  const renderForm = (
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <div className="input-container">
-          <label>Username </label>
-          <input type="text" name="username" required />
-        </div>
-        <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="password" required />
-        </div>
-        <div className="button-container">
-          <input type="submit" />
-        </div>
-        {renderErrorMessage('abc')}
-      </form>
-    </div>
-  );
-
-  return (
-    <div className="login-form">
-      {renderForm}
-    </div>
   );
 }
