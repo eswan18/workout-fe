@@ -22,28 +22,31 @@ export default function LoginForm() {
   //check to see if the fields are not empty
   const login = (e) => {
     e.preventDefault()
-    if ((username == "") & (password == "")) {
-      console.log('blah')
+    if ((username == "") | (password == "")) {
       return;
     } else {
+      const formData = new FormData()
+      formData.append('username', username)
+      formData.append('password', password)
       // make api call to our backend. we'll leave this for later
       axios
-        .post(AUTH_URL, {
-          username: username,
-          password: password,
-        })
+        .post(AUTH_URL, formData)
         .then(function (response) {
-          console.log(response)
-          console.log(response.data.token, "response.data.token");
+          if (response.status == 200) {
+            console.log('success!')
+            console.log(response.data.token, "response.data.token");
+          } else 
           if (response.data.token) {
             setToken(response.data.token);
           }
         })
         .catch(function (error) {
           console.log('found an error')
-          console.log(error, "error");
-          console.debug(error)
-          console.debug(error.config)
+          if (error.response.status == 401) {
+            alert('incorrect creds!')
+          } else {
+            alert('unknown error')
+          }
         });
     }
   };
