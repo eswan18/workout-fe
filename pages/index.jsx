@@ -1,21 +1,15 @@
+import Router from 'next/router';
 import MainLayout from '../components/mainLayout';
 import LoginForm from '../components/loginForm';
 
 export default function Home() {
-  const loggedIn = false;
   return (
-    loggedIn
-    ? <MainLayout home>
+    <MainLayout home unprotected>
       <div>
-        <h1>You're In!</h1>
+        <h1>Welcome to my sad workout app</h1>
         content goes here
       </div>
-    </MainLayout>
-    : <MainLayout home>
-      <div>
-        <h1>Welcome</h1>
-        <LoginForm/>
-      </div>
+    <button onClick={() => Router.push('/login')}>Login</button>
     </MainLayout>
   );
 }

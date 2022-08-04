@@ -2,6 +2,7 @@ import styles from './loginForm.module.css';
 import { useState, useEffect } from 'react';
 import { setToken, getToken } from '../lib/auth';
 import axios from 'axios';
+import Router from 'next/router';
 
 const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL
 
@@ -18,30 +19,29 @@ export async function getServerSideProps(context) {
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-  //check to see if the fields are not empty
   const login = (e) => {
     e.preventDefault()
     if ((username == "") | (password == "")) {
+      console.log('skipping')
       return;
     } else {
       const formData = new FormData()
       formData.append('username', username)
       formData.append('password', password)
-      // make api call to our backend. we'll leave this for later
       axios
         .post(AUTH_URL, formData)
         .then(function (response) {
-          if (response.status == 200) {
-            console.log('success!')
-            console.log(response.data.token, "response.data.token");
-          } else 
-          if (response.data.token) {
-            setToken(response.data.token);
+          if (response.status == 201) {
+            console.debug(response.data)
+            setToken(response.data.access_token)
+            Router.push('/dashboard')
           }
         })
         .catch(function (error) {
           console.log('found an error')
+          console.debug(error)
           if (error.response.status == 401) {
             alert('incorrect creds!')
           } else {
