@@ -1,6 +1,6 @@
 import styles from './loginForm.module.css';
 import { useState, useEffect } from 'react';
-import { setToken, getToken } from '../lib/auth';
+import { setLocalToken, setLocalUsername } from '../lib/auth';
 import axios from 'axios';
 import Router from 'next/router';
 
@@ -34,8 +34,8 @@ export default function LoginForm() {
         .post(AUTH_URL, formData)
         .then(function (response) {
           if (response.status == 201) {
-            console.debug(response.data)
-            setToken(response.data.access_token)
+            setLocalToken(response.data.access_token)
+            setLocalUsername(username)
             Router.push('/dashboard')
           }
         })

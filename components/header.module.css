@@ -7,3 +7,13 @@
   text-align: center;
   border: 1px solid gray;
 }
+
+.headerLeft {
+  float: left;
+  height: 2rem;
+}
+
+.headerRight {
+  float: right;
+  height: 2rem;
+}

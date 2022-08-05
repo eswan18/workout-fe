@@ -9,8 +9,7 @@ export default function Home() {
         <h1>Welcome to my sad workout app</h1>
         content goes here
       </div>
-    <button onClick={() => Router.push('/login')}>Login</button>
+    <button onClick={() => Router.push('/login')}>Login to Your Dashboard</button>
     </MainLayout>
   );
 }
-
