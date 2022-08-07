@@ -43,20 +43,21 @@ export default function LoginForm() {
   return (
     <>
       <div className={styles.login}>
-        <h1>login page</h1>
+        <h1>Log into Your Account</h1>
         <div style={{ marginTop: 30 }}>
             <div>
               <form>
-                <label style={{ marginRight: 10 }}>Input Username</label>
+                <label style={{ marginRight: 10 }}>Username:</label>
                 <input
                   type="text"
                   onChange={(e) => setUsername(e.target.value)}
                 />
 
-                <label style={{ marginRight: 10 }}>Input Password</label>
+                <label style={{ marginLeft: 30, marginRight: 10 }}>Password:</label>
                 <input
-                  type="text"
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
+                  style={{ marginRight: 20 }}
                 />
 
                 <button onClick={doLogin}>Login</button>
