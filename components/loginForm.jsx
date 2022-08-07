@@ -14,8 +14,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorText, setErrorText] = useState(null)
   
   useEffect(() => {
     // Prevent access this page if you're logged in; redirect to dashboard.
@@ -28,18 +29,25 @@ export default function LoginForm() {
       alert('Please enter both a username and password')
       return
     }
-    try {
-      login(username, password)
-    } catch (e) {
-      console.log(e)
-    }
-    redirectIfLoggedIn()
+    login({
+      username,
+      password, 
+      onError: (err) => setErrorTextFromError(err),
+      onSuccess: () => Router.push('/dashboard'),
+    })
   }
 
   const redirectIfLoggedIn = () => {
     if (getLocalUsername() != null) {
       Router.push('/dashboard')
     }
+  }
+
+  const setErrorTextFromError = (error) => {
+    if (typeof error === 'string' || error instanceof String) setErrorText(error)
+    const msg = error?.message
+    if (msg != null) setErrorText(msg)
+    setErrorText('Unknown error')
   }
 
   return (
@@ -62,6 +70,7 @@ export default function LoginForm() {
                 />
 
                 <button onClick={doLogin}>Login</button>
+                <p>{errorText}</p>
               </form>
             </div>
         </div>
