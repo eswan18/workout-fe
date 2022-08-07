@@ -1,10 +1,7 @@
 import styles from './loginForm.module.css';
-import { useState, useEffect } from 'react';
-import { setLocalToken, setLocalUsername } from '../lib/auth';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { getLocalUsername, login } from '../lib/auth';
 import Router from 'next/router';
-
-const AUTH_URL = process.env.NEXT_PUBLIC_AUTH_URL
 
 export async function getServerSideProps(context) {
   const authUrl = process.env.NEXT_PUBLIC_AUTH_URL
@@ -19,37 +16,31 @@ export async function getServerSideProps(context) {
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-  const login = (e) => {
+  useEffect(() => {
+    // Prevent access this page if you're logged in; redirect to dashboard.
+    redirectIfLoggedIn()
+  }, [])
+
+  const doLogin = (e) => {
     e.preventDefault()
     if ((username == "") | (password == "")) {
-      console.log('skipping')
-      return;
-    } else {
-      const formData = new FormData()
-      formData.append('username', username)
-      formData.append('password', password)
-      axios
-        .post(AUTH_URL, formData)
-        .then(function (response) {
-          if (response.status == 201) {
-            setLocalToken(response.data.access_token)
-            setLocalUsername(username)
-            Router.push('/dashboard')
-          }
-        })
-        .catch(function (error) {
-          console.log('found an error')
-          console.debug(error)
-          if (error.response.status == 401) {
-            alert('incorrect creds!')
-          } else {
-            alert('unknown error')
-          }
-        });
+      alert('Please enter both a username and password')
+      return
     }
-  };
+    try {
+      login(username, password)
+    } catch (e) {
+      console.log(e)
+    }
+    redirectIfLoggedIn()
+  }
+
+  const redirectIfLoggedIn = () => {
+    if (getLocalUsername() != null) {
+      Router.push('/dashboard')
+    }
+  }
 
   return (
     <>
@@ -70,7 +61,7 @@ export default function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button onClick={login}>Login</button>
+                <button onClick={doLogin}>Login</button>
               </form>
             </div>
         </div>
