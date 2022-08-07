@@ -16,7 +16,10 @@ export default function MainLayout({ children, home, unprotected }) {
 
   useEffect(() => {
     /* unprotected pages are always accessible */
-    if (unprotected) setAuthorized(true)
+    if (unprotected) {
+      setAuthorized(true)
+      return
+    }
     /* Redirect to login page if not authed */
     const token = getLocalToken()
     if (token) {
