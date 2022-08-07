@@ -3,7 +3,7 @@ import Head from 'next/head';
 import ContentContainer from './contentContainer';
 import Header from './header';
 import styles from './mainLayout.module.css';
-import { getLocalToken } from '../lib/auth';
+import { getLocalToken } from '../../lib/auth';
 import { useEffect, useState } from 'react';
 
 export const siteTitle = "Ethan's Workout App"

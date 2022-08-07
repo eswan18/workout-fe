@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { useState, useEffect } from 'react';
-import { getLocalUsername, logout } from '../../lib/auth';
+import { getLocalUsername, logout } from '../../../lib/auth';
 import styles from './headerLoginStatusBox.module.css';
 
 export default function HeaderLoginStatusBox() {
