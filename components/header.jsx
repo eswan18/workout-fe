@@ -7,7 +7,9 @@ export default function Header({ children, siteTitle }) {
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}></div>
-      <Link href="/">{ siteTitle }</Link>
+      <div className={styles.headerMiddle}>
+        <Link href="/">{ siteTitle }</Link>
+      </div>
       <div className={styles.headerRight}><HeaderLoginStatusBox/></div>
     </div>
   );
