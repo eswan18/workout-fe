@@ -3,16 +3,6 @@ import { useEffect, useState } from 'react';
 import { getLocalUsername, login } from '../lib/auth';
 import Router from 'next/router';
 
-export async function getServerSideProps(context) {
-  const authUrl = process.env.NEXT_PUBLIC_AUTH_URL
-  console.debug(authUrl)
-  return {
-    props: {
-      authUrl,
-    },
-  }
-}
-
 export default function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -52,7 +42,7 @@ export default function LoginForm() {
 
   return (
     <>
-      <div style={{ minHeight: 800, marginTop: 30 }}>
+      <div className={styles.login}>
         <h1>login page</h1>
         <div style={{ marginTop: 30 }}>
             <div>
