@@ -40,9 +40,15 @@ export default function MainLayout({ children, home, unprotected }) {
         <meta name="og:title" content={siteTitle} />
       </Head>
       <Header siteTitle={siteTitle}/>
-      <ContentContainer>
-        <main>{children}</main>
-      </ContentContainer>
+      <div className={styles.flexContainer}>
+        <div className={styles.edgeSpacer}/>
+        <div className={styles.contentArea}>
+          <ContentContainer>
+            <main>{children}</main>
+          </ContentContainer>
+        </div>
+        <div className={styles.edgeSpacer}/>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,17 @@
 .container {
   align-items: center;
-  display: block;
+}
+
+.flexContainer {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.contentArea {
+  flex: 0 70rem;
+  border: 1px solid black;
+}
+
+.edgeSpacer {
+  flex: 1 1rem;
 }
