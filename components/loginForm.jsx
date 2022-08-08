@@ -22,8 +22,8 @@ export default function LoginForm() {
     login({
       username,
       password, 
-      onError: (err) => setErrorTextFromError(err),
       onSuccess: () => Router.push('/dashboard'),
+      onError: (err) => setErrorTextFromError(err),
     })
   }
 
@@ -34,10 +34,13 @@ export default function LoginForm() {
   }
 
   const setErrorTextFromError = (error) => {
-    if (typeof error === 'string' || error instanceof String) setErrorText(error)
-    const msg = error?.message
-    if (msg != null) setErrorText(msg)
-    setErrorText('Unknown error')
+    if (typeof error === 'string' || error instanceof String) {
+      setErrorText(error)
+    } else {
+      const msg = error?.message
+      const message = msg || 'Unknown error'
+      setErrorText(message)
+    }
   }
 
   return (
