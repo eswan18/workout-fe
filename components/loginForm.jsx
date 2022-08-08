@@ -37,17 +37,15 @@ export default function LoginForm() {
     if (typeof error === 'string' || error instanceof String) {
       setErrorText(error)
     } else {
-      const msg = error?.message
-      const message = msg || 'Unknown error'
-      setErrorText(message)
+      setErrorText(error?.message || 'Unknown error')
     }
   }
 
   return (
     <>
-      <div className={styles.login}>
+      <div className={styles.loginContainer}>
         <h1>Log into Your Account</h1>
-        <div style={{ marginTop: 30 }}>
+        <div className={styles.loginForm}>
             <div>
               <form>
                 <label style={{ marginRight: 10 }}>Username:</label>
@@ -62,9 +60,10 @@ export default function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   style={{ marginRight: 20 }}
                 />
-
                 <button onClick={doLogin}>Login</button>
-                <p>{errorText}</p>
+                <div className={styles.errorContainer}>
+                  { errorText ? <div className={styles.errorBar}><p>{errorText}</p></div> : null }
+                </div>
               </form>
             </div>
         </div>
