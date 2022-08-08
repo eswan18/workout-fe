@@ -9,7 +9,7 @@ export default function HeaderLoginStatusBox() {
 
   useEffect(() => {
     /* Use the username from local storage if there is one. */
-    const localUsername = getLocalUsername('ewa-username')
+    const localUsername = getLocalUsername()
     if (localUsername) {
       setUsername(localUsername)
     }
@@ -24,7 +24,7 @@ export default function HeaderLoginStatusBox() {
     ? (<>
         <p>{username}</p><button onClick={logoutAndGoToLogin}>Logout</button>
     </>)
-    : (<p>unauthenticated</p>)
+    : (<p>Unauthenticated</p>)
 
   return !loading && (
     <div className={styles.box}>{content}</div>

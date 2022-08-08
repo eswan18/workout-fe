@@ -1,9 +1,11 @@
 .box {
     width: auto;
-    display: inline;
-    vertical-align: middle;
+    display: flex;
+    height: 2em;
+    align-items: center;
+    justify-content: right;
 }
 
 .box > p {
-    margin: 0;
+    margin: 0px 10px;
 }
