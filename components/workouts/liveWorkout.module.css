@@ -1,0 +1,15 @@
+.liveWorkout {
+}
+
+.setPanel {
+    border: 1px solid black;
+    margin: 1em;
+    padding: 2em;
+    border-radius: 0.5em;
+    height: 4em;
+    max-width: 30em;
+}
+
+.exerciseNameLabel {
+    font-weight: bold;
+}
