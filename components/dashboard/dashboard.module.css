@@ -1,6 +1,9 @@
 .dashboard {
-    display: flex;
+}
+
+.flex {
     width: auto;
+    display: flex;
 }
 
 .halfFlex {

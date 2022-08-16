@@ -1,0 +1,15 @@
+.panelSpace {
+    width: auto;
+    padding: 1em;
+}
+
+.panel button {
+    font-size: 1.1em;
+    margin: 1em;
+}
+
+.quickActionsLabel {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 1em;
+}
