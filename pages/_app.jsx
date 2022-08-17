@@ -1,6 +1,10 @@
 import '../styles.css'
+import { SessionProvider } from "next-auth/react"
 
-// This file (and the following function) just ensure that the global CSS at ../styles.css is loaded for all pages.
-export default function MyApp({ Component, pageProps }) {
-    return <Component {...pageProps} />
-  }
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  )
+}

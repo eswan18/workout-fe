@@ -3,8 +3,7 @@ import Head from 'next/head';
 import ContentContainer from './contentContainer';
 import Header from './header';
 import styles from './mainLayout.module.css';
-import { getLocalToken } from '../../lib/auth';
-import { useEffect, useState } from 'react';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 export const siteTitle = "Ethan's Workout App"
 
@@ -12,25 +11,9 @@ export const siteTitle = "Ethan's Workout App"
 export default function MainLayout({ children, home, unprotected }) {
 
   const router = useRouter()
-  const [authorized, setAuthorized] = useState(false);
-
-  useEffect(() => {
-    /* unprotected pages are always accessible */
-    if (unprotected) {
-      setAuthorized(true)
-      return
-    }
-    /* Redirect to login page if not authed */
-    const token = getLocalToken()
-    if (token) {
-      setAuthorized(true)
-    } else {
-      router.push('/login')
-    }
-  }, []);
+  const { data: session } = useSession()
 
   return (
-    authorized &&
     <div className={styles.container}>
       <Head>
         <meta
@@ -43,9 +26,14 @@ export default function MainLayout({ children, home, unprotected }) {
       <div className={styles.flexContainer}>
         <div className={styles.edgeSpacer}/>
         <div className={styles.contentArea}>
+        {(unprotected || session)
+          ?
           <ContentContainer>
             <main>{children}</main>
           </ContentContainer>
+          :
+          <button onClick={signIn}>Sign In</button>
+        }
         </div>
         <div className={styles.edgeSpacer}/>
       </div>
