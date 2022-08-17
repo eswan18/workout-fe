@@ -39,29 +39,27 @@ export default NextAuth({
             }
             const payload = new URLSearchParams(params)
             // We need to pass the url and password as params
+            let res
             try {
-                const res = await axios.post(AUTH_URL, payload, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                res = await axios.post(AUTH_URL, payload, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
             } catch (error) {
                 console.log(error)
                 return null
             }
-            console.log(res)
-            console.log("here")
-
-            // If no error and we have user data, return it
-            if (res.ok && user) {
-                return user
+            console.log(res.data)
+            const token = res?.data?.access_token
+            console.log(token)
+            if (token) {
+                return {email: credentials.email, token}
+            } else {
+                return null
             }
-            // Return null if user data could not be retrieved
-            return null
         }
     }),
   ],
 callbacks: {
-    async jwt({ token, user }) {
-        if (user) {
-            token.accessToken = user.jwt
-        }
+    async jwt({ token }) {
+        console.log('in callback')
 
         return token
     },
