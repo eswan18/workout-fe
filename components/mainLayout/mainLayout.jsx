@@ -3,7 +3,7 @@ import Head from 'next/head';
 import ContentContainer from './contentContainer';
 import Header from './header';
 import styles from './mainLayout.module.css';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 
 export const siteTitle = "Ethan's Workout App"
 

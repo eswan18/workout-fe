@@ -1,5 +1,4 @@
 import styles from './liveWorkout.module.css'
-import { getLocalToken } from '../../lib/auth'
 import { useEffect, useState } from "react"
 import axios from 'axios'
 
@@ -16,7 +15,7 @@ function SetPanel({name, reps, duration}) {
 }
 
 function getWorkoutTypes() {
-    const token = getLocalToken()
+    const token = "nonsense todo"
     axios
         .get(`${API_URL}/workout_types`, {headers: {'Authorization': 'basic '+ token}})
         .then(function(response) {
