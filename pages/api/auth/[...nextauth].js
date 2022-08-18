@@ -1,8 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios"
-import FormData from 'form-data';
-import querystring from 'querystring';
 
 const AUTH_URL = process.env.NEXT_AUTH_URL
 
@@ -46,9 +44,7 @@ export default NextAuth({
                 console.log(error)
                 return null
             }
-            console.log(res.data)
             const token = res?.data?.access_token
-            console.log(res)
             console.log(token)
             if (token) {
                 return {email: credentials.email, token}
