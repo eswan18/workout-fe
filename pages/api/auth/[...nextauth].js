@@ -48,6 +48,7 @@ export default NextAuth({
             }
             console.log(res.data)
             const token = res?.data?.access_token
+            console.log(res)
             console.log(token)
             if (token) {
                 return {email: credentials.email, token}
@@ -58,10 +59,16 @@ export default NextAuth({
     }),
   ],
 callbacks: {
-    async jwt({ token }) {
-        console.log('in callback')
-
+    async jwt({ account, token }) {
+        if (account) {
+            token.accessToken = account.access_token
+          }
         return token
     },
+    async session({ session, token }) {
+        // By default, next-auth removes the token from the session object; add it back
+        session.accessToken = token.accessToken
+        return session
+      }
 },
 })
