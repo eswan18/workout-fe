@@ -47,12 +47,8 @@ export default NextAuth({
                 return null
             }
             const token = res?.data?.access_token
-            console.log('access token >>>> ')
-            console.log(token)
             if (token) {
                 const user = {email: credentials.email, token, accessToken: token}
-                console.log('returning from authorize this user:')
-                console.log(inspect(user, {showHidden: false, depth: null, colors: true}))
                 return user
             } else {
                 return null
@@ -61,20 +57,22 @@ export default NextAuth({
     }),
   ],
 callbacks: {
-    async jwt(args) {
-        const {token} = args
-        console.log('starting jwt()')
-        console.log('jwt args')
-        console.log(args)
+    async jwt({user, token, session}) {
+        // Note: bizarrely, this function seems to get called twice
+        // The first time, it gets all args: user, token, session.
+        // The second time, it just gets the token -- the same token returned from the
+        // first run!
+        // So we need to add the user token to the token object on first run and then
+        // just leave the object alone on the subsequent run, when we don't have the
+        // user object.
+        if (user) {
+            token['accessToken'] = user.token
+        }
         return token
     },
-    async session(args) {
-        const { session, token } = args
-        console.log('starting session()')
-        console.log('session args')
-        console.log(args)
+    async session({ session, token }) {
         // By default, next-auth removes the token from the session object; add it back
-        session.accessToken = token
+        session.accessToken = token.accessToken
         return session
       }
 },
