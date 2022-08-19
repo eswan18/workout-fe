@@ -1,4 +1,3 @@
-import { getToken } from 'next-auth/jwt';
 import MainLayout from '../components/mainLayout'
 import Dashboard from '../components/dashboard'
 

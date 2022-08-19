@@ -1,17 +1,13 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios"
-import { inspect } from 'util';
 
 const AUTH_URL = process.env.NEXT_AUTH_URL
 
 export default NextAuth({
   // Configure one or more authentication providers
   site: process.env.NEXTAUTH_URL,
-  theme: {
-    colorScheme: 'auto', // "auto" | "dark" | "light"
-    brandColor: '#abcdef', // Hex color code #33FF5D
-  },
+  theme: { colorScheme: 'auto' },
   debug: true,
   providers: [
     CredentialsProvider({
@@ -26,12 +22,6 @@ export default NextAuth({
             password: {  label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
-            // You need to provide your own logic here that takes the credentials
-            // submitted and returns either a object representing a user or value
-            // that is false/null if the credentials are invalid.
-            // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-            // You can also use the `req` object to obtain additional parameters
-            // (i.e., the request IP address)
             const params = {
                 username: credentials.email,
                 password: credentials.password,

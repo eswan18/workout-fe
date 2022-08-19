@@ -5,7 +5,9 @@ import { useSession } from "next-auth/react"
 import { inspect } from 'util'
 
 export default function Dashboard() {
-  const session = useSession()
+  const { data: session } = useSession()
+  const accessToken = session.user.accessToken
+
     return (
       <div className={styles.dashboard}>
         <h3>here is the current session... I hope</h3>

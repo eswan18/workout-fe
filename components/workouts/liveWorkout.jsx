@@ -1,5 +1,6 @@
 import styles from './liveWorkout.module.css'
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import axios from 'axios'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -14,19 +15,23 @@ function SetPanel({name, reps, duration}) {
     )
 }
 
-function getWorkoutTypes() {
-    const token = "nonsense todo"
+function getWorkoutTypes({accessToken, onSuccess, onError}) {
+
+    const config = {headers: {Authorization: `Bearer ${accessToken}`}}
     axios
-        .get(`${API_URL}/workout_types`, {headers: {'Authorization': 'basic '+ token}})
+        .get(`${API_URL}/workout_types`, config)
         .then(function(response) {
-            console.debug(response)
+            onSuccess(response)
         })
         .catch(function(error) {
-            console.debug(error)
+            onError(error)
         })
 }
 
 export default function LiveWorkout() {
+    const { data: session } = useSession()
+    const accessToken = session.accessToken
+
     const [sets, setSets] = useState([])
     const [workoutTypes, setWorkoutTypes] = useState([])
     // We need this wacky function to avoid mutating via array.Push.
@@ -34,14 +39,16 @@ export default function LiveWorkout() {
     const addSet = (newSet) => setSets([...sets, newSet])
     // Pull needed info from the API on initial load.
     useEffect(() => {
-        getWorkoutTypes()
-        setWorkoutTypes(['abc'])
+        const onSuccess = (response) => {
+            setWorkoutTypes(response.data)
+        }
+        getWorkoutTypes({accessToken, onSuccess, onError: console.log})
     }, [])
     return (
         <div className={styles.liveWorkout}>
-            <ul>
-                {workoutTypes.map((wt, i) => <li key={i}>{wt}</li>)}
-            </ul>
+            <select>
+                {workoutTypes.map(({id, notes, name}, i) => <option value={id} key={i} title={notes}>{name}</option>)}
+            </select>
             {sets.map((set, i) => <SetPanel name={set.name} reps={set.reps} key={i}/>)}
             <button onClick={() => addSet({name: "abc", reps: 5})}>Click me to add a fake set</button>
         </div>
