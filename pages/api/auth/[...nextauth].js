@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios"
+import { inspect } from 'util';
 
 const AUTH_URL = process.env.NEXT_AUTH_URL
 
@@ -41,13 +42,18 @@ export default NextAuth({
             try {
                 res = await axios.post(AUTH_URL, payload, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
             } catch (error) {
+                console.log('error:')
                 console.log(error)
                 return null
             }
             const token = res?.data?.access_token
+            console.log('access token >>>> ')
             console.log(token)
             if (token) {
-                return {email: credentials.email, token}
+                const user = {email: credentials.email, token, accessToken: token}
+                console.log('returning from authorize this user:')
+                console.log(inspect(user, {showHidden: false, depth: null, colors: true}))
+                return user
             } else {
                 return null
             }
@@ -55,15 +61,20 @@ export default NextAuth({
     }),
   ],
 callbacks: {
-    async jwt({ account, token }) {
-        if (account) {
-            token.accessToken = account.access_token
-          }
+    async jwt(args) {
+        const {token} = args
+        console.log('starting jwt()')
+        console.log('jwt args')
+        console.log(args)
         return token
     },
-    async session({ session, token }) {
+    async session(args) {
+        const { session, token } = args
+        console.log('starting session()')
+        console.log('session args')
+        console.log(args)
         // By default, next-auth removes the token from the session object; add it back
-        session.accessToken = token.accessToken
+        session.accessToken = token
         return session
       }
 },

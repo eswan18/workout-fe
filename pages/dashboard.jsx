@@ -3,7 +3,6 @@ import MainLayout from '../components/mainLayout'
 import Dashboard from '../components/dashboard'
 
 export async function getServerSideProps({ req }) {
-  console.log(req)
   let token
   try {
     token = await getToken({req})
@@ -11,6 +10,7 @@ export async function getServerSideProps({ req }) {
     console.log('error')
     console.log(error)
   }
+  console.log('got token in getServerSideProps')
   console.log(token)
   return { props: { token } }
 }

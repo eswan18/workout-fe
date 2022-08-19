@@ -3,9 +3,9 @@ import DashboardActivitiesPanel from './dashboardActivitiesPanel'
 import DashboardRecentWorkouts from './dashboardRecentWorkouts'
 
 export default function Dashboard({token}) {
-  console.log(token)
     return (
       <div className={styles.dashboard}>
+        <h3>here is a token... I hope</h3>
         {token}
         <DashboardActivitiesPanel/>
         <div className={styles.flex}>
