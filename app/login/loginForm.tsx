@@ -14,12 +14,12 @@ async function loginUser(email: string, password: string) {
   const response = await fetch('http://localhost:8000/v1/token/', {
     method: 'POST',
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    credentials: 'include',
     body: formData.toString(),
   })
   console.debug(response)
   if (!response.ok) {
     const errorData = await response.json();
-    console.debug(errorData);
     throw new Error(errorData.detail);
   }
   return await response.json();
@@ -34,7 +34,7 @@ export default function LoginForm() {
     try {
       const data = await loginUser(email, password);
     } catch (error) {
-      alert(`Error: ${error}`);
+      alert(`Error from server: ${error}`);
     }
   }
   return (
