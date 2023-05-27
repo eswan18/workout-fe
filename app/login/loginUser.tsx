@@ -1,4 +1,5 @@
 export default async function loginUser(email: string, password: string) {
+  /* Log in a user and get a token from the server */
   if (!email || !password) {
     throw new Error('Email and password are required');
   }
@@ -14,10 +15,11 @@ export default async function loginUser(email: string, password: string) {
     credentials: 'include',
     body: formData.toString(),
   })
-  console.debug(response)
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.detail);
   }
-  return await response.json();
+  const data = await response.json();
+  const token = data.access_token;
+  return token;
 }
