@@ -1,6 +1,5 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { AuthProvider, useAuth } from './authProvider';
 import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -13,17 +12,14 @@ export const metadata = {
 export default function RootLayout(props: {
   children: React.ReactNode,
   login: React.ReactNode,
-  bob: React.ReactNode,
 }) {
-  const isLoggedIn = false;
-
   return (
     <html lang="en">
       <body className={inter.className}>
           <div className="flex flex-col text-center bg-red-400 text-black border-gray-100">
             <p>Ethan's Workout App</p>
           </div>
-          { isLoggedIn ? props.children : props.login }
+          { props.children }
       </body>
     </html>
   )
