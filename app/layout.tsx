@@ -15,7 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="flex flex-col text-center bg-red-400 text-black border-gray-100">
+          Ethan's Workout App
+        </div>
+        {children}
+      </body>
     </html>
   )
 }
