@@ -1,6 +1,5 @@
 "use client"
 import { useState, FormEvent } from 'react';
-import loginUser from './loginUser';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -8,11 +7,11 @@ export default function LoginForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const data = await loginUser(email, password);
-    } catch (error) {
-      alert(`Error from server: ${error}`);
-    }
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    }).then((res) => res.json()).catch((error) => console.error(error))
   }
   return (
     <div>
@@ -34,7 +33,7 @@ export default function LoginForm() {
         placeholder='Password'
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">Log in</button>
+      <button type="submit" disabled={ !email || !password } >Log in</button>
       </form>
     </div>
   )
