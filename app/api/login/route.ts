@@ -41,9 +41,9 @@ export async function POST(request: Request) {
 
     const cookieOptions = {
         expires: accessToken.expiration.toUTCString(),
-        path: '/api',
+        path: '/',
         httpOnly: true,
-        secure: true,
+        /*secure: true,*/
         sameSite: 'strict',
     }
     const optionsAsString = Object.entries(cookieOptions).map(([key, value]) => `${key}=${value}`).join('; ');
