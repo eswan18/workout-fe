@@ -7,11 +7,19 @@ export default function LoginForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await fetch('/api/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-    }).then((res) => res.json()).catch((error) => console.error(error))
+    }).then(
+      (response) => {
+        if (response.status === 401) {
+          alert('Invalid credentials');
+        }
+      }
+    ).then(
+      (json) => console.log(json)
+    )
   }
   return (
     <div>

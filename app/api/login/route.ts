@@ -33,11 +33,12 @@ export async function POST(request: Request) {
             { status: 400 }
         )
     }
-    const baseUrl = `https://${host}`;
+    const baseUrl = `http://${host}`;
     return NextResponse.redirect(baseUrl, {
         status: 302,
         headers: {
-            'Set-Cookie': `accessToken=${accessToken}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+            // Now a cookie will automatically be included in all browswer requests to /api routes.
+            'Set-Cookie': `accessToken=${accessToken}; Path=/api; HttpOnly; Secure; SameSite=Strict`,
         },
     }); 
 }
