@@ -1,6 +1,7 @@
 "use client"
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import loginUser from '@/app/_actions/login';
 
 
 export default function LoginForm() {
@@ -11,19 +12,15 @@ export default function LoginForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-    if (response.status === 401) {
-      alert('Invalid credentials');
-    } else if (!response.ok) {
-      console.log('Something went wrong');
-      console.debug(response);
+    const userEmail = await loginUser(email, password);
+
+    if (userEmail) {
+      alert(`Logged in as ${userEmail}`);
+      setIsLoggedIn(true);
+      router.refresh();
+    } else {
+      alert('Login failed. Please try again.');
     }
-    setIsLoggedIn(true);
-    router.refresh();
   }
 
   return (
