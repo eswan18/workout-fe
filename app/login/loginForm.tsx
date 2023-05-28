@@ -22,6 +22,7 @@ export default function LoginForm() {
       console.log('Something went wrong');
       console.log(response.json());
     }
+    setIsLoggedIn(true);
     router.refresh();
   }
 
@@ -30,8 +31,8 @@ export default function LoginForm() {
     ?
       <div>You&apos;re already logged in! </div>
     :
-      <div>
-        <h2 className="text-2xl font-bold">Login</h2>
+      <div className="flex flex-col items-center justify-center p-4 dark:from-inherit lg:static lg:rounded-xl lg:py-10 lg:px-14 bg-gradient-to-r from-blue-300 to-green-300 backdrop-blur-md">
+        <h2 className="text-2xl font-bold p-2">Login</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-black">
         <label htmlFor="email" className='text-white'>Email</label>
         <input
