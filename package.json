@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docker-build": "docker build -t workout-fe:latest .",
+    "docker-run": "docker run -p 3000:3000 workout-fe:latest"
   },
   "dependencies": {
     "@types/node": "20.2.5",

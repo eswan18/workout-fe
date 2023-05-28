@@ -23,7 +23,7 @@ export default async function loginUser(email: string, password: string): Promis
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     credentials: 'include',
     body: formData.toString(),
-  }).catch((error) => {console.log(error)});
+  }).catch((error) => { console.log(error) });
 
   if (!response) {
     return '';
