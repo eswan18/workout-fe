@@ -18,9 +18,9 @@ export default function LoginForm() {
     })
     if (response.status === 401) {
       alert('Invalid credentials');
-    } else if (response.status != 201) {
+    } else if (!response.ok) {
       console.log('Something went wrong');
-      console.log(response.json());
+      console.debug(response);
     }
     setIsLoggedIn(true);
     router.refresh();

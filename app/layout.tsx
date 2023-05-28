@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import React from 'react';
+import NavBar from './navBar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,9 +17,7 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={inter.className}>
-          <div className="flex flex-col text-center bg-red-400 text-black border-gray-100">
-            <p>Ethan&apos;s Workout App</p>
-          </div>
+          <NavBar />
           { props.children }
       </body>
     </html>

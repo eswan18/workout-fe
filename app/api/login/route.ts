@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies} from 'next/headers';
 
+
+const apiUrl = process.env.WORKOUT_API_URL;
+
+
 class BadCredentialsError extends Error {
     constructor(message: string) {
         super(message);
@@ -62,7 +66,7 @@ async function loginUser(email: string, password: string): Promise<AccessToken> 
   formData.append('password', password);
   formData.append('grant_type', 'password');
   
-  const response = await fetch('http://localhost:8000/v1/token/', {
+  const response = await fetch(`${apiUrl}/token/`, {
     method: 'POST',
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     credentials: 'include',
