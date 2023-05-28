@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import LoginPage from '../login/page';
+import LoginPage from '../_login/page';
 
 export default function ProtectedLayout(props: {
   children: React.ReactNode,
