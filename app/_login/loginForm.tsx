@@ -15,7 +15,6 @@ export default function LoginForm() {
     const userEmail = await loginUser(email, password);
 
     if (userEmail) {
-      alert(`Logged in as ${userEmail}`);
       setIsLoggedIn(true);
       router.refresh();
     } else {
