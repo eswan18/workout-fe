@@ -16,7 +16,6 @@ export default function LoginForm() {
     if (response.status === 401) {
       alert('Invalid credentials');
     }
-    console.log("Success!!!!");
   }
 
   return (

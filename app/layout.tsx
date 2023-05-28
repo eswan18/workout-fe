@@ -17,7 +17,7 @@ export default function RootLayout(props: {
     <html lang="en">
       <body className={inter.className}>
           <div className="flex flex-col text-center bg-red-400 text-black border-gray-100">
-            <p>Ethan's Workout App</p>
+            <p>Ethan&apos;s Workout App</p>
           </div>
           { props.children }
       </body>

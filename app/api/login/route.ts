@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies} from 'next/headers';
 
 class BadCredentialsError extends Error {
     constructor(message: string) {
@@ -12,6 +13,7 @@ class AccessToken {
 }
 
 export async function POST(request: Request) {
+    'use server';
     const body = await request.json();
     const { email, password } = body;
 
@@ -39,21 +41,14 @@ export async function POST(request: Request) {
     }
     const baseUrl = `http://${host}`;
 
-    const cookieOptions = {
-        expires: accessToken.expiration.toUTCString(),
-        path: '/',
+    cookies().set({
+        name: 'accessToken',
+        value: accessToken.token,
         httpOnly: true,
-        /*secure: true,*/
-        sameSite: 'strict',
-    }
-    const optionsAsString = Object.entries(cookieOptions).map(([key, value]) => `${key}=${value}`).join('; ');
-    return NextResponse.redirect(baseUrl, {
-        status: 302,
-        headers: {
-            // Now a cookie will automatically be included in all browswer requests to /api routes.
-            'Set-Cookie': `accessToken=${accessToken.token}; ${optionsAsString}}`,
-        },
-    }); 
+        path: '/',
+        expires: accessToken.expiration,
+    });
+    return NextResponse.redirect(baseUrl, {status: 302});
 }
 
 async function loginUser(email: string, password: string): Promise<AccessToken> {
