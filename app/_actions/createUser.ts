@@ -1,6 +1,5 @@
 'use server';
 
-
 const apiUrl = process.env.WORKOUT_API_URL;
 const applicationKey = process.env.API_STATIC_APPLICATION_KEY;
 
@@ -11,7 +10,6 @@ export default async function createUser(email: string, password: string): Promi
     return '';
   }
 
-  console.log("applicationKey", applicationKey);
   const payload = {
     "secret": applicationKey,
     "user": {
