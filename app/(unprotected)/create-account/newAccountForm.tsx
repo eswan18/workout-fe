@@ -43,9 +43,11 @@ export default function NewAccountForm() {
         setPassword={setPassword}
         submitText='Create Account'
       >
-        <div className='py-4 text-xs text-center'>
-          <p>Don&apos;t have an account?</p>
-          <Link className='text-sm pt-5' href="/create-account">Create Account</Link>
+        <div className='mt-4 text-xs text-center'>
+          <p>Already have an account?</p>
+          <Link className='' href='/dashboard'>
+            <button className='text-sm rounded-md font-bold text-gray-50 dark:text-gray-200 border border-gray-200 dark:border-gray-400 w-auto p-2 m-2'>Sign In</button>
+          </Link>
         </div>
       </EmailPasswordForm>
   )
