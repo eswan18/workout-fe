@@ -3,20 +3,20 @@
 import loginUser from '@/app/_actions/login';
 import EmailPasswordForm from '@/components/emailPasswordForm';
 import { useRouter } from 'next/navigation';
-import { useGlobalContext } from '@/app/_context/globalContext';
 
 
-export default function LoginForm() {
+export default function LoginForm({ setUser }: {setUser: (user: string) => void}) {
+  console.log("rendering login form")
   const router = useRouter();
 
   const onSubmit = async ({email, password}: {email: string, password: string}) => {
-    const success = await loginUser(email, password);
-    console.log("success", success);
+    console.log("submitting");
+    const userEmail = await loginUser(email, password);
+    console.log("success", userEmail);
   
-    if (success) {
-      // Don't directly set the user in the context as this leads to an infinite loop.
-      // Just refresh the page.
-      router.replace('/dashboard');
+    if (userEmail) {
+      setUser(email);
+      router.push('/dashboard');
     } else {
       alert('Login failed. Please try again.');
     }

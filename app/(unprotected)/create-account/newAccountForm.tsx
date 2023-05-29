@@ -6,7 +6,8 @@ import createUser from '@/app/_actions/createUser';
 import EmailPasswordForm from '@/components/emailPasswordForm';
 
 
-export default function NewAccountForm() {
+export default function NewAccountForm({ setUser }: {setUser: (user: string) => void}) {
+  console.log("rendering new account form")
   const router = useRouter();
 
   const onSubmit = async ({email, password}: {email: string, password: string}) => {
@@ -16,8 +17,9 @@ export default function NewAccountForm() {
     const userEmail = await loginUser(email, password);
 
     if (userEmail) {
+      setUser(email);
       alert("Success! Account created. You're now logged in.")
-      router.replace('/dashboard');
+      router.push('/dashboard');
     } else {
       alert('Account creation failed. Please try again.');
     }

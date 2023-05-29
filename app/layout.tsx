@@ -15,13 +15,14 @@ export default function RootLayout(props: {
   children: React.ReactNode,
   login: React.ReactNode,
 }) {
+  console.log("rendering root layout");
   return (
     <html lang="en">
       <body className={inter.className}>
           <GlobalContextProvider>
             <NavBar />
+            { props.children }
           </GlobalContextProvider>
-          { props.children }
       </body>
     </html>
   )

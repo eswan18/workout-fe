@@ -22,9 +22,9 @@ export default function EmailPasswordForm({ title, onSubmit, submitText, altProm
         altPrompt && altButtonText && altButtonRef &&
         <div className='mt-4 text-xs text-center'>
           <p>{altPrompt}</p>
-          <a href={altButtonRef}>
+          <Link href={altButtonRef}>
             <button className='text-sm rounded-md font-bold text-gray-50 dark:text-gray-200 border border-gray-200 dark:border-gray-400 w-auto p-2 m-2'>{altButtonText}</button>
-          </a>
+          </Link>
         </div>
       }
     </div>
@@ -40,7 +40,6 @@ function InnerForm({ onSubmit, submitText }: InnerFormProps) {
   'use client';
   // Marking this as "use client" fixed a bug that was incredibly hard to track down –
   // the page would freeze when the input fields were selected.
-  console.log('rendering inner form');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
