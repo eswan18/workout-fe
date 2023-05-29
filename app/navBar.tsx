@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useGlobalContext } from './_context/globalContext';
 
 export default function NavBar() {
+  'use client';
+  console.log("rendering nav bar");
   return (
     <div className="flex flex-row justify-between bg-black text-white border-b-[1px] border-black dark:border-white h-9 lg:h-12">
       <div className='flex-auto flex flex-row justify-start items-center'>
@@ -19,6 +21,7 @@ export default function NavBar() {
 }
 
 function NavBarLeft() {
+  'use client';
   return (
     <div className='text-center text-lg font-bold '>
       <h1 className='text-sm lg:text-lg px-1 lg:px-3'>Ethan&apos;s Workout App</h1>
@@ -27,8 +30,11 @@ function NavBarLeft() {
 }
 
 function NavBarRight() {
+  'use client';
+  console.log("rendering nav bar right")
   const { user, setUser } = useGlobalContext();
   const doLogout = async () => {
+    console.log("logging out")
     // This clears cookies on the server side.
     await logout();
     // This updates the global context.
@@ -58,6 +64,7 @@ type NavBarButtonProps = {
 }
 
 function NavBarButton({ children }: NavBarButtonProps) {
+  'use client';
   return (
     <div className='flex flex-col justify-center'>
       <button className='px-1 py-0 m-1 lg:m-2 lg:mr-3 text-xs lg:text-sm font-bold border text-gray-50 rounded-sm'>

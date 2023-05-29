@@ -5,7 +5,8 @@ import LoginForm from "@/app/_login/loginForm"
 
 export default async function LoginPage() {
   console.log("rendering login page")
-  const { user, setUser } = useGlobalContext();
+  const { user } = useGlobalContext();
+  const setUser = () => {}
   console.log("user", user)
   const loggedIn = !!user;
   return (

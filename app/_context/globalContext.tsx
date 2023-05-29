@@ -21,13 +21,11 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
   
   const updateCurrentUser = async () => {
     console.log("updating current user");
-    setLoading(true);
     const currentUser = await getCurrentUser();
     console.log("got current user");
     if (currentUser) {
       setUser(currentUser);
     }
-    setLoading(false);
   }
 
   useEffect(() => {
@@ -35,10 +33,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     updateCurrentUser();
   }, []);
 
-  const logSetUser = (user: string | undefined) => { console.log("setUser here", user); setUser(user); }
-
   return (
-    <GlobalContext.Provider value={{ user, setUser: logSetUser, loading, setLoading }}>
+    <GlobalContext.Provider value={{ user, setUser: setUser, loading, setLoading }}>
       {children}
     </GlobalContext.Provider>
   )
