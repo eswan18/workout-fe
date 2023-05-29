@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import LoginPage from '../_login/page';
+import { redirect } from 'next/navigation';
 
 export default function ProtectedLayout(props: {
   children: React.ReactNode,
@@ -8,6 +8,8 @@ export default function ProtectedLayout(props: {
   const tokenCookie = cookieStore.get('accessToken');
   const accessToken = tokenCookie?.value
 
-  {/* @ts-expect-error Server Component */}
-  return accessToken ? props.children : <LoginPage />;
+  if (!accessToken) {
+    redirect('/login');
+  }
+  return props.children
 }

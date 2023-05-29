@@ -1,7 +1,9 @@
 'use client';
 
 import logout from '@/app/_actions/logout';
-import useCurrentUser from './_hooks/useCurrentUser';
+import Link from 'next/link';
+
+import { useGlobalContext } from './_context/globalContext';
 
 export default function NavBar() {
   return (
@@ -25,16 +27,22 @@ function NavBarLeft() {
 }
 
 function NavBarRight() {
-  const user = useCurrentUser();
-  console.log("navBar user", user);
+  const { user, setUser } = useGlobalContext();
+  const doLogout = async () => {
+    // This clears cookies on the server side.
+    await logout();
+    // This updates the global context.
+    setUser('');
+  }
+
   const logoutButtonForm = (
     user ?
-      <form action={logout}>
+      <form action={doLogout}>
         <NavBarButton>Logout</NavBarButton>
       </form>
     :
       <NavBarButton>
-        <a href='/dashboard'>Sign In</a>
+        <Link href='/dashboard'>Sign In</Link>
       </NavBarButton>
   )
   return (

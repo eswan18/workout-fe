@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import React from 'react';
+import { GlobalContextProvider } from './_context/globalContext';
 import NavBar from './navBar';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,7 +18,9 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={inter.className}>
-          <NavBar />
+          <GlobalContextProvider>
+            <NavBar />
+          </GlobalContextProvider>
           { props.children }
       </body>
     </html>
