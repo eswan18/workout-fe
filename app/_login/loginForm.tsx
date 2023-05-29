@@ -52,7 +52,7 @@ export default function LoginForm() {
         <button className='font-bold text-gray-200 border border-gray-400 w-auto p-1 m-2' type="submit" disabled={ !email || !password } >Log in</button>
         </form>
         <div className='py-4 text-xs text-center'>
-          <p>Don't have an account?</p>
+          <p>Don&apos;t have an account?</p>
           <Link className='text-sm pt-5' href="/create-account">Create Account</Link>
         </div>
       </div>
