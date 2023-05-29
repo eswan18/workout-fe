@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import Link from 'next/link';
 
 interface EmailPasswordFormProps {
   title: string;
@@ -6,15 +7,25 @@ interface EmailPasswordFormProps {
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   submitText: string;
-  children?: React.ReactNode;
+  altPrompt?: string;
+  altButtonText?: string;
+  altButtonRef?: string;
 }
 
-export default function EmailPasswordForm({ title, onSubmit, setEmail, setPassword, submitText, children }: EmailPasswordFormProps) {
+export default function EmailPasswordForm({ title, onSubmit, setEmail, setPassword, submitText, altPrompt, altButtonText, altButtonRef }: EmailPasswordFormProps) {
   return (
     <div className="flex flex-initial w-100 flex-col text-base items-center justify-center p-2 lg:static rounded-md lg:rounded-xl lg:py-5 lg:px-10 bg-gradient-to-r from-blue-300 to-green-300 dark:from-blue-950 dark:to-green-950 backdrop-blur-md">
-      <h2 className="text-2xl font-bold p-3 mt-2">{title}</h2>
+      <h2 className="text-2xl font-bold py-3 mt-2">{title}</h2>
       <InnerForm onSubmit={onSubmit} setEmail={setEmail} setPassword={setPassword} submitText={submitText} />
-      { children }
+      {
+        altPrompt && altButtonText && altButtonRef &&
+        <div className='mt-4 text-xs text-center'>
+          <p>{altPrompt}</p>
+          <Link href={altButtonRef}>
+            <button className='text-sm rounded-md font-bold text-gray-50 dark:text-gray-200 border border-gray-200 dark:border-gray-400 w-auto p-2 m-2'>{altButtonText}</button>
+          </Link>
+        </div>
+      }
     </div>
   )
 }

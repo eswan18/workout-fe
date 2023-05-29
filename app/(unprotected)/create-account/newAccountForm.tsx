@@ -1,7 +1,5 @@
 "use client"
 
-import Link from 'next/link';
-
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import loginUser from '@/app/_actions/login';
@@ -42,13 +40,9 @@ export default function NewAccountForm() {
         setEmail={setEmail}
         setPassword={setPassword}
         submitText='Create Account'
-      >
-        <div className='mt-4 text-xs text-center'>
-          <p>Already have an account?</p>
-          <Link className='' href='/dashboard'>
-            <button className='text-sm rounded-md font-bold text-gray-50 dark:text-gray-200 border border-gray-200 dark:border-gray-400 w-auto p-2 m-2'>Sign In</button>
-          </Link>
-        </div>
-      </EmailPasswordForm>
+        altPrompt='Already have an account?'
+        altButtonText='Sign In'
+        altButtonRef='/dashboard'
+      />
   )
 }

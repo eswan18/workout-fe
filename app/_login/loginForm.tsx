@@ -37,11 +37,9 @@ export default function LoginForm() {
         setEmail={setEmail}
         setPassword={setPassword}
         submitText='Sign In'
-      >
-        <div className='py-4 text-xs text-center'>
-          <p>Don&apos;t have an account?</p>
-          <Link className='text-sm pt-5' href="/create-account">Create Account</Link>
-        </div>
-      </EmailPasswordForm>
+        altPrompt='Don&apos;t have an account?'
+        altButtonText='Create Account'
+        altButtonRef='/create-account'
+      />
   )
 }
