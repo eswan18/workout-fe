@@ -1,4 +1,5 @@
 "use client"
+
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import loginUser from '@/app/_actions/login';
@@ -32,7 +33,7 @@ export default function NewAccountForm() {
     ?
       <div>You&apos;re already logged in! </div>
     :
-      <div className="flex flex-col items-center justify-center p-4 lg:static rounded-md lg:rounded-xl lg:py-10 lg:px-14 bg-gradient-to-r light:from-blue-300 light:to-green-300 dark:from-blue-950 dark:to-green-950 backdrop-blur-md">
+      <div className="flex flex-col text-base items-center justify-center p-4 lg:static rounded-md lg:rounded-xl lg:py-10 lg:px-14 bg-gradient-to-r light:from-blue-300 light:to-green-300 dark:from-blue-950 dark:to-green-950 backdrop-blur-md">
         <h2 className="text-2xl font-bold p-2">Create Account</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-black">
         <label htmlFor="email" className='text-white'>Email</label>
