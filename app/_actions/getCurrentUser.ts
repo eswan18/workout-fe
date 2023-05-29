@@ -24,6 +24,7 @@ export default async function getCurrentUser() {
     return null;
   }
 
-  const data = await response.json()
+  const data = await response.json();
+  console.log('getCurrentUser data', data);
   return data?.email ?? null;
 }

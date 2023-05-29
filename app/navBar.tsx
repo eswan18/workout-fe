@@ -5,7 +5,7 @@ import useCurrentUser from './_hooks/useCurrentUser';
 
 export default function NavBar() {
   return (
-    <div className="flex flex-row justify-between bg-black text-white border-gray-100 h-9 lg:h-12">
+    <div className="flex flex-row justify-between bg-black text-white border-b-[1px] border-black dark:border-white h-9 lg:h-12">
       <div className='flex-auto flex flex-row justify-start items-center'>
         <NavBarLeft />
       </div>

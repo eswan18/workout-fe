@@ -8,5 +8,6 @@ export default function ProtectedLayout(props: {
   const tokenCookie = cookieStore.get('accessToken');
   const accessToken = tokenCookie?.value
 
+  {/* @ts-expect-error Server Component */}
   return accessToken ? props.children : <LoginPage />;
 }
