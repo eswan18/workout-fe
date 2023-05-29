@@ -1,5 +1,5 @@
 import logout from '@/app/_actions/logout';
-import getUser from './_actions/getUser';
+import getUser from './_actions/getCurrentUser';
 import SubmitButton from '@/components/submitButton';
 
 export default function NavBar() {

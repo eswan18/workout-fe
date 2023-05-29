@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
-export default async function getUser() {
+export default async function getCurrentUser() {
     const accessToken = cookies().get('accessToken')?.value ?? null;
     if (!accessToken) {
       return null;
