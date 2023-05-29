@@ -9,6 +9,7 @@ export default function useCurrentUser() {
   useEffect(() => {
     async function fetchUser() {
       const user = await getCurrentUser();
+      console.log('got getCurrentUser', user);
       user && setUser(user);
     }
     fetchUser();

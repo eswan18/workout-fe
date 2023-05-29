@@ -1,43 +1,60 @@
+'use client';
+
 import logout from '@/app/_actions/logout';
-import getUser from './_actions/getCurrentUser';
-import SubmitButton from '@/components/submitButton';
+import useCurrentUser from './_hooks/useCurrentUser';
 
 export default function NavBar() {
   return (
-    <div className="grid grid-cols-3 text-center bg-red-400 text-black border-gray-100">
-      <NavBarLeft />
-      <NavBarCenter />
-      {/* @ts-expect-error Server Component */}
-      <NavBarRight />
+    <div className="flex flex-row justify-between bg-black text-white border-gray-100 h-9 lg:h-12">
+      <div className='flex-auto flex flex-row justify-start items-center'>
+        <NavBarLeft />
+      </div>
+      <div className='flex-auto flex flex-row justify-end items-center'>
+        <NavBarRight />
+      </div>
     </div>
   )
 }
 
 function NavBarLeft() {
-  return <div></div>
-}
-
-function NavBarCenter() {
   return (
-    <div className='text-center text-lg font-bold p-2'>
-      <h1>Ethan&apos;s Workout App</h1>
+    <div className='text-center text-lg font-bold '>
+      <h1 className='text-sm lg:text-lg px-1 lg:px-3'>Ethan&apos;s Workout App</h1>
     </div>
   )
 }
 
-async function NavBarRight() {
-  const user = await getUser();
+function NavBarRight() {
+  const user = useCurrentUser();
+  console.log("navBar user", user);
   const logoutButtonForm = (
     user ?
       <form action={logout}>
-        <SubmitButton className='px-1 py-0 m-2 mr-3'>Logout</SubmitButton>
+        <NavBarButton>Logout</NavBarButton>
       </form>
     :
-      null
+      <NavBarButton>
+        <a href='/dashboard'>Sign In</a>
+      </NavBarButton>
   )
   return (
-    <div className='flex justify-end'>
+    <div className='flex flex-wrap justify-end lg:gap-2 items-center'>
+      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ user }</p>
       {logoutButtonForm}
+    </div>
+  )
+}
+
+type NavBarButtonProps = {
+  children: React.ReactNode;
+}
+
+function NavBarButton({ children }: NavBarButtonProps) {
+  return (
+    <div className='flex flex-col justify-center'>
+      <button className='px-1 py-0 m-1 lg:m-2 lg:mr-3 text-xs lg:text-sm font-bold border text-gray-50 rounded-sm'>
+        {children}
+      </button>
     </div>
   )
 }

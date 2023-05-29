@@ -1,3 +1,5 @@
+'use client';
+
 import NewAccountForm from "./newAccountForm";
 import useCurrentUser from "@/app/_hooks/useCurrentUser";
 
