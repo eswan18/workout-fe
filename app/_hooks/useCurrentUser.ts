@@ -4,13 +4,13 @@ import React, { useState, useEffect } from 'react';
 import getCurrentUser from '@/app/_actions/getCurrentUser';
 
 export default function useCurrentUser() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchUser() {
-      const user = await getCurrentUser();
-      console.log('got getCurrentUser', user);
-      user && setUser(user);
+      const currentUser = await getCurrentUser();
+      console.log('got getCurrentUser', currentUser);
+      currentUser && setUser(currentUser);
     }
     fetchUser();
   }, []);

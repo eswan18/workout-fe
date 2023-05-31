@@ -1,16 +1,17 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
 
 
-export default async function loginUser(email: string, password: string): Promise<string> {
+export default async function loginUser(email: string, password: string): Promise<string | null> {
   /* Log in a user and get a token from the server */
   if (!email || !password) {
     console.log('Missing email or password');
-    return '';
+    return null;
   }
 
   let formData = new URLSearchParams();
@@ -26,16 +27,16 @@ export default async function loginUser(email: string, password: string): Promis
   }).catch((error) => { console.log(error) });
 
   if (!response) {
-    return '';
+    return null;
   }
   if (!response.ok) {
     const errorData = await response.json();
     if (response.status === 401) {
       console.log('Invalid credentials');
-      return ''
+      return null;
     }
     console.log(errorData.detail);
-    return ''
+    return null;
   }
   const data = await response.json();
   const token = data.access_token;
@@ -48,5 +49,6 @@ export default async function loginUser(email: string, password: string): Promis
     path: '/',
     expires: expiration,
   })
+  revalidateTag('currentUser');
   return email;
 }

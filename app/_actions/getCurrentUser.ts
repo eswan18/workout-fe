@@ -17,6 +17,7 @@ export default async function getCurrentUser() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
       },
+      next: { tags: ['currentUser'] }
     }).catch((error) => { console.log(error) });
   
   if (!response || !response.ok) {
