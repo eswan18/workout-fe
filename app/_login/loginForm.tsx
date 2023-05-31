@@ -16,6 +16,8 @@ export default function LoginForm({ setUser }: {setUser: (user: string) => void}
   
     if (userEmail) {
       setUser(email);
+      // Wait for 1 second.
+      await new Promise(r => setTimeout(r, 1000));
       router.push('/dashboard');
     } else {
       alert('Login failed. Please try again.');

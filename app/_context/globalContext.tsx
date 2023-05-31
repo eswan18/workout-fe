@@ -1,40 +1,51 @@
 'use client';
 
-import { createContext, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react';
+import { createContext, useContext, Dispatch, useEffect, useReducer } from 'react';
 import getCurrentUser from '@/app/_actions/getCurrentUser';
 
-interface ContextProps {
+type State = {
   user: string | undefined;
-  setUser: Dispatch<SetStateAction<string | undefined>>;
-  loading?: boolean;
-  setLoading?: Dispatch<SetStateAction<boolean>>;
+}
+type Action = {type: 'setUser', payload: string | undefined};
+
+
+const initialState: State = {
+  user: undefined,
+};
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'setUser':
+      if (!!action.payload && (action.payload != state.user)) {
+        return { ...state, user: action.payload };
+      } else {
+        return state;
+      }
+    default:
+      return state;
+  }
 }
 
-const GlobalContext = createContext<ContextProps>({
-  user: undefined,
-  setUser: (): string | undefined => '',
-});
+type GlobalContextType = {
+  state: State;
+  dispatch: Dispatch<Action>;
+};
+
+const GlobalContext = createContext<GlobalContextType>(
+  {} as GlobalContextType
+);
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(true);
-  
-  const updateCurrentUser = async () => {
-    console.log("updating current user");
-    const currentUser = await getCurrentUser();
-    console.log("got current user");
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }
-
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    // On initial load, ask the server for the current user.
-    updateCurrentUser();
+    getCurrentUser()
+      .then((user) => user && dispatch({type: 'setUser', payload: user}))
+      .catch((err) => console.log("error fetching initial user:", err));
   }, []);
+  console.log("rendering global context provider");
 
   return (
-    <GlobalContext.Provider value={{ user, setUser: setUser, loading, setLoading }}>
+    <GlobalContext.Provider value={{ state, dispatch }}>
       {children}
     </GlobalContext.Provider>
   )

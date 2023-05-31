@@ -32,17 +32,20 @@ function NavBarLeft() {
 function NavBarRight() {
   'use client';
   console.log("rendering nav bar right")
-  const { user, setUser } = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
+
   const doLogout = async () => {
+    console.log("doLogout")
+    if (!state.user) return;
     console.log("logging out")
     // This clears cookies on the server side.
     await logout();
     // This updates the global context.
-    setUser('');
+    dispatch({type: 'setUser', payload: undefined});
   }
 
   const logoutButtonForm = (
-    user ?
+    state.user ?
       <form action={doLogout}>
         <NavBarButton>Logout</NavBarButton>
       </form>
@@ -53,7 +56,7 @@ function NavBarRight() {
   )
   return (
     <div className='flex flex-wrap justify-end lg:gap-2 items-center'>
-      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ user }</p>
+      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ state.user }</p>
       {logoutButtonForm}
     </div>
   )
