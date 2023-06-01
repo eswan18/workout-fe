@@ -1,5 +1,5 @@
 import TotalsWidget from "./totalsWidget";
-import { getCurrentUser } from "@/lib/session";
+import { getAccessToken, getCurrentUser } from "@/lib/session";
 
 
 const apiUrl = process.env.WORKOUT_API_URL;
@@ -13,11 +13,9 @@ class WorkoutMetrics {
 
 
 async function getMetricsData() {
-  const user = await getCurrentUser();
-  // Print out the user object's fields to the console.
-  const token = "123"
+  const token = await getAccessToken();
 
-  // Request /workouts and pass the oauth2 access token.
+  // Request /workouts and pass the access token.
   const response = await fetch(`${apiUrl}/workouts`, {
     headers: {
       Authorization: `Bearer ${token}`,
