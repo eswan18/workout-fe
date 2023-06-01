@@ -10,6 +10,7 @@ export default async function NavBar() {
         <NavBarLeft />
       </div>
       <div className='flex-auto flex flex-row justify-end items-center'>
+        {/* @ts-expect-error Server Component */}
         <NavBarRight user={user} />
       </div>
     </div>

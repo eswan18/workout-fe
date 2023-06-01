@@ -1,10 +1,15 @@
 import { revalidateTag } from 'next/cache';
-import { cookies } from 'next/headers';
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
+type User = {
+  id: string;
+  email: string;
+  token: string;
+};
 
-export default async function loginUser(email: string, password: string): Promise<string | null> {
+
+export default async function loginUser(email: string, password: string): Promise<User | null> {
   /* Log in a user and get a token from the server */
   if (!email || !password) {
     console.log('Missing email or password');
@@ -37,15 +42,6 @@ export default async function loginUser(email: string, password: string): Promis
   }
   const data = await response.json();
   const token = data.access_token;
-  // decode the posix timestamp into a Date object
-  const expiration = new Date(Date.parse(data.expiration_time));
-  /*cookies().set({
-    name: 'accessToken',
-    value: token,
-    httpOnly: true,
-    path: '/',
-    expires: expiration,
-  })*/
   revalidateTag('currentUser');
-  return email;
+  return {"id": email, email, token};
 }

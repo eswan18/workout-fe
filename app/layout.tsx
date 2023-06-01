@@ -16,6 +16,7 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* @ts-expect-error Server Component */}
         <NavBar />
         {props.children}
       </body>

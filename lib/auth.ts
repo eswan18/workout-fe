@@ -17,11 +17,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         const user = await loginUser(credentials.username, credentials.password);
-        if (!user) {
-          return null;
-        } else {
-          return {"id": user, "email": user}
-        }
+        return user
       }
     })
   ],
