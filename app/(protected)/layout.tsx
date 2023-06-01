@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
 
 interface ProtectedLayoutProps {
@@ -8,7 +8,7 @@ interface ProtectedLayoutProps {
 export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const user = await getCurrentUser();
   if (!user) {
-    return notFound()
+    return redirect('/login');
   }
 
   return children;
