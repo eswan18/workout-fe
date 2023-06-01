@@ -1,7 +1,5 @@
-'use client';
-
-import logout from '@/app/_actions/logout';
-import useCurrentUser from './_hooks/useCurrentUser';
+import { getCurrentUser } from '@/lib/session';
+import Link from 'next/link';
 
 export default function NavBar() {
   return (
@@ -24,9 +22,11 @@ function NavBarLeft() {
   )
 }
 
-function NavBarRight() {
-  const user = useCurrentUser();
-  console.log("navBar user", user);
+async function NavBarRight() {
+  const user = await getCurrentUser();
+  const userEmail = user?.email;
+  console.log("navBar user", userEmail);
+  const logout = () => {}
   const logoutButtonForm = (
     user ?
       <form action={logout}>
@@ -34,12 +34,12 @@ function NavBarRight() {
       </form>
     :
       <NavBarButton>
-        <a href='/dashboard'>Sign In</a>
+        <Link href='/dashboard'>Sign In</Link>
       </NavBarButton>
   )
   return (
     <div className='flex flex-wrap justify-end lg:gap-2 items-center'>
-      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ user }</p>
+      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
       {logoutButtonForm}
     </div>
   )

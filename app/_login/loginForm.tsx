@@ -2,8 +2,8 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import loginUser from '@/app/_actions/login';
 import EmailPasswordForm from '@/components/emailPasswordForm';
+import { signIn } from "next-auth/react"
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -12,12 +12,21 @@ export default function LoginForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userEmail = await loginUser(email, password);
-
-    if (userEmail) {
-      router.refresh();
-    } else {
-      alert('Login failed. Please try again.');
+    const signInResult = await signIn("email", {
+      email: email,
+      password: password,
+    })
+    if (!signInResult) {
+      alert('Account creation failed. Please try again.');
+      return
+    }
+    if (signInResult.error) {
+      alert(signInResult.error);
+      return
+    }
+    if (signInResult.ok) {
+      alert("Success! Account created. You're now logged in.")
+      router.replace('/dashboard');
     }
   }
 

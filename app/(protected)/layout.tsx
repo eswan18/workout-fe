@@ -1,13 +1,15 @@
-import { cookies } from 'next/headers';
-import LoginPage from '../_login/page';
+import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/lib/session";
 
-export default function ProtectedLayout(props: {
-  children: React.ReactNode,
-}) {
-  const cookieStore = cookies();
-  const tokenCookie = cookieStore.get('accessToken');
-  const accessToken = tokenCookie?.value
+interface ProtectedLayoutProps {
+  children: React.ReactNode
+}
 
-  {/* @ts-expect-error Server Component */}
-  return accessToken ? props.children : <LoginPage />;
+export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return notFound()
+  }
+
+  return children;
 }

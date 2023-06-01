@@ -12,13 +12,12 @@ export const metadata = {
 
 export default function RootLayout(props: {
   children: React.ReactNode,
-  login: React.ReactNode,
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-          <NavBar />
-          { props.children }
+        <NavBar />
+        {props.children}
       </body>
     </html>
   )

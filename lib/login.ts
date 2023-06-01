@@ -1,10 +1,7 @@
-'use server';
-
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 const apiUrl = process.env.WORKOUT_API_URL;
-
 
 
 export default async function loginUser(email: string, password: string): Promise<string | null> {
@@ -42,13 +39,13 @@ export default async function loginUser(email: string, password: string): Promis
   const token = data.access_token;
   // decode the posix timestamp into a Date object
   const expiration = new Date(Date.parse(data.expiration_time));
-  cookies().set({
+  /*cookies().set({
     name: 'accessToken',
     value: token,
     httpOnly: true,
     path: '/',
     expires: expiration,
-  })
+  })*/
   revalidateTag('currentUser');
   return email;
 }
