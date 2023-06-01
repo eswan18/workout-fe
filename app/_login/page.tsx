@@ -1,11 +1,8 @@
-'use client';
-
 import LoginForm from "./loginForm"
-import { useSession } from "next-auth/react"
+import { getCurrentUser } from "@/lib/session";
 
 export default async function LoginPage() {
-  const { data: session } = useSession()
-  const user = session?.user?.email;
+  const user = await getCurrentUser();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
