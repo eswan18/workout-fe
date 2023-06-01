@@ -6,13 +6,9 @@ export default async function NavBarRight({ user }: { user: any }) {
   const userEmail = user?.email;
   const logoutButtonForm = (
     user ?
-      <form onClick={() => signOut()}>
-        <NavBarButton>Logout</NavBarButton>
-      </form>
+      <NavBarButton onClick={() => signOut({ callbackUrl: "/"})}>Logout</NavBarButton>
     :
-      <form onClick={() => signIn()}>
-        <NavBarButton>Sign In</NavBarButton>
-      </form>
+      <NavBarButton onClick={signIn}>Sign In</NavBarButton>
   )
   return (
     <div className='flex flex-wrap justify-end lg:gap-2 items-center'>

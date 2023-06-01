@@ -1,5 +1,6 @@
-import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/session";
+import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 interface ProtectedLayoutProps {
   children: React.ReactNode
@@ -8,8 +9,11 @@ interface ProtectedLayoutProps {
 export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const user = await getCurrentUser();
   if (!user) {
-    return redirect('/login');
+    console.log("User is not logged in. Redirecting to login page.");
+    // In the long run, it would be nice for this to return the user to the specific page they requested.
+    redirect("api/auth/signin")
+    return null;
   }
 
-  return children;
+  return <>{children}</>;
 }
