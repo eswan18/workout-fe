@@ -3,6 +3,7 @@
 import { signIn, signOut } from 'next-auth/react';
 
 export default async function NavBarRight({ user }: { user: any }) {
+  console.dir(user);
   const userEmail = user?.email;
   const logoutButtonForm = (
     user ?

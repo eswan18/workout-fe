@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.username || !credentials?.password) {
-          console.log('Missing email or password');
+          console.log('Error: Missing email or password');
           return null;
         }
         const user = await loginUser(credentials.username, credentials.password);
@@ -21,4 +21,18 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  callbacks: {
+    async jwt({token, user}) {
+      const access_token = user?.token;
+      if (access_token) {
+        token.accessToken = access_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+      session.accessToken = token.accessToken
+      return session
+    }
+  }
 }

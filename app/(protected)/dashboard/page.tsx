@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import TotalsWidget from "./totalsWidget";
+import { getCurrentUser } from "@/lib/session";
 
 
 const apiUrl = process.env.WORKOUT_API_URL;
@@ -13,7 +13,9 @@ class WorkoutMetrics {
 
 
 async function getMetricsData() {
-  const token = cookies().get('accessToken')?.value;
+  const user = await getCurrentUser();
+  // Print out the user object's fields to the console.
+  const token = "123"
 
   // Request /workouts and pass the oauth2 access token.
   const response = await fetch(`${apiUrl}/workouts`, {
