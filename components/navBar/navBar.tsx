@@ -2,7 +2,6 @@ import NavBarRight from './navBarRight'
 import { getCurrentUser } from '@/lib/session';
 
 export default async function NavBar() {
-  console.log('NavBar is rendering');
   const user = await getCurrentUser();
   return (
     <div className="flex flex-row justify-between bg-black text-white border-b-[1px] border-black dark:border-white h-9 lg:h-12">
