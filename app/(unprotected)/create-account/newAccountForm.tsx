@@ -3,6 +3,7 @@
 import Form from '@/components/form';
 import takeCreateUserAction from './takeCreateUserAction';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Button from '@/components/button';
 
 
@@ -21,9 +22,6 @@ export default function NewAccountForm() {
   return (
     <Form
       title='Create Account'
-      altPrompt='Already have an account?'
-      altButtonText='Sign In'
-      altButtonRef='/dashboard'
       action={action}
     >
       <div className='flex flex-col gap-1'>
@@ -46,6 +44,13 @@ export default function NewAccountForm() {
       </div>
       {/* @ts-expect-error Server Component */}
       <Button type="submit">Submit</Button>
+      <div className='mt-4 text-xs text-center'>
+        <p>Already have an account?</p>
+        <Link href='/api/auth/signin'>
+          {/* @ts-expect-error Server Component */}
+          <Button type="button">Sign In</Button>
+        </Link>
+      </div>
     </Form>
   )
 }
