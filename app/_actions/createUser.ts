@@ -3,11 +3,11 @@
 const apiUrl = process.env.WORKOUT_API_URL;
 const applicationKey = process.env.API_STATIC_APPLICATION_KEY;
 
-export default async function createUser(email: string, password: string): Promise<string> {
+export default async function createUser(email: string, password: string): Promise<string | null> {
   /* Create a new user. */
   if (!email || !password) {
     console.log('Missing email or password');
-    return '';
+    return null;
   }
 
   const payload = {
@@ -25,16 +25,16 @@ export default async function createUser(email: string, password: string): Promi
   }).catch((error) => { console.log(error) });
 
   if (!response) {
-    return '';
+    return null;
   }
   if (!response.ok) {
     const errorData = await response.json();
     if (response.status === 401) {
       console.log('Invalid credentials');
-      return ''
+      return null
     }
     console.log(errorData.detail);
-    return ''
+    return null
   }
   // decode the posix timestamp into a Date object
   return email;

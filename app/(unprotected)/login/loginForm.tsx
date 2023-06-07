@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import EmailPasswordForm from '@/components/emailPasswordForm';
+import EmailPasswordForm from '@/components/form';
 import { signIn } from "next-auth/react"
 
 export default function LoginForm() {
