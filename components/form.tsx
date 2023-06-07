@@ -9,7 +9,7 @@ interface EmailPasswordFormProps {
   altButtonRef?: string;
   // Fields is an array of strings.
   fields: string[];
-  action: (data: FormData) => Promise<void> | void,
+  action: (data: FormData) => any,
 }
 
 export default function Form({ title, submitText, altPrompt, altButtonText, altButtonRef, fields, action }: EmailPasswordFormProps) {
@@ -33,7 +33,7 @@ export default function Form({ title, submitText, altPrompt, altButtonText, altB
 }
 
 interface InnerFormProps {
-  action: any,
+  action: (data: FormData | undefined) => any,
   submitText: string;
   fields: string[];
 }

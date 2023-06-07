@@ -22,7 +22,7 @@ export default async function createUser(email: string, password: string): Promi
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
-  }).catch((error) => { console.log(error) });
+  }).catch((error) => { throw error });
 
   if (!response) {
     return null;
