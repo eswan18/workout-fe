@@ -1,32 +1,19 @@
 "use client";
 
 import { signIn, signOut } from 'next-auth/react';
+import Button from '@/components/button';
 
 export default async function NavBarRight({ user }: { user: any }) {
   const userEmail = user?.email;
-  const logoutButtonForm = (
-    user ?
-      <SignInOutButton onClick={() => signOut({ callbackUrl: "/"})}>Logout</SignInOutButton>
-    :
-      <SignInOutButton onClick={signIn}>Sign In</SignInOutButton>
-  )
+  const buttonText = user ? "Log out" : "Sign in";
+  const handleClick = () => {
+    user ? signOut({ callbackUrl: "/"}) : signIn();
+  }
   return (
     <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full'>
       <p className='text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
-      {logoutButtonForm}
+      {/* @ts-expect-error Server Component */}
+      <Button type='button' onClick={handleClick} className='text-xs my-auto text-gray-100 border-white'>{buttonText}</Button>
     </div>
-  )
-}
-
-type NavBarButtonProps = {
-  children: React.ReactNode;
-  onClick?: () => void;
-}
-
-function SignInOutButton({ children, onClick }: NavBarButtonProps) {
-  return (
-    <button className='px-1 py-0 m-1 text-xs border border-gray-100 text-gray-50 rounded-sm' onClick={onClick}>
-      {children}
-    </button>
   )
 }
