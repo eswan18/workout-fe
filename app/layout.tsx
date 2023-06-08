@@ -15,11 +15,13 @@ export default function RootLayout(props: {
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen`}>
         {/* @ts-expect-error Server Component */}
         <NavBar />
-        <div className="content-container max-w-xl h-full">
-          {props.children}
+        <div className='content-container-flexbox w-full flex flex-row justify-center pt-1 md:pt-2'>
+          <div className="content-container max-w-3xl h-full">
+            {props.children}
+          </div>
         </div>
       </body>
     </html>

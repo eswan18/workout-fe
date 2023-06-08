@@ -23,34 +23,36 @@ export default function NewAccountForm() {
     <Form
       title='Create Account'
       action={action}
-      classes='bg-red-800'
+      classes=''
     >
-      <div className='flex flex-col gap-1'>
-        <label htmlFor='email' className='text-gray-700 dark:text-gray-100'>Email</label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          placeholder='me@gmail.com'
-        />
-      </div>
-      <div className='flex flex-col gap-1'>
-        <label htmlFor='password' className='text-gray-700 dark:text-gray-100'>Password</label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          placeholder='password'
-        />
-      </div>
-      {/* @ts-expect-error Server Component */}
-      <Button type="submit">Submit</Button>
-      <div className='mt-4 text-xs text-center'>
-        <p>Already have an account?</p>
-        <Link href='/api/auth/signin'>
-          {/* @ts-expect-error Server Component */}
-          <Button type="button">Sign In</Button>
-        </Link>
+      <div className="flex flex-col items-center">
+        <div className='flex flex-col mb-3'>
+          <label htmlFor='email' className='mb-1 text-gray-700 dark:text-gray-100'>Email</label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            placeholder='bobby.tables@gmail.com'
+          />
+        </div>
+        <div className='flex flex-col mb-3'>
+          <label htmlFor='password' className='mb-1 text-gray-700 dark:text-gray-100'>Password</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            placeholder='correct horse battery staple'
+          />
+        </div>
+        {/* @ts-expect-error Server Component */}
+        <Button type="submit">Submit</Button>
+        <div className='mt-4 text-xs text-center'>
+          <p>Already have an account?</p>
+          <Link href='/api/auth/signin'>
+            {/* @ts-expect-error Server Component */}
+            <Button type="button">Sign In</Button>
+          </Link>
+        </div>
       </div>
     </Form>
   )
