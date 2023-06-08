@@ -18,10 +18,12 @@ export default function RootLayout(props: {
       <body className={`${inter.className} min-h-screen`}>
         {/* @ts-expect-error Server Component */}
         <NavBar />
-        <div className='content-container-flexbox w-full flex flex-row justify-center pt-1 md:pt-2'>
-          <div className="content-container max-w-3xl h-full">
+        <div className='content-container-flexbox w-full flex flex-row justify-center'>
+          <div className='spacer flex-initial w-0'></div>
+          <div className="content-container flex-initial w-[48rem] h-full">
             {props.children}
           </div>
+          <div className='spacer flex-initial w-0'></div>
         </div>
       </body>
     </html>
