@@ -23,15 +23,18 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({token, user}) {
-      const access_token = user?.token;
-      if (access_token) {
+      if (user && 'token' in user) {
+        const access_token = user.token;
         token.accessToken = access_token;
       }
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
-      session.accessToken = token.accessToken
+      if ('accessToken' in token) {
+        // @ts-expect-error Property 'accessToken' does not exist on type 'Session'.
+        session.accessToken = token.accessToken;
+      }
       return session
     }
   }

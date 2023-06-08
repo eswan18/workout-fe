@@ -18,9 +18,8 @@ export async function getCurrentUser(): Promise<User | undefined> {
 
 export async function getAccessToken(): Promise<string> {
   const session = await getServerSession(authOptions)
-  const accessToken = session?.accessToken
-  if (!accessToken) {
-    throw new Error("No access token found")
+  if (session && 'accessToken' in session) {
+    return session.accessToken as string
   }
-  return accessToken
+  throw new Error("No access token found")
 }
