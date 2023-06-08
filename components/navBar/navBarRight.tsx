@@ -6,13 +6,13 @@ export default async function NavBarRight({ user }: { user: any }) {
   const userEmail = user?.email;
   const logoutButtonForm = (
     user ?
-      <NavBarButton onClick={() => signOut({ callbackUrl: "/"})}>Logout</NavBarButton>
+      <SignInOutButton onClick={() => signOut({ callbackUrl: "/"})}>Logout</SignInOutButton>
     :
-      <NavBarButton onClick={signIn}>Sign In</NavBarButton>
+      <SignInOutButton onClick={signIn}>Sign In</SignInOutButton>
   )
   return (
-    <div className='flex flex-wrap justify-end lg:gap-2 items-center'>
-      <p className='lg:text-sm text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
+    <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full'>
+      <p className='text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
       {logoutButtonForm}
     </div>
   )
@@ -23,12 +23,10 @@ type NavBarButtonProps = {
   onClick?: () => void;
 }
 
-function NavBarButton({ children, onClick }: NavBarButtonProps) {
+function SignInOutButton({ children, onClick }: NavBarButtonProps) {
   return (
-    <div className='flex flex-col justify-center'>
-      <button className='px-1 py-0 m-1 lg:m-2 lg:mr-3 text-xs lg:text-sm font-bold border text-gray-50 rounded-sm' onClick={onClick}>
-        {children}
-      </button>
-    </div>
+    <button className='px-1 py-0 m-1 text-xs border border-gray-100 text-gray-50 rounded-sm' onClick={onClick}>
+      {children}
+    </button>
   )
 }

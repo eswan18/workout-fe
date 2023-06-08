@@ -23,6 +23,7 @@ export default function NewAccountForm() {
     <Form
       title='Create Account'
       action={action}
+      classes='bg-red-800'
     >
       <div className='flex flex-col gap-1'>
         <label htmlFor='email' className='text-gray-700 dark:text-gray-100'>Email</label>
