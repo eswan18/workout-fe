@@ -19,11 +19,11 @@ export default function RootLayout(props: {
         {/* @ts-expect-error Server Component */}
         <NavBar />
         <div className='content-container-flexbox w-full flex flex-row justify-center'>
-          <div className='spacer flex-initial w-0'></div>
+          <div className='spacer flex-grow w-0'></div>
           <div className="content-container flex-initial w-[48rem] h-full">
             {props.children}
           </div>
-          <div className='spacer flex-initial w-0'></div>
+          <div className='spacer flex-grow w-0'></div>
         </div>
       </body>
     </html>
