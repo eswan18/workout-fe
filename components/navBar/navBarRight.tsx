@@ -13,7 +13,7 @@ export default async function NavBarRight({ user }: { user: any }) {
     <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full'>
       <p className='text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
       {/* @ts-expect-error Server Component */}
-      <Button type='button' onClick={handleClick} className='text-xs my-auto text-gray-100 border-white ring-neutral-200 hover:ring-1'>{buttonText}</Button>
+      <Button type='button' onClick={handleClick} className='text-xs my-auto !text-gray-100 border-white ring-neutral-200 hover:ring-1'>{buttonText}</Button>
     </div>
   )
 }

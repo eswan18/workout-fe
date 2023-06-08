@@ -32,7 +32,7 @@ export default function NewAccountForm() {
             id='email'
             name='email'
             placeholder='bobby.tables@gmail.com'
-            className='px-1 text-gray-900'
+            className='dark:text-gray-900'
           />
         </div>
         <div className='flex flex-col mb-3'>
@@ -42,7 +42,7 @@ export default function NewAccountForm() {
             id='password'
             name='password'
             placeholder='correcthorsebatterystaple'
-            className='px-1 text-gray-900'
+            className='dark:text-gray-900'
           />
         </div>
         {/* @ts-expect-error Server Component */}
