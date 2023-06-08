@@ -23,7 +23,6 @@ export default function NewAccountForm() {
     <Form
       title='Create Account'
       action={action}
-      classes=''
     >
       <div className="flex flex-col items-center">
         <div className='flex flex-col mb-3'>
@@ -47,7 +46,7 @@ export default function NewAccountForm() {
           />
         </div>
         {/* @ts-expect-error Server Component */}
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className='frame-2'>Submit</Button>
         <div className='mt-4 text-xs text-center'>
           <p>Already have an account?</p>
           <Link href='/api/auth/signin'>
