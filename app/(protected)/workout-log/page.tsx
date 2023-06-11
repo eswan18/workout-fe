@@ -3,30 +3,19 @@ import { redirect } from "next/navigation";
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
-async function getWorkout(id: string) {
-  // Eventually, it should be possible to get to this page by passing a workout
-  // ID that exists in the db. Here, we'll load the workout details and populate the page.
-  const token = await getAccessToken();
 
-  const workoutId = 'abc'
-  const response = await fetch(`${apiUrl}/workouts?id=${workoutId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const workouts = await response.json();
-  const workout = workouts[0]
-  
-  return workout;
+type NewWorkoutLogParams = {
+  start_time?: Date
+  workout_type_id?: string
 }
 
-async function createWorkout(): Promise<string> {
+async function createWorkout({ start_time, workout_type_id }: NewWorkoutLogParams): Promise<string> {
   // Create a new workout and return its ID.
   const token = await getAccessToken()
   const payload = {
     status: 'in-progress',
-    start_time: Date.now()
+    start_time: start_time || Date.now(),
+    workout_type_id
   }
 
   const response = await fetch(`${apiUrl}/workouts`, {
@@ -42,8 +31,8 @@ async function createWorkout(): Promise<string> {
   return workouts[0]['id'];
 }
 
-export default async function NewWorkoutLog() {
+export default async function NewWorkoutLog({ searchParams }: { searchParams : NewWorkoutLogParams }) {
   // Just create a new workout and redirect to that workout's page.
-  const wktId = await createWorkout();
-  redirect(`workout-log/${wktId}`)
+  const workoutId = await createWorkout(searchParams);
+  redirect(`workout-log/${workoutId}`)
 }
