@@ -1,4 +1,4 @@
-import { getAccessToken, getCurrentUser } from "@/lib/session";
+import { getAccessToken } from "@/lib/session";
 import { redirect } from "next/navigation";
 
 const apiUrl = process.env.WORKOUT_API_URL;
@@ -31,7 +31,7 @@ async function createWorkout({ start_time, workout_type_id }: NewWorkoutLogParam
   return workouts[0]['id'];
 }
 
-export default async function NewWorkoutLog({ searchParams }: { searchParams : NewWorkoutLogParams }) {
+export default async function NewWorkoutLog({ searchParams }: { searchParams: NewWorkoutLogParams }) {
   // Just create a new workout and redirect to that workout's page.
   const workoutId = await createWorkout(searchParams);
   redirect(`workout-log/${workoutId}`)

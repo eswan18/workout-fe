@@ -1,23 +1,34 @@
-import { getAccessToken, getCurrentUser } from "@/lib/session";
+import { getAccessToken } from "@/lib/session";
 import WorkoutLog from '../workoutLog'
+import { Workout, Exercise } from '@/lib/apiTypes'
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
+type WorkoutData = {
+  workout: Workout
+  exercises: Array<Exercise>
+}
 
-async function getWorkout(id: string) {
+
+async function getWorkoutData(id: string): Promise<WorkoutData> {
   const token = await getAccessToken();
 
-  const workoutId = 'abc'
-  const response = await fetch(`${apiUrl}/workouts?id=${workoutId}`, {
+  const workoutResponse = await fetch(`${apiUrl}/workouts?id=${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  const workouts = await response.json();
+  const workouts = await workoutResponse.json();
   const workout = workouts[0]
   
-  return workout;
+  const exercisesResponse = await fetch(`${apiUrl}/exercises?workout_id=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  const exercises = await exercisesResponse.json()
+
+  return { workout, exercises }
 }
 
 type WorkoutLogPageParams = {
@@ -26,9 +37,10 @@ type WorkoutLogPageParams = {
 
 export default async function WorkoutLogPage({ params }: {params: WorkoutLogPageParams}) {
   const workoutId = params.workoutId
+  const { workout, exercises } = await getWorkoutData(workoutId)
   return (
     <main>
-      <WorkoutLog workoutId={workoutId} />
+      <WorkoutLog workout={ workout } exercises={ exercises } />
     </main>
   )
 }
