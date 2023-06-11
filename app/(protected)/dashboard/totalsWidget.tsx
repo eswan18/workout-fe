@@ -1,7 +1,5 @@
 // A component for displaying a single number in a box
 
-import React from 'react'
-
 interface TotalsWidgetProps {
   title: string;
   value: number;
