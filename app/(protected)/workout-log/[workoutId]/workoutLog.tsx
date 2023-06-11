@@ -1,4 +1,7 @@
+'use client'
+
 import { Workout, WorkoutType, Exercise, ExerciseType } from '@/lib/apiTypes'
+import AddNewExerciseWidget from './addNewExerciseWidget'
 
 interface WorkoutLogProps {
   workout: Workout
@@ -13,12 +16,15 @@ export default function WorkoutLog({ workout, workoutType, exercises, exerciseTy
   console.dir(workout)
   console.dir(workoutType)
   console.dir(exercises)
-  console.dir(exerciseTypes)
+  const wktTypeName = workoutType?.name || 'Unclassified'
+
   return (
     <div>
-      <h1>Workout {workout.id}</h1>
+      <h1>{ wktTypeName } workout</h1>
+      <h3>{ exercises.length } exercises</h3>
       <p>{wkt}</p>
       <p>{ex}</p>
+      <AddNewExerciseWidget exerciseTypes={ exerciseTypes } />
     </div>
   )
 }
