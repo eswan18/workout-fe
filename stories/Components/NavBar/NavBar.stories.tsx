@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
-import Form from '@/components/form';
+import { SyncNavBar } from '@/components/navBar/navBar';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: 'Components/Form',
-  component: Form,
+  title: 'Components/NavBar/NavBar',
+  component: SyncNavBar,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'centered',
@@ -13,7 +12,7 @@ const meta = {
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} satisfies Meta<typeof Form>;
+} satisfies Meta<typeof SyncNavBar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -23,8 +22,6 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
-    title: 'My Form',
-    action: () => {},
-    children: React.createElement('p', null, 'Click Me')
+    user: {'email': 'abc@a.com'}
   },
 };
