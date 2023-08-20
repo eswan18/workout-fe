@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "docker-build": "docker build -t workout-fe:latest .",
-    "docker-run": "docker run -p 3000:3000 workout-fe:latest"
+    "docker-run": "docker run -p 3000:3000 workout-fe:latest",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@types/node": "20.5.1",
@@ -27,6 +29,16 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.3"
+    "@storybook/addon-essentials": "^7.3.2",
+    "@storybook/addon-interactions": "^7.3.2",
+    "@storybook/addon-links": "^7.3.2",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.3.2",
+    "@storybook/nextjs": "^7.3.2",
+    "@storybook/react": "^7.3.2",
+    "@storybook/testing-library": "^0.2.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "eslint-plugin-storybook": "^0.6.13",
+    "storybook": "^7.3.2"
   }
 }
