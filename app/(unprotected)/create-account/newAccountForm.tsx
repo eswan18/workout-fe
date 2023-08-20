@@ -1,11 +1,11 @@
 "use client"
 
-import Form from '@/components/forms/Form';
 import takeCreateUserAction from './takeCreateUserAction';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SolidButton from '@/components/buttons/SolidButton';
 import GhostButton from '@/components/buttons/GhostButton';
+import Form from '@/components/forms/Form';
 import Input from '@/components/forms/Input';
 
 
