@@ -7,7 +7,7 @@ type SolidButtonProps = {
   children?: React.ReactNode;
 }
 
-export default function SolidButton({type, onClick, enabled, children}: SolidButtonProps) {
+export default function SolidButton({type, onClick, enabled = true, children}: SolidButtonProps) {
 
   return enabled ? (
       <button className={`rounded-full bg-fuchsia-800 font-bold text-gray-100 py-1 px-3 sm:py-2 sm:px-4 m-2`} type={type} onClick={onClick}>
@@ -19,7 +19,3 @@ export default function SolidButton({type, onClick, enabled, children}: SolidBut
       </button>
   )
 }
-
-SolidButton.defaultProps = {
-  enabled: true
-};
