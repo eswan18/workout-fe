@@ -1,11 +1,12 @@
 "use client"
 
-import Form from '@/components/form';
+import Form from '@/components/forms/Form';
 import takeCreateUserAction from './takeCreateUserAction';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import SolidButton from '@/components/buttons/SolidButton';
 import GhostButton from '@/components/buttons/GhostButton';
+import Input from '@/components/forms/Input';
 
 
 export default function NewAccountForm() {
@@ -26,26 +27,8 @@ export default function NewAccountForm() {
       action={action}
     >
       <div className="flex flex-col items-center">
-        <div className='flex flex-col mb-3'>
-          <label htmlFor='email' className='mb-1 text-gray-700 dark:text-gray-100'>Email</label>
-          <input
-            type='email'
-            id='email'
-            name='email'
-            placeholder='bobby.tables@gmail.com'
-            className='dark:text-gray-900'
-          />
-        </div>
-        <div className='flex flex-col mb-3'>
-          <label htmlFor='password' className='mb-1 text-gray-700 dark:text-gray-100'>Password</label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            placeholder='correcthorsebatterystaple'
-            className='dark:text-gray-900'
-          />
-        </div>
+        <Input htmlFor='email' type='email' id='email' name='email' placeholder='bobby.tables@gmail.com' label='Email' />
+        <Input htmlFor='password' type='password' id='password' name='password' placeholder='correcthorsebatterystable' label='Password' />
         <SolidButton type="submit">Submit</SolidButton>
         <div className='mt-4 text-sm text-center'>
           <p>Already have an account?</p>
