@@ -1,18 +1,19 @@
 "use client";
 
 import { signIn, signOut } from 'next-auth/react';
-import Button from '@/components/button';
+import SolidButton from '@/components/buttons/SolidButton';
+import GhostButton from '@/components/buttons/GhostButton';
 
-export default function NavBarRight({ user }: { user: any }) {
-  const userEmail = user?.email;
-  const buttonText = user ? "Log out" : "Sign in";
+export default function NavBarRight({ userEmail }: { userEmail: String | undefined }) {
+  const buttonText = userEmail ? "Log out" : "Sign In";
   const handleClick = () => {
-    user ? signOut({ callbackUrl: "/"}) : signIn();
+    userEmail ? signOut({ callbackUrl: "/"}) : signIn();
   }
+  const Button = userEmail ? GhostButton : SolidButton;
   return (
     <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full'>
       <p className='text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
-      <Button type='button' onClick={handleClick} className='text-xs my-auto !text-gray-100 border-white ring-neutral-200 hover:ring-1'>{buttonText}</Button>
+      <Button type='button' onClick={handleClick}>{buttonText}</Button>
     </div>
   )
 }

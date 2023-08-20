@@ -7,7 +7,7 @@ const meta = {
   component: SyncNavBar,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   tags: ['autodocs'],
@@ -20,8 +20,14 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary: Story = {
+export const LoggedIn: Story = {
   args: {
-    user: {'email': 'abc@a.com'}
+    userEmail: 'ethan@ethanswan.com'
+  },
+};
+
+export const LoggedOut: Story = {
+  args: {
+    userEmail: undefined
   },
 };
