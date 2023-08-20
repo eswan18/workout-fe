@@ -5,14 +5,14 @@ import SolidButton from '@/components/buttons/SolidButton';
 import GhostButton from '@/components/buttons/GhostButton';
 
 export default function NavBarRight({ userEmail }: { userEmail: String | undefined }) {
-  const buttonText = userEmail ? "Log out" : "Sign In";
+  const buttonText = userEmail ? "Log Out" : "Sign In";
   const handleClick = () => {
     userEmail ? signOut({ callbackUrl: "/"}) : signIn();
   }
   const Button = userEmail ? GhostButton : SolidButton;
   return (
-    <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full'>
-      <p className='text-xs overflow-hidden text-ellipsis'>{ userEmail }</p>
+    <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full text-sm'>
+      <p className='overflow-hidden text-ellipsis'>{ userEmail }</p>
       <Button type='button' onClick={handleClick}>{buttonText}</Button>
     </div>
   )

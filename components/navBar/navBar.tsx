@@ -18,7 +18,7 @@ function NavBarLeft() {
 // This synchronous version is used for Storybook.
 export function SyncNavBar({userEmail}: {userEmail: String | undefined}) {
     return (
-      <div className="flex flex-row justify-between bg-gray-50 text-gray-800 border-b-[1px] border-gray-400 dark:border-white h-9">
+      <div className="flex flex-row justify-between bg-gray-50 text-gray-800 border-b-[1px] border-gray-300 dark:border-white h-12 sm:h-14">
         <NavBarLeft />
         <NavBarRight userEmail={userEmail} />
       </div>
