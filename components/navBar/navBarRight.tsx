@@ -9,9 +9,10 @@ export default function NavBarRight({ userEmail }: { userEmail: String | undefin
   const handleClick = () => {
     userEmail ? signOut({ callbackUrl: "/"}) : signIn();
   }
+  const textSize = userEmail ? "text-xs" : "text-sm";
   const Button = userEmail ? GhostButton : SolidButton;
   return (
-    <div className='flex flex-wrap justify-end lg:gap-2 items-center h-full text-sm'>
+    <div className={`flex flex-wrap justify-end lg:gap-2 items-center h-full ${textSize}`}>
       <p className='overflow-hidden text-ellipsis'>{ userEmail }</p>
       <Button type='button' onClick={handleClick}>{buttonText}</Button>
     </div>

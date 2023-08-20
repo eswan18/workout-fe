@@ -4,7 +4,8 @@ import Form from '@/components/form';
 import takeCreateUserAction from './takeCreateUserAction';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Button from '@/components/button';
+import SolidButton from '@/components/buttons/SolidButton';
+import GhostButton from '@/components/buttons/GhostButton';
 
 
 export default function NewAccountForm() {
@@ -45,13 +46,11 @@ export default function NewAccountForm() {
             className='dark:text-gray-900'
           />
         </div>
-        {/* @ts-expect-error Server Component */}
-        <Button type="submit" className='frame-2'>Submit</Button>
-        <div className='mt-4 text-xs text-center'>
+        <SolidButton type="submit">Submit</SolidButton>
+        <div className='mt-4 text-sm text-center'>
           <p>Already have an account?</p>
           <Link href='/api/auth/signin'>
-            {/* @ts-expect-error Server Component */}
-            <Button type="button">Sign In</Button>
+            <GhostButton type="button">Sign In</GhostButton>
           </Link>
         </div>
       </div>
