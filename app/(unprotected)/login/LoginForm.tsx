@@ -62,7 +62,7 @@ export default function NewAccountForm() {
         <p className="text-center bg-red-600 py-4 m-6 rounded-lg text-gray-100">{error}</p>
       )}
       <div className='mt-4 text-sm text-center'>
-        <p>Don't have an account?</p>
+        <p>Don&apos;t have an account?</p>
         <Link href='/create-account'>
           <GhostButton type="button">Create Account</GhostButton>
         </Link>
