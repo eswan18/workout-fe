@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/session";
 import LoginForm from "./LoginForm";
+import AlreadyLoggedInMessage from "./AlreadyLoggedInMessage";
 
 export default async function LoginPage() {
   const user = await getCurrentUser();
@@ -10,7 +11,7 @@ export default async function LoginPage() {
 export function SyncLoginPage({user}: {user: any}) {
   return (
     <main className="flex flex-col items-center justify-start py-8">
-      { user ? <p>nope</p> : <LoginForm /> }
+      { user ? <AlreadyLoggedInMessage /> : <LoginForm /> }
     </main>
   )
 }
