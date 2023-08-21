@@ -13,7 +13,6 @@ export default function AddNewExerciseWidget({ exerciseTypes }: {exerciseTypes: 
       <select onChange={(e) => setNewExerciseTypeId(e.target.value)}>
         {exerciseTypes.map((exTp) => <option key={ exTp.id } value={ exTp.id }>{ exTp.name }</option>)}
       </select>
-      {/* @ts-expect-error Server Component */}
       <Button type="button" onClick={() => console.log(newExerciseTypeId)}>Add</Button>
     </div>
   )
