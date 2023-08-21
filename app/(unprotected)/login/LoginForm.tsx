@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { ChangeEvent, Suspense, useState } from "react";
+import { useState } from "react";
 import GhostButton from "@/components/buttons/GhostButton"
 import SolidButton from "@/components/buttons/SolidButton"
 import Form from "@/components/forms/Form"
@@ -11,6 +11,7 @@ import Link from "next/link"
 
 
 export default function NewAccountForm() {
+  // Pulled largely from this tutorial: https://codevoweb.com/nextjs-use-custom-login-and-signup-pages-for-nextauth-js/
   const router = useRouter()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,24 +22,29 @@ export default function NewAccountForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    const form = event.currentTarget;
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
+    setError("");
+
+    const elements = event.currentTarget.elements as HTMLFormControlsCollection & {
+      email: { value: string };
+      password: { value: string };
+    };
+    const email = elements.email.value;
+    const password = elements.password.value;
+
     try {
       setLoading(true);
-
       const res = await signIn("credentials", {
         redirect: false,
         email: email,
         password: password,
         callbackUrl,
       });
-
       setLoading(false);
 
       if (!res?.error) {
         router.push(callbackUrl);
       } else {
+        // I should come back to this and handle the various possible errors.
         setError("Invalid email or password");
       }
     } catch (error: any) {
@@ -48,10 +54,7 @@ export default function NewAccountForm() {
   }
 
   return (
-    <Form
-      title='Log In'
-      onSubmit={handleSubmit}
-    >
+    <Form title='Log In' onSubmit={handleSubmit}>
       <Input htmlFor='email' type='email' id='email' name='Email' label="Email" placeholder='bobby.tables@gmail.com'/>
       <Input htmlFor='password' type='password' id='password' name='Password' label='Password' placeholder='correcthorsebatterystaple'/>
       <SolidButton type="submit">Log In</SolidButton>
