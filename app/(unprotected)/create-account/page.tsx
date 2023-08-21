@@ -1,4 +1,4 @@
-import NewAccountForm from "./newAccountForm";
+import NewAccountForm from "./NewAccountForm";
 import { getCurrentUser } from "@/lib/session";
 import AlreadyLoggedInMessage from "./AlreadyLoggedInMessage";
 

@@ -26,16 +26,14 @@ export default function NewAccountForm() {
       title='Create Account'
       action={action}
     >
-      <div className="flex flex-col items-center">
-        <Input htmlFor='email' type='email' id='email' name='email' placeholder='bobby.tables@gmail.com' label='Email' />
-        <Input htmlFor='password' type='password' id='password' name='password' placeholder='correcthorsebatterystaple' label='Password' />
-        <SolidButton type="submit">Submit</SolidButton>
-        <div className='mt-4 text-sm text-center'>
-          <p>Already have an account?</p>
-          <Link href='/api/auth/signin'>
-            <GhostButton type="button">Sign In</GhostButton>
-          </Link>
-        </div>
+      <Input htmlFor='email' type='email' id='email' name='email' placeholder='bobby.tables@gmail.com' label='Email' />
+      <Input htmlFor='password' type='password' id='password' name='password' placeholder='correcthorsebatterystaple' label='Password' />
+      <SolidButton type="submit">Submit</SolidButton>
+      <div className='mt-4 text-sm text-center'>
+        <p>Already have an account?</p>
+        <Link href='/login'>
+          <GhostButton type="button">Sign In</GhostButton>
+        </Link>
       </div>
     </Form>
   )

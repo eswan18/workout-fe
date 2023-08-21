@@ -4,19 +4,23 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import loginUser from "./login";
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/login",
+  },
   providers: [
     CredentialsProvider({
       name: 'Email and Password',
       credentials: {
-        username: { label: "Email", type: "text", placeholder: "eswan" },
+        email: { label: "Email", type: "text", placeholder: "eswan" },
         password: {  label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials?.username || !credentials?.password) {
+        console.log(credentials)
+        if (!credentials?.email || !credentials?.password) {
           console.log('Error: Missing email or password');
           return null;
         }
-        const user = await loginUser(credentials.username, credentials.password);
+        const user = await loginUser(credentials.email, credentials.password);
         return user
       }
     })
