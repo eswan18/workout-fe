@@ -2,6 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import React from 'react';
 import NavBar from '@/components/navBar/navBar';
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +16,7 @@ export default function RootLayout(props: {
 }) {
   return (
     <html lang="en">
-      <script src="https://kit.fontawesome.com/4f0ac268ab.js" crossorigin="anonymous"></script>
+      <Script src="https://kit.fontawesome.com/4f0ac268ab.js" />
       <body className={`${inter.className} min-h-screen`}>
         <NavBar />
         <div className='content-container-flexbox w-full flex flex-row justify-center'>
