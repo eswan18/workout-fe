@@ -19,7 +19,7 @@ export default function RootLayout(props: {
       <Script src="https://kit.fontawesome.com/4f0ac268ab.js" />
       <body className={`${inter.className} min-h-screen`}>
         <NavBar />
-        <div className='content-container-flexbox w-full flex flex-row justify-center'>
+        <div className='content-container-flexbox w-full flex flex-row justify-center dark:bg-gray-700'>
           <div className='spacer flex-grow w-0'></div>
           <div className="content-container flex-initial w-[48rem] h-full">
             {props.children}

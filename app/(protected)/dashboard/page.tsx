@@ -15,7 +15,7 @@ class WorkoutMetrics {
 
 function WelcomeBanner({ workoutCount }: { workoutCount: number }) {
   return (
-    <div className="text-gray-900 flex-1">
+    <div className="text-gray-900 dark:text-gray-100 flex-1">
       <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
       <p>You've done {workoutCount} workouts so far.</p>
     </div>
@@ -63,7 +63,6 @@ export default async function DashboardPage() {
         <WelcomeBanner workoutCount={metrics.workoutCount}/>
       </div>
       <div className="w-full max-w-5xl items-center justify-around lg:flex">
-        <h2>Dashboard</h2>
         <QuickNewWorkoutPanel workoutTypes={workoutTypes}/>
       </div>
     </main>

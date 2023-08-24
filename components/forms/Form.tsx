@@ -8,7 +8,7 @@ interface FormProps {
 
 export default function Form({ title, action, onSubmit, className, children }: FormProps) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center dark:bg-gray-700">
       <form
           action={action}
           onSubmit={onSubmit}
