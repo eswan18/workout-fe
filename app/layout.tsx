@@ -15,6 +15,7 @@ export default function RootLayout(props: {
 }) {
   return (
     <html lang="en">
+      <script src="https://kit.fontawesome.com/4f0ac268ab.js" crossorigin="anonymous"></script>
       <body className={`${inter.className} min-h-screen`}>
         <NavBar />
         <div className='content-container-flexbox w-full flex flex-row justify-center'>

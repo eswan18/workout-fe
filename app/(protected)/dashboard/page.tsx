@@ -11,6 +11,12 @@ class WorkoutMetrics {
   ) {}
 } 
 
+function WelcomeBanner() {
+  return (
+    <h1 className="text-2xl">Welcome!</h1>
+  )
+}
+
 
 async function getMetricsData() {
   const token = await getAccessToken();
@@ -32,9 +38,12 @@ export default async function DashboardPage() {
   const metrics = await getMetricsData();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <h1>Dashboard</h1>
+    <main className="flex min-h-screen flex-col items-start p-14">
+      <div className="">
+        <WelcomeBanner />
+      </div>
+      <div className="z-10 w-full max-w-5xl items-center lg:flex">
+        <h2>Dashboard</h2>
         <TotalsWidget title="Total Workouts" value={metrics.workoutCount} color="bg-red-300" />
       </div>
     </main>
