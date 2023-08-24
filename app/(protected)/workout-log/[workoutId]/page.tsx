@@ -1,6 +1,6 @@
 import { getAccessToken } from "@/lib/session";
 import WorkoutLog from './workoutLog'
-import { Workout, WorkoutType, Exercise, ExerciseType } from '@/lib/apiTypes'
+import { Workout, WorkoutType, Exercise, ExerciseType } from '@/lib/resources/apiTypes'
 
 const apiUrl = process.env.WORKOUT_API_URL;
 

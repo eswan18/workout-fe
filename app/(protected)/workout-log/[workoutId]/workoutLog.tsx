@@ -1,6 +1,6 @@
 'use client'
 
-import { Workout, WorkoutType, Exercise, ExerciseType } from '@/lib/apiTypes'
+import { Workout, WorkoutType, Exercise, ExerciseType } from '@/lib/resources/apiTypes'
 import AddNewExerciseWidget from './addNewExerciseWidget'
 
 interface WorkoutLogProps {

@@ -1,6 +1,6 @@
 'use client'
 
-import { ExerciseType } from "@/lib/apiTypes"
+import { ExerciseType } from "@/lib/resources/apiTypes"
 import { useState } from "react"
 import Button from "@/components/button"
 

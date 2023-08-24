@@ -10,9 +10,9 @@ type LabeledSolidPlusButtonProps = {
 
 export default function LabeledSolidPlusButton({type, label, onClick}: LabeledSolidPlusButtonProps) {
   return (
-    <div className="border border-fuchsia-900 rounded-lg w-32 max-h-48 flex flex-col items-center p-2">
+    <div className="w-32 max-h-48 flex flex-col items-center p-2">
       <SolidPlusButton type={type} onClick={onClick} />
-      <div className="text-fuchsia-900 font-bold text-center pt-2 md:pt-4">{label}</div>
+      <div className="text-fuchsia-900 text-center pt-1 md:pt-2">{label}</div>
     </div>
   )
 }

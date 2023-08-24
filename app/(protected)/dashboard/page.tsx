@@ -1,5 +1,7 @@
-import TotalsWidget from "./totalsWidget";
-import { getAccessToken, getCurrentUser } from "@/lib/session";
+import { getAccessToken } from "@/lib/session";
+import { getWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
+import { WorkoutType } from "@/lib/resources/apiTypes";
+import LabeledSolidPlusButton from "@/components/buttons/LabeledSolidPlusButton";
 
 
 const apiUrl = process.env.WORKOUT_API_URL;
@@ -11,14 +13,31 @@ class WorkoutMetrics {
   ) {}
 } 
 
-function WelcomeBanner() {
+function WelcomeBanner({ workoutCount }: { workoutCount: number }) {
   return (
-    <h1 className="text-2xl">Welcome!</h1>
+    <div className="text-gray-900 flex-1">
+      <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
+      <p>You've done {workoutCount} workouts so far.</p>
+    </div>
+  )
+}
+
+function QuickNewWorkoutPanel({ workoutTypes }: { workoutTypes: WorkoutType[] }) {
+  const newWorkoutButtons = workoutTypes.slice(0, 4).map((workoutType) => {
+    return <LabeledSolidPlusButton type="button" label={workoutType.name} />
+  })
+  return (
+    <div className="border border-fuchsia-900 rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
+      <h2 className="text-gray-900 text-lg lg:text-2xl">New Workout by Type</h2>
+      <div className="flex flex-row flex-wrap mt-2 justify-between after:flex-1">
+        { newWorkoutButtons }
+      </div>
+    </div>
   )
 }
 
 
-async function getMetricsData() {
+async function getMetricsData(): Promise<WorkoutMetrics> {
   const token = await getAccessToken();
 
   // Request /workouts and pass the access token.
@@ -36,15 +55,16 @@ async function getMetricsData() {
 
 export default async function DashboardPage() {
   const metrics = await getMetricsData();
+  const workoutTypes = await getWorkoutTypes();
 
   return (
-    <main className="flex min-h-screen flex-col items-start p-14">
-      <div className="">
-        <WelcomeBanner />
+    <main className="flex min-h-screen flex-col items-start p-10 lg:p-16">
+      <div className="mb-4 lg:mb-12">
+        <WelcomeBanner workoutCount={metrics.workoutCount}/>
       </div>
-      <div className="z-10 w-full max-w-5xl items-center lg:flex">
+      <div className="w-full max-w-5xl items-center justify-around lg:flex">
         <h2>Dashboard</h2>
-        <TotalsWidget title="Total Workouts" value={metrics.workoutCount} color="bg-red-300" />
+        <QuickNewWorkoutPanel workoutTypes={workoutTypes}/>
       </div>
     </main>
   )
