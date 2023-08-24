@@ -11,5 +11,13 @@ export async function getWorkoutTypes(): Promise<WorkoutType[]> {
       Authorization: `Bearer ${token}`,
     }
   });
+  if (!response.ok) {
+    try {
+      const error = await response.json()
+      throw new Error(error.detail)
+    } catch (e) {
+      throw new Error("Failed to fetch workout types")
+    }
+  }
   return await response.json()
 }

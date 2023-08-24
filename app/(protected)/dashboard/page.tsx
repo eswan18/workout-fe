@@ -22,15 +22,15 @@ function WelcomeBanner({ workoutCount }: { workoutCount: number }) {
   )
 }
 
-function QuickNewWorkoutPanel({ workoutTypes }: { workoutTypes: WorkoutType[] }) {
-  const newWorkoutButtons = workoutTypes.slice(0, 4).map((workoutType, index) => {
+function QuickNewWorkoutPanel({ workoutTypes, error }: { workoutTypes: WorkoutType[] | null, error: string | null}) {
+  const mainContent = workoutTypes ? workoutTypes.slice(0, 4).map((workoutType, index) => {
     return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} />
-  })
+  }) : <p>{error}</p>
   return (
     <div className="border border-fuchsia-900 rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
-      <h2 className="text-gray-900 text-lg lg:text-2xl">New Workout by Type</h2>
+      { workoutTypes && <h2 className="text-gray-900 text-lg lg:text-2xl">New Workout by Type</h2> }
       <div className="flex flex-row flex-wrap mt-2 justify-between after:flex-1">
-        { newWorkoutButtons }
+        { mainContent }
       </div>
     </div>
   )
@@ -55,7 +55,12 @@ async function getMetricsData(): Promise<WorkoutMetrics> {
 
 export default async function DashboardPage() {
   const metrics = await getMetricsData();
-  const workoutTypes = await getWorkoutTypes();
+  let workoutTypes: WorkoutType[] | null = null;
+  try {
+    workoutTypes = await getWorkoutTypes();
+  } catch (error) {
+    console.error(error);
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-start p-10 lg:p-16">
@@ -63,7 +68,7 @@ export default async function DashboardPage() {
         <WelcomeBanner workoutCount={metrics.workoutCount}/>
       </div>
       <div className="w-full max-w-5xl items-center justify-around lg:flex">
-        <QuickNewWorkoutPanel workoutTypes={workoutTypes}/>
+        <QuickNewWorkoutPanel workoutTypes={workoutTypes} error='Failed to fetch workout type data' />
       </div>
     </main>
   )
