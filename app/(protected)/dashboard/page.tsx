@@ -17,14 +17,14 @@ function WelcomeBanner({ workoutCount }: { workoutCount: number }) {
   return (
     <div className="text-gray-900 dark:text-gray-100 flex-1">
       <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
-      <p>You've done {workoutCount} workouts so far.</p>
+      <p>You&apos;ve done {workoutCount} workouts so far.</p>
     </div>
   )
 }
 
 function QuickNewWorkoutPanel({ workoutTypes }: { workoutTypes: WorkoutType[] }) {
-  const newWorkoutButtons = workoutTypes.slice(0, 4).map((workoutType) => {
-    return <LabeledSolidPlusButton type="button" label={workoutType.name} />
+  const newWorkoutButtons = workoutTypes.slice(0, 4).map((workoutType, index) => {
+    return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} />
   })
   return (
     <div className="border border-fuchsia-900 rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
