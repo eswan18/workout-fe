@@ -29,7 +29,7 @@ To build the docker image:
 npm run docker-build
 ```
 
-Ro run the docker image. You can then connect to the server at `localhost:3000`.
+To run the docker image. You can then connect to the server at `localhost:3000`.
 
 ```bash
 npm run docker-run

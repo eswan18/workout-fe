@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
 import NavBar from '@/components/navBar/navBar';
 import Script from 'next/script'
@@ -26,6 +27,7 @@ export default function RootLayout(props: {
           </div>
           <div className='spacer flex-grow w-0'></div>
         </div>
+        <Analytics />
       </body>
     </html>
   )
