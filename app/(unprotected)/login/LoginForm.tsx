@@ -56,13 +56,13 @@ export default function NewAccountForm() {
 
   return (
     <Form title='Log In' onSubmit={handleSubmit}>
-      <Input htmlFor='email' type='email' id='email' name='Email' label="Email" placeholder='bobby.tables@gmail.com'/>
-      <Input htmlFor='password' type='password' id='password' name='Password' label='Password' placeholder='correcthorsebatterystaple'/>
+      <Input htmlFor='email' type='email' id='email' name='Email' label="Email" placeholder='bobby.tables@gmail.com' />
+      <Input htmlFor='password' type='password' id='password' name='Password' label='Password' placeholder='correcthorsebatterystaple' />
       <div className='flex w-full justify-center'>
-      { loading ?
-        <LoadingSpinner />
-        : <SolidButton type="submit">Log In</SolidButton>
-      }
+        {loading ?
+          <LoadingSpinner />
+          : <SolidButton type="submit">Log In</SolidButton>
+        }
       </div>
       {error && !loading && (
         <p className="text-center bg-red-600 py-4 m-6 rounded-lg text-gray-100">{error}</p>
