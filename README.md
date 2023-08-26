@@ -20,9 +20,30 @@ npm run storybook
 
 ## Environment
 
-Secrets are managed in [Infisical](https://app.infisical.com). To pull the most up-to-date values and push them to Vercel, run the `push_env.sh` script.
+Secrets are managed in [Infisical](https://app.infisical.com).
+
+### Pushing to Vercel
 
 You'll need to install and authenticate with the Vercel and Infisical CLIs.
+
+```bash
+./push_env_to_vercel.sh
+```
+
+### Pulling Locally
+
+You'll need to install and authenticate with the Infisical CLI.
+
+```bash
+./pull_env.sh
+```
+
+You can also run the front end locally but use the staging or prod API backend. The `pull_env.sh` script supports this; add a flag for the environment you want and it will overwrite the API-related values. Then you can start the app normally with `npm run dev`.
+
+```bash
+./pull_env --staging
+./pull_env --prod
+```
 
 
 ## Docker
