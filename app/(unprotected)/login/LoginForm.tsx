@@ -8,6 +8,7 @@ import SolidButton from "@/components/buttons/SolidButton"
 import Form from "@/components/forms/Form"
 import Input from "@/components/forms/Input"
 import Link from "next/link"
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 
 export default function NewAccountForm() {
@@ -57,7 +58,12 @@ export default function NewAccountForm() {
     <Form title='Log In' onSubmit={handleSubmit}>
       <Input htmlFor='email' type='email' id='email' name='Email' label="Email" placeholder='bobby.tables@gmail.com'/>
       <Input htmlFor='password' type='password' id='password' name='Password' label='Password' placeholder='correcthorsebatterystaple'/>
-      <SolidButton type="submit">Log In</SolidButton>
+      <div className='flex w-full justify-center'>
+      { loading ?
+        <LoadingSpinner />
+        : <SolidButton type="submit">Log In</SolidButton>
+      }
+      </div>
       {error && !loading && (
         <p className="text-center bg-red-600 py-4 m-6 rounded-lg text-gray-100">{error}</p>
       )}
