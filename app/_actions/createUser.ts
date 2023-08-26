@@ -1,7 +1,7 @@
 'use server';
 
 const apiUrl = process.env.WORKOUT_API_URL;
-const applicationKey = process.env.API_STATIC_APPLICATION_KEY;
+const applicationKey = process.env.STATIC_APPLICATION_KEY;
 
 export default async function createUser(email: string, password: string): Promise<string | null> {
   if (!email || !password) {
