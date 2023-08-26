@@ -11,7 +11,7 @@ import Input from '@/components/forms/Input';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 
-export default function NewAccountForm() {
+export default function CreateAccountForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false);
 

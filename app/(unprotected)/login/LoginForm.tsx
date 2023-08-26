@@ -11,7 +11,7 @@ import Link from "next/link"
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 
-export default function NewAccountForm() {
+export default function LoginForm() {
   // Pulled largely from this tutorial: https://codevoweb.com/nextjs-use-custom-login-and-signup-pages-for-nextauth-js/
   const router = useRouter()
   const [loading, setLoading] = useState(false);
