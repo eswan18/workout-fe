@@ -18,6 +18,12 @@ Run storybook. You can connect at `localhost:6006`
 npm run storybook
 ```
 
+## Environment
+
+Secrets are managed in [Infisical](https://app.infisical.com). To pull the most up-to-date values and push them to Vercel, run the `push_env.sh` script.
+
+You'll need to install and authenticate with the Vercel and Infisical CLIs.
+
 
 ## Docker
 
