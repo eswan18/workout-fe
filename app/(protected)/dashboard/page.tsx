@@ -1,11 +1,10 @@
 import { getAccessToken } from "@/lib/session";
 import { getWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
 import { WorkoutType } from "@/lib/resources/apiTypes";
-import LabeledSolidPlusButton from "@/components/buttons/LabeledSolidPlusButton";
+import QuickNewWorkoutPanel from "./NewWorkoutPanel";
 
 
 const apiUrl = process.env.WORKOUT_API_URL;
-
 
 class WorkoutMetrics {
   constructor(
@@ -21,21 +20,6 @@ function WelcomeBanner({ workoutCount }: { workoutCount: number }) {
     </div>
   )
 }
-
-function QuickNewWorkoutPanel({ workoutTypes, error }: { workoutTypes: WorkoutType[] | null, error: string | null}) {
-  const mainContent = workoutTypes ? workoutTypes.slice(0, 4).map((workoutType, index) => {
-    return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} />
-  }) : <p>{error}</p>
-  return (
-    <div className="border border-fuchsia-900 rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
-      { workoutTypes && <h2 className="text-gray-900 text-lg lg:text-2xl">New Workout by Type</h2> }
-      <div className="flex flex-row flex-wrap mt-2 justify-between after:flex-1">
-        { mainContent }
-      </div>
-    </div>
-  )
-}
-
 
 async function getMetricsData(): Promise<WorkoutMetrics> {
   const token = await getAccessToken();
