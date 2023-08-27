@@ -4,18 +4,27 @@ import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
 import LabeledSolidPlusButton from "@/components/buttons/LabeledSolidPlusButton";
 import { createNewWorkout } from "@/lib/resources/workouts/createNewWorkout";
+import { useRouter } from 'next/navigation';
 
-export default function QuickNewWorkoutPanel({ workoutTypes, error }: { workoutTypes: WorkoutType[] | null, error: string | null}) {
+async function createAndStartWorkout(workoutTypeId: string): Promise<Workout> {
+  const workout: Workout = {
+    workout_type_id: workoutTypeId,
+    status: 'in-progress',
+    start_time: new Date() // start the workout right now.
+  }
+  return await createNewWorkout({workout});
+}
+
+export default function NewWorkoutPanel({ workoutTypes, error }: { workoutTypes: WorkoutType[] | null, error: string | null}) {
+  const router = useRouter();
+
   const mainContent = workoutTypes ? workoutTypes.slice(0, 4).map((workoutType, index) => {
-    const createAndStartWorkout = () => {
-      const workout: Workout = {
-        workout_type_id: workoutType.id,
-        status: 'in-progress',
-        start_time: new Date() // start the workout right now.
-      }
-      createNewWorkout({workout});
-    }
-    return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} onClick={createAndStartWorkout} />
+    const onClick = () => {
+      if (!workoutType.id) throw new Error('Workout type id is null')
+      createAndStartWorkout(workoutType.id).then(workout => router.push(`/workouts/${workout.id}`));
+    } ;
+
+    return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} onClick={onClick} />
   }) : <p>{error}</p>
   return (
     <div className="border border-fuchsia-900 rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">

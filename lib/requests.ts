@@ -15,8 +15,6 @@ export async function request({route, method, params, body}: RequestParams): Pro
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
-  console.log(">>> body")
-  console.log(body)
   if (!route.startsWith("/")) {
     route = `/${route}`
   }

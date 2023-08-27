@@ -1,3 +1,5 @@
+'use server'
+
 import { get } from "@/lib/requests";
 import { WorkoutType } from "../apiTypes"
 

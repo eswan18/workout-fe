@@ -1,7 +1,7 @@
 import { getAccessToken } from "@/lib/session";
 import { getWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
 import { WorkoutType } from "@/lib/resources/apiTypes";
-import QuickNewWorkoutPanel from "./NewWorkoutPanel";
+import NewWorkoutPanel from "./NewWorkoutPanel";
 
 
 const apiUrl = process.env.WORKOUT_API_URL;
@@ -52,7 +52,7 @@ export default async function DashboardPage() {
         <WelcomeBanner workoutCount={metrics.workoutCount}/>
       </div>
       <div className="w-full max-w-5xl items-center justify-around lg:flex">
-        <QuickNewWorkoutPanel workoutTypes={workoutTypes} error='Failed to fetch workout type data' />
+        <NewWorkoutPanel workoutTypes={workoutTypes} error='Failed to fetch workout type data' />
       </div>
     </main>
   )
