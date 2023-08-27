@@ -21,7 +21,7 @@ export default function NewWorkoutPanel({ workoutTypes, error }: { workoutTypes:
   const mainContent = workoutTypes ? workoutTypes.slice(0, 4).map((workoutType, index) => {
     const onClick = () => {
       if (!workoutType.id) throw new Error('Workout type id is null')
-      createAndStartWorkout(workoutType.id).then(workout => router.push(`/workouts/${workout.id}`));
+      createAndStartWorkout(workoutType.id).then(workout => router.push(`/live/workouts/${workout.id}`));
     } ;
 
     return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} onClick={onClick} />
