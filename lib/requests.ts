@@ -1,3 +1,5 @@
+'use server'
+
 import { getAccessToken } from "@/lib/session";
 
 const API_URL = process.env.WORKOUT_API_URL;

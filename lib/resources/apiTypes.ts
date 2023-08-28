@@ -37,3 +37,11 @@ export type ExerciseType = {
   number_of_weights: number
   notes?: string
 }
+
+// This typing is too simplistic, and ignores that
+//   a) the workout field also has workout_type information
+//   b) the exercises records also have exercise_type information
+export type WorkoutWithDetails = {
+  workout: Workout
+  exercises: Exercise[]
+}

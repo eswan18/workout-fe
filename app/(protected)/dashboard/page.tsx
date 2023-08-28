@@ -1,5 +1,5 @@
 import { getAccessToken } from "@/lib/session";
-import { getWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
+import { getAllWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
 import { WorkoutType } from "@/lib/resources/apiTypes";
 import NewWorkoutPanel from "./NewWorkoutPanel";
 
@@ -41,7 +41,7 @@ export default async function DashboardPage() {
   const metrics = await getMetricsData();
   let workoutTypes: WorkoutType[] | null = null;
   try {
-    workoutTypes = await getWorkoutTypes();
+    workoutTypes = await getAllWorkoutTypes();
   } catch (error) {
     console.error(error);
   }
