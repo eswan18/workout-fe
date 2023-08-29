@@ -54,7 +54,7 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
   }
 
   return (
-    <div className="w-full rounded-lg p-2 lg:p-4 h-32 shadow-lg bg-fuchsia-50 m-1 lg:m-2">
+    <div className="w-full rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50 m-1 lg:m-2">
       {isLoading ? <LoadingSpinner /> :
         type ?
           <ExercisePanel type={type} exercisesWithKeys={exercisesWithKeys} appendNewExercise={appendNewExercise} />
@@ -88,7 +88,7 @@ function ExerciseInputModal({onSubmit}: ExerciseInputModalProps) {
 
   return (
     <ClientModal>
-      <h1>hi</h1>
+      <h1 className="text-2xl my-2 lg:mb-8">Record exercise</h1>
       <Input label="Weight" htmlFor="weight" type="number" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
       <Input label="Reps" htmlFor="reps" type="number" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
       <SolidButton onClick={() => {onSubmit(exercise)}} type="button" enabled={buttonEnabled}>Save</SolidButton>
@@ -105,7 +105,7 @@ type ExercisePanelProps = {
 function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExercisePanelProps) {
   return (
     <>
-      <h2>{type.name}</h2>
+      <h2 className="text-xl">{type.name} <i className="fa-solid fa-dumbbell" /></h2>
       <div className="flex flex-row justify-left">
         {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
