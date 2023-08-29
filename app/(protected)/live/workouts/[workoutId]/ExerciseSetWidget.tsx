@@ -27,7 +27,7 @@ function ExerciseWidget({ exercise }: { exercise: Exercise }) {
   }, [ex]);
 
   return (
-    <div className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2 flex flex-col items-center">
+    <div className="rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2 flex flex-col items-center h-24 w-32 bg-white">
       Weight: { ex.weight }, Reps: { ex.reps }
       { /* a little save status indicator */ }
       <div className="text-xl font-bold">
@@ -78,26 +78,44 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
     // Show a modal to let the user pick weight and reps.
     const newExercise = { weight: 0, reps: 0, exercise_type_id: type.id, workout_id: workoutId };
     setExercisesWithKeys([...exercisesWithKeys, {exercise: newExercise, key: newKey}])
-    
-
   }
+  
+  const ExerciseTypeSelector = () => {
+    return (
+      <select className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2" onChange={(e) => setType(exTypeOptions.find((type) => type.name === e.target.value))}>
+        <option value="">Choose an exercise type</option>
+        { exTypeOptions.map((type) => <option value={type.name}>{ type.name }</option>) }
+      </select>
+    )
+  }
+
 
   return (
     <div className="w-full rounded-lg p-2 lg:p-4 h-32 shadow-lg bg-fuchsia-50 m-1 lg:m-2">
-      { isLoading ? <LoadingSpinner /> :
-        <>
-        { type ?
-          <h2>type.name</h2> :
-          <p>"Choose an exercise type" {exTypeOptions.map((type) => <p>{ type.name }</p>)}</p>
-        }
-        { type && (
-          <div className="flex flex-row justify-between">
-            { exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />) }
-            <CreateNewExerciseWidget addNewExercise={ appendNewExercise } />
-          </div>
-        )}
-        </>
+      { isLoading ? <LoadingSpinner /> : 
+        type ?
+          <ExercisePanel type={type} exercisesWithKeys={exercisesWithKeys} appendNewExercise={appendNewExercise} />
+        :
+          <ExerciseTypeSelector />
       }
     </div>
+  )
+}
+
+type ExercisePanelProps = {
+  type: ExerciseType;
+  exercisesWithKeys: ExerciseWithKey[];
+  appendNewExercise: () => void;
+}
+
+function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExercisePanelProps) {
+  return (
+    <>
+      <h2>{ type.name }</h2>
+      <div className="flex flex-row justify-between">
+        { exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />) }
+        <CreateNewExerciseWidget addNewExercise={ appendNewExercise } />
+      </div>
+    </>
   )
 }
