@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseSetWidget from "./ExerciseSetWidget";
+import ExerciseSetWidget from "./exerciseSetWidget";
 import CreateNewExerciseSetWidget from "./CreateNewExerciseSetWidget";
 
 type ExerciseSetAndKey = {

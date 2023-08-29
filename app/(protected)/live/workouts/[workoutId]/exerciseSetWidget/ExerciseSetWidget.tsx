@@ -4,44 +4,9 @@ import { useState, useEffect } from "react";
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
 import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
 import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/getExerciseTypes";
+import ExerciseWidget from "./ExerciseWidget";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-export async function saveExercise({ exercise, setSaveState }: { exercise: Exercise, setSaveState: (saveState: SaveState) => void }) {
-  setSaveState("saving");
-  // Todo: actually save the exercise.
-  // For now, just sleep 1 second.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  setSaveState("saved");
-}
-
-type SaveState = "saved" | "saving" | "unsaved"
-
-
-function ExerciseWidget({ exercise }: { exercise: Exercise }) {
-  const [saveState, setSaveState] = useState<SaveState>("saved");
-  const [ex, setEx] = useState<Exercise>(exercise);
-
-  // Do this after the component mounts.
-  useEffect(() => {
-    saveExercise({ exercise: ex, setSaveState })
-  }, [ex]);
-
-  return (
-    <div className="rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2 flex flex-col items-center h-24 w-32 bg-white">
-      Weight: {ex.weight}, Reps: {ex.reps}
-      { /* a little save status indicator */}
-      <div className="text-xl font-bold">
-        {saveState === "saved" ?
-          <i className="fa-regular fa-circle-check" />
-          : saveState === "unsaved" ?
-            <i className="fa-regular fa-circle opacity-25" />
-            :
-            <i className="fa-solid fa-spinner animate-spin" />
-        }
-      </div>
-    </div>
-  )
-}
 
 type ExerciseWithKey = {
   exercise: Exercise;
@@ -70,24 +35,17 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
 
   const appendNewExercise = () => {
     if (!type || !type.id) {
+      // This should never happen.
       alert("choose an exercise type first!")
       return;
     }
-    // This feels janky, but we need a unique key for each set that is constant across renders.
+    // This feels janky, but we need a unique key for each exercise that is constant across renders.
     const newKey = Math.random();
     // Show a modal to let the user pick weight and reps.
     const newExercise = { weight: 0, reps: 0, exercise_type_id: type.id, workout_id: workoutId };
     setExercisesWithKeys([...exercisesWithKeys, { exercise: newExercise, key: newKey }])
   }
 
-  const ExerciseTypeSelector = () => {
-    return (
-      <select className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2" onChange={(e) => setType(exTypeOptions.find((type) => type.name === e.target.value))}>
-        <option value="">Choose an exercise type</option>
-        {exTypeOptions.map((type) => <option value={type.name}>{type.name}</option>)}
-      </select>
-    )
-  }
 
 
   return (
@@ -96,7 +54,7 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
         type ?
           <ExercisePanel type={type} exercisesWithKeys={exercisesWithKeys} appendNewExercise={appendNewExercise} />
           :
-          <ExerciseTypeSelector />
+          <ExerciseTypeSelector setType={setType} exTypeOptions={exTypeOptions} />
       }
     </div>
   )
@@ -112,10 +70,24 @@ function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExerciseP
   return (
     <>
       <h2>{type.name}</h2>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-left">
         {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
       </div>
     </>
+  )
+}
+
+type ExerciseTypeSelectorProps = {
+  setType: (type: ExerciseType | undefined) => void;
+  exTypeOptions: ExerciseType[];
+}
+
+function ExerciseTypeSelector({ setType, exTypeOptions }: ExerciseTypeSelectorProps) {
+  return (
+    <select className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2" onChange={(e) => setType(exTypeOptions.find((type) => type.name === e.target.value))}>
+      <option value="">Choose an exercise type</option>
+      {exTypeOptions.map((type) => <option value={type.name}>{type.name}</option>)}
+    </select>
   )
 }
