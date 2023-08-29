@@ -1,18 +1,12 @@
-import { getWorkoutWithDetails } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseWidget from "./ExerciseWidget";
+import { getWorkoutWithDetailsAsExerciseSets } from "@/lib/resources/derived/workoutWithDetails";
+import LiveWorkout from "./LiveWorkout";
 
 type PageParams = {
   workoutId: string
 }
 
-export default async function WorkoutLogPage({ params }: {params: PageParams}) {
-  const workoutDetails = await getWorkoutWithDetails(params.workoutId);
-  console.log(JSON.stringify(workoutDetails))
-  return (
-    <main>
-      <h1>Workout Log</h1>
-      <p>Workout ID: {workoutDetails.workout.id} </p>
-      { workoutDetails.exercises.map((exercise) => <ExerciseWidget key={exercise.id }/>) }
-    </main>
-  )
+export default async function LiveWorkoutPage({ params }: {params: PageParams}) {
+  // This component just pulls the data and then passes the rest to the client component.
+  const workout = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
+  return <LiveWorkout workout={workout.workout} exerciseSets={workout.exerciseSets} />
 }
