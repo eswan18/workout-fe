@@ -4,7 +4,7 @@ import { useState } from "react";
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import ExerciseSetWidget from "./ExerciseSetWidget";
-import CreateNewExerciseWidget from "./CreateNewExerciseSetWidget";
+import CreateNewExerciseSetWidget from "./CreateNewExerciseSetWidget";
 
 type ExerciseSetAndKey = {
   exerciseSet?: ExerciseSet;
@@ -26,10 +26,10 @@ export default function WorkoutLogPageClient({ workout, exerciseSets }: { workou
       <h1 className="text-xl m-2">Live Workout</h1>
       {
         setsWithSaveStatus.map((set) => {
-          return <ExerciseSetWidget exerciseType={ set.exerciseSet?.exerciseType } exercises={ set.exerciseSet?.exercises || [] } key={ set.key }/>
+          return <ExerciseSetWidget workoutId={ workout.id } exerciseType={ set.exerciseSet?.exerciseType } exercises={ set.exerciseSet?.exercises || [] } key={ set.key }/>
         })
       }
-      <CreateNewExerciseWidget addNewExerciseSet={ appendNewExerciseSet } />
+      <CreateNewExerciseSetWidget addNewExerciseSet={ appendNewExerciseSet } />
     </main>
   )
 }
