@@ -6,7 +6,7 @@ import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
 import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/getExerciseTypes";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-export async function saveExercise({exercise, setSaveState}: {exercise: Exercise, setSaveState: (saveState: SaveState) => void}) {
+export async function saveExercise({ exercise, setSaveState }: { exercise: Exercise, setSaveState: (saveState: SaveState) => void }) {
   setSaveState("saving");
   // Todo: actually save the exercise.
   // For now, just sleep 1 second.
@@ -23,13 +23,13 @@ function ExerciseWidget({ exercise }: { exercise: Exercise }) {
 
   // Do this after the component mounts.
   useEffect(() => {
-    saveExercise({exercise: ex, setSaveState})
+    saveExercise({ exercise: ex, setSaveState })
   }, [ex]);
 
   return (
     <div className="rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2 flex flex-col items-center h-24 w-32 bg-white">
-      Weight: { ex.weight }, Reps: { ex.reps }
-      { /* a little save status indicator */ }
+      Weight: {ex.weight}, Reps: {ex.reps}
+      { /* a little save status indicator */}
       <div className="text-xl font-bold">
         {saveState === "saved" ?
           <i className="fa-regular fa-circle-check" />
@@ -55,7 +55,7 @@ type ExerciseSetWidgetProps = {
 }
 
 export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }: ExerciseSetWidgetProps) {
-  const exesWithKeys: ExerciseWithKey[] = exercises.map((ex, idx) => ({exercise: ex, key: idx}));
+  const exesWithKeys: ExerciseWithKey[] = exercises.map((ex, idx) => ({ exercise: ex, key: idx }));
   const [type, setType] = useState<ExerciseType | undefined>(exerciseType);
   const [exercisesWithKeys, setExercisesWithKeys] = useState<ExerciseWithKey[]>(exesWithKeys);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -67,9 +67,9 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
       setIsLoading(false);
     })
   }, [])
-  
+
   const appendNewExercise = () => {
-    if (!type || !type.id ) {
+    if (!type || !type.id) {
       alert("choose an exercise type first!")
       return;
     }
@@ -77,14 +77,14 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
     const newKey = Math.random();
     // Show a modal to let the user pick weight and reps.
     const newExercise = { weight: 0, reps: 0, exercise_type_id: type.id, workout_id: workoutId };
-    setExercisesWithKeys([...exercisesWithKeys, {exercise: newExercise, key: newKey}])
+    setExercisesWithKeys([...exercisesWithKeys, { exercise: newExercise, key: newKey }])
   }
-  
+
   const ExerciseTypeSelector = () => {
     return (
       <select className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2" onChange={(e) => setType(exTypeOptions.find((type) => type.name === e.target.value))}>
         <option value="">Choose an exercise type</option>
-        { exTypeOptions.map((type) => <option value={type.name}>{ type.name }</option>) }
+        {exTypeOptions.map((type) => <option value={type.name}>{type.name}</option>)}
       </select>
     )
   }
@@ -92,10 +92,10 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
 
   return (
     <div className="w-full rounded-lg p-2 lg:p-4 h-32 shadow-lg bg-fuchsia-50 m-1 lg:m-2">
-      { isLoading ? <LoadingSpinner /> : 
+      {isLoading ? <LoadingSpinner /> :
         type ?
           <ExercisePanel type={type} exercisesWithKeys={exercisesWithKeys} appendNewExercise={appendNewExercise} />
-        :
+          :
           <ExerciseTypeSelector />
       }
     </div>
@@ -111,10 +111,10 @@ type ExercisePanelProps = {
 function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExercisePanelProps) {
   return (
     <>
-      <h2>{ type.name }</h2>
+      <h2>{type.name}</h2>
       <div className="flex flex-row justify-between">
-        { exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />) }
-        <CreateNewExerciseWidget addNewExercise={ appendNewExercise } />
+        {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
+        <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
       </div>
     </>
   )
