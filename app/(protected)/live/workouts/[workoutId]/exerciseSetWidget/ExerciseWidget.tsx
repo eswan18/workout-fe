@@ -2,15 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { Exercise } from "@/lib/resources/apiTypes";
+import { createExercise } from "@/lib/resources/exercises/createExercises";
+
 
 type SaveState = "saved" | "saving" | "unsaved"
 
 export async function saveExercise({ exercise, setSaveState }: { exercise: Exercise, setSaveState: (saveState: SaveState) => void }) {
   setSaveState("saving");
-  // Todo: actually save the exercise.
-  // For now, just sleep 1 second.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  setSaveState("saved");
+  await createExercise(exercise).then(() => { setSaveState("saved") });
 }
 
 export default function ExerciseWidget({ exercise }: { exercise: Exercise }) {
@@ -19,6 +18,7 @@ export default function ExerciseWidget({ exercise }: { exercise: Exercise }) {
 
   // Do this after the component mounts.
   useEffect(() => {
+    // This causes a major bug –– exercises get re-saved every time the page loads. Need to figure out how to fix this.
     saveExercise({ exercise: ex, setSaveState })
   }, [ex]);
 

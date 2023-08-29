@@ -6,7 +6,18 @@ import { WorkoutWithDetails, WorkoutWithType, Exercise, ExerciseWithType, Exerci
 const ROUTE = '/derived/workout_details/'
 
 export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDetails> {
-  return await get({route: `${ROUTE}${id}`}) as WorkoutWithDetails;
+  const wktWithDtls = await get({route: `${ROUTE}${id}`}) as WorkoutWithDetails;
+  // Fix a couple of columns that should be typed as dates.
+  wktWithDtls.workout.start_time = new Date(wktWithDtls.workout.start_time);
+  if (wktWithDtls.workout.end_time) {
+    wktWithDtls.workout.end_time = new Date(wktWithDtls.workout.end_time);
+  }
+  wktWithDtls.exercises.forEach((exercise) => {
+    if (exercise.start_time) {
+      exercise.start_time = new Date(exercise.start_time);
+    }
+  })
+  return wktWithDtls;
 }
 
 export type ExerciseSet = {
@@ -22,29 +33,27 @@ export type WorkoutWithExerciseSets = {
 function sortExercises(exercises: ExerciseWithType[]): ExerciseWithType[] {
   let exCopy = [...exercises];
   return exCopy.sort((a, b) => {
-    if (!a.start_time && !b.start_time) {
+    const aStart = a.start_time;
+    const bStart = b.start_time;
+    if (aStart == null && bStart == null) {
       return 0;
-    } else if (!a.start_time) {
-      return 1;
-    } else if (!b.start_time) {
+    } else if (aStart == null) {
       return -1;
+    } else if (bStart == null) {
+      return 1;
     } else {
-      return a.start_time.getTime() - b.start_time.getTime();
+      return aStart.getTime() - bStart.getTime();
     }
   });
 }
 
 function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
-  let lastSeenTypeId: string | null = null;
+  let lastSeenTypeId: string | undefined = undefined;
   let exerciseSets: ExerciseSet[] = [];
-  let currentSet: ExerciseSet | null = null;
+  let currentSet: ExerciseSet | undefined = undefined;
   exercises.forEach((exercise) => {
-    if (exercise.exercise_type_id !== lastSeenTypeId) {
-      // Push the current set if there is one.
-      currentSet && exerciseSets.push(currentSet);
-      currentSet = null;
-    }
-    if (!currentSet) {
+    // If there's no active set or if we have a new exercise type, start a new set.
+    if (!currentSet || exercise.exercise_type_id !== lastSeenTypeId) {
       // Create a new, empty set with the current exercise type.
       currentSet = {
         exerciseType: {
@@ -56,6 +65,7 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
         },
         exercises: []
       };
+      exerciseSets.push(currentSet);
     }
     currentSet.exercises.push({
       id: exercise.id,
@@ -81,8 +91,9 @@ export async function getWorkoutWithDetailsAsExerciseSets(id: string): Promise<W
   // Sort the exercises by start time, and put nulls last.
   const exercises = sortExercises(wktWithDtls.exercises);
   const exerciseSets = groupExercises(exercises);
-  return {
+  const x = {
     workout: wktWithDtls.workout,
     exerciseSets: exerciseSets
   };
+  return x
 }

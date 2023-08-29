@@ -7,26 +7,27 @@ import ExerciseSetWidget from "./exerciseSetWidget";
 import CreateNewExerciseSetWidget from "./CreateNewExerciseSetWidget";
 
 type ExerciseSetAndKey = {
-  exerciseSet?: ExerciseSet;
+  set?: ExerciseSet;
   key: number;
 };
 
 export default function LiveWorkout({ workout, exerciseSets }: { workout: WorkoutWithType, exerciseSets: ExerciseSet[] }) {
   // Since users will be able to modify exercises and add new ones, we need to track whether each is saved.
-  const defaultSetsWithSaveStatus = exerciseSets.map((exSet, idx) => ({...exSet, key: idx}));
+  const defaultSets: ExerciseSetAndKey[] = exerciseSets.map((exSet, idx) => ({set: exSet, key: idx}));
+  const workoutName = workout.workout_type_name || "Custom Workout";
 
-  const [setsWithSaveStatus, setSetsWithSaveStatus] = useState<ExerciseSetAndKey[]>(defaultSetsWithSaveStatus);
+  const [setsWithSaveStatus, setSetsWithSaveStatus] = useState<ExerciseSetAndKey[]>(defaultSets);
   const appendNewExerciseSet = () => {
     // This feels janky, but we need a unique key for each set that is constant across renders.
     const newKey = Math.random();
-    setSetsWithSaveStatus([...setsWithSaveStatus, {exerciseSet: undefined, key: newKey}])
+    setSetsWithSaveStatus([...setsWithSaveStatus, {set: undefined, key: newKey}])
   }
   return (
     <main>
-      <h1 className="text-3xl m-2 text-center my-4 lg:my-10">Live Workout</h1>
+      <h1 className="text-3xl m-2 text-center my-4 lg:my-10">{ workoutName }</h1>
       {
-        setsWithSaveStatus.map((set) => {
-          return <ExerciseSetWidget workoutId={ workout.id } exerciseType={ set.exerciseSet?.exerciseType } exercises={ set.exerciseSet?.exercises || [] } key={ set.key }/>
+        setsWithSaveStatus.map(({set, key}) => {
+          return <ExerciseSetWidget workoutId={ workout.id } exerciseType={ set?.exerciseType } exercises={ set?.exercises || [] } key={ key }/>
         })
       }
       <CreateNewExerciseSetWidget addNewExerciseSet={ appendNewExerciseSet } />

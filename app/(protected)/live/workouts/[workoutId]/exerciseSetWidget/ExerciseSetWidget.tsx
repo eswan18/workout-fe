@@ -46,11 +46,10 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
     // This feels janky, but we need a unique key for each exercise that is constant across renders.
     const newKey = Math.random();
     function onSubmit(exercise: Exercise) {
-      // Save the exercise to the database and close the modal.
       setExercisesWithKeys([...exercisesWithKeys, { exercise, key: newKey }])
       setModal(null);
     }
-    setModal(<ExerciseInputModal onSubmit={onSubmit}/>)
+    setModal(<ExerciseInputModal onSubmit={onSubmit} workoutId={workoutId} exerciseTypeId={type.id} />)
   }
 
   return (
@@ -68,18 +67,21 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
 
 type ExerciseInputModalProps = {
   onSubmit: (exercise: Exercise) => void;
+  workoutId: string;
+  exerciseTypeId: string;
 }
 
-function ExerciseInputModal({onSubmit}: ExerciseInputModalProps) {
+function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId}: ExerciseInputModalProps) {
   const [weight, setWeight] = useState<number | undefined>(undefined);
   const [reps, setReps] = useState<number | undefined>(undefined);
   const buttonEnabled = (weight != null) && (reps != null);
 
   let exercise: Exercise = {
-    workout_id: "",
-    exercise_type_id: "",
+    workout_id: workoutId,
+    exercise_type_id: exerciseTypeId,
     weight: weight,
     reps: reps,
+    start_time: new Date(),
   }
   useEffect(() => {
     exercise.weight = weight;
@@ -105,7 +107,7 @@ type ExercisePanelProps = {
 function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExercisePanelProps) {
   return (
     <>
-      <h2 className="text-xl">{type.name} <i className="fa-solid fa-dumbbell" /></h2>
+      <h2 className="text-xl"><i className="fa-solid fa-dumbbell" /> {type.name}</h2>
       <div className="flex flex-row justify-left">
         {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
