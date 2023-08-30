@@ -9,6 +9,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import ClientModal from "@/components/ClientModal";
 import SolidButton from "@/components/buttons/SolidButton";
 import Input from "@/components/forms/Input";
+import Form from "@/components/forms/Form";
 
 
 type ExerciseWithKey = {
@@ -90,10 +91,11 @@ function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId}: ExerciseInput
 
   return (
     <ClientModal>
-      <h1 className="text-2xl my-2 lg:mb-8">Record exercise</h1>
-      <Input label="Weight" htmlFor="weight" type="number" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
-      <Input label="Reps" htmlFor="reps" type="number" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
-      <SolidButton onClick={() => {onSubmit(exercise)}} type="button" enabled={buttonEnabled}>Save</SolidButton>
+      <Form title="Record exercise" onSubmit={() => {onSubmit(exercise)}}>
+        <Input label="Weight" htmlFor="weight" type="number" step="0.5" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
+        <Input label="Reps" htmlFor="reps" type="number" step="1" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
+        <SolidButton type="submit" enabled={buttonEnabled}>Save</SolidButton>
+      </Form>
     </ClientModal>
   )
 }
@@ -108,7 +110,7 @@ function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExerciseP
   return (
     <>
       <h2 className="text-xl"><i className="fa-solid fa-dumbbell" /> {type.name}</h2>
-      <div className="flex flex-row justify-left">
+      <div className="flex flex-row justify-left overflow-x-scroll">
         {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
       </div>

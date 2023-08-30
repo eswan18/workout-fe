@@ -1,6 +1,7 @@
 type InputProps = {
   htmlFor: string;
   type: string;
+  step?: string;
   id: string;
   name: string;
   label: string;
@@ -10,7 +11,7 @@ type InputProps = {
   className?: string;
 }
 
-export default function Input({htmlFor, type, id, name, label, placeholder, onValueUpdate, required = false}: InputProps) {
+export default function Input({htmlFor, type, step, id, name, label, placeholder, onValueUpdate, required = false}: InputProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onValueUpdate(e.target.value);
   }
@@ -19,6 +20,7 @@ export default function Input({htmlFor, type, id, name, label, placeholder, onVa
       <label htmlFor={htmlFor} className='mb-1 text-gray-700 dark:text-gray-100'>{label}</label>
       <input
         type={type}
+        step={step}
         id={id}
         name={name}
         placeholder={placeholder}
