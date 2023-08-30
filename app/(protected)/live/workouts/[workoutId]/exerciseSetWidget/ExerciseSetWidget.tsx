@@ -96,7 +96,7 @@ function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId, handleClose }:
       <Form title="Record exercise" onSubmit={() => {onSubmit(exercise)}}>
         <Input label="Weight" htmlFor="weight" type="number" step="0.5" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
         <Input label="Reps" htmlFor="reps" type="number" step="1" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
-        <div className="flex flex-row justify-evenly items-center" >
+        <div className="flex flex-row justify-evenly items-center mt-4" >
           <span className="text-sm">
             <GhostButton type="button" onClick={handleClose}>Cancel</GhostButton>
           </span>

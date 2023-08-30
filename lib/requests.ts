@@ -72,3 +72,12 @@ type PostParams = {
 export async function post({ route, body }: PostParams): Promise<any> {
   return await request({route, method: 'POST', body});
 }
+
+type PutParams = {
+  route: string;
+  body?: string;
+}
+
+export async function put({ route, body }: PutParams): Promise<any> {
+  return await request({route, method: 'PUT', body});
+}

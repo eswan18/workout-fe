@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Exercise } from "@/lib/resources/apiTypes";
-import { createExercise } from "@/lib/resources/exercises/createExercises";
+import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 
 
 type SaveState = "saved" | "saving" | "unsaved"
@@ -12,8 +12,9 @@ export async function saveExercise({ exercise, setExerciseSaveState, setExercise
   setExerciseSaveState("saving");
   // If the exercise has an ID, we update it. Otherwise, we create a new one.
   if (exercise.id) {
-      console.log('update -- todo')
-      setExerciseSaveState("saved");
+    overwriteExercise({id: exercise.id, exercise}).then(() => {
+      setExerciseSaveState("saved")
+    });
   } else {
     createExercise(exercise).then((ex) => {
       setExerciseSaveState("saved")
