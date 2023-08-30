@@ -6,14 +6,14 @@ type InputProps = {
   name: string;
   label: string;
   placeholder: string;
-  onValueUpdate: (value: any) => void;
+  onValueUpdate?: (value: any) => void;
   required?: boolean;
   className?: string;
 }
 
 export default function Input({htmlFor, type, step, id, name, label, placeholder, onValueUpdate, required = false}: InputProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onValueUpdate(e.target.value);
+    onValueUpdate && onValueUpdate(e.target.value);
   }
   return (
     <div className='flex flex-col mb-3'>

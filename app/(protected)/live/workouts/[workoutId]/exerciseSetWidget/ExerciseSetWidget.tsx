@@ -10,6 +10,7 @@ import ClientModal from "@/components/ClientModal";
 import SolidButton from "@/components/buttons/SolidButton";
 import Input from "@/components/forms/Input";
 import Form from "@/components/forms/Form";
+import GhostButton from "@/components/buttons/GhostButton";
 
 
 type ExerciseWithKey = {
@@ -50,7 +51,7 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
       setExercisesWithKeys([...exercisesWithKeys, { exercise, key: newKey }])
       setModal(null);
     }
-    setModal(<ExerciseInputModal onSubmit={onSubmit} workoutId={workoutId} exerciseTypeId={type.id} />)
+    setModal(<ExerciseInputModal onSubmit={onSubmit} workoutId={workoutId} exerciseTypeId={type.id} handleClose={ () => setModal(null) } />)
   }
 
   return (
@@ -70,9 +71,10 @@ type ExerciseInputModalProps = {
   onSubmit: (exercise: Exercise) => void;
   workoutId: string;
   exerciseTypeId: string;
+  handleClose?: () => void
 }
 
-function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId}: ExerciseInputModalProps) {
+function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId, handleClose }: ExerciseInputModalProps) {
   const [weight, setWeight] = useState<number | undefined>(undefined);
   const [reps, setReps] = useState<number | undefined>(undefined);
   const buttonEnabled = (weight != null) && (reps != null);
@@ -90,11 +92,18 @@ function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId}: ExerciseInput
   }, [weight, reps])
 
   return (
-    <ClientModal>
+    <ClientModal handleClose={ handleClose }>
       <Form title="Record exercise" onSubmit={() => {onSubmit(exercise)}}>
         <Input label="Weight" htmlFor="weight" type="number" step="0.5" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
         <Input label="Reps" htmlFor="reps" type="number" step="1" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
-        <SolidButton type="submit" enabled={buttonEnabled}>Save</SolidButton>
+        <div className="flex flex-row justify-evenly items-center" >
+          <span className="text-sm">
+            <GhostButton type="button" onClick={handleClose}>Cancel</GhostButton>
+          </span>
+          <span className="text-xl">
+            <SolidButton type="submit" enabled={buttonEnabled}>Save</SolidButton>
+          </span>
+        </div>
       </Form>
     </ClientModal>
   )
