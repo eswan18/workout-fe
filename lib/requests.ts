@@ -75,9 +75,10 @@ export async function post({ route, body }: PostParams): Promise<any> {
 
 type PutParams = {
   route: string;
+  params?: Record<string, string>
   body?: string;
 }
 
-export async function put({ route, body }: PutParams): Promise<any> {
-  return await request({route, method: 'PUT', body});
+export async function put({ route, params, body }: PutParams): Promise<any> {
+  return await request({route, method: 'PUT', params, body});
 }

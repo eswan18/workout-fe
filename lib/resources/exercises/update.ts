@@ -11,5 +11,5 @@ type OverwriteExerciseParams = {
 }
 
 export async function overwriteExercise({id, exercise}: OverwriteExerciseParams): Promise<Exercise> {
-  return await put({route: `${ROUTE}${id}`, body: JSON.stringify(exercise)}) as Exercise;
+  return await put({route: `${ROUTE}`, params: {id}, body: JSON.stringify(exercise)}) as Exercise;
 }
