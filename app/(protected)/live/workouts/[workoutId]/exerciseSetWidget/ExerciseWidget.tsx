@@ -1,38 +1,66 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
-import { Exercise } from "@/lib/resources/apiTypes";
+import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import SaveStatusIndicator, { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
+import { ReactElement } from "react";
+import ExerciseInputModal, { ExerciseInputModalState } from "./ExerciseInputModal";
 
 
-export async function saveExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void, setExerciseId: (id?: string) => void }) {
-  setExerciseSaveState("saving");
-  // If the exercise has an ID, we update it. Otherwise, we create a new one.
+export async function saveNewExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void, setExerciseId: (id?: string) => void }) {
   if (exercise.id) {
-    overwriteExercise({id: exercise.id, exercise}).then(() => {
-      setExerciseSaveState("saved")
-    });
-  } else {
-    createExercise(exercise).then((ex) => {
-      setExerciseSaveState("saved")
-      setExerciseId(ex.id)
-    });
+    alert("Exercises that have an ID shouldn't be saved")
+    return
   }
+  setExerciseSaveState("saving");
+  createExercise(exercise).then((ex) => {
+    setExerciseSaveState("saved")
+    setExerciseId(ex.id)
+  });
 }
 
-export default function ExerciseWidget({ exercise }: { exercise: Exercise }) {
+export async function updateExistingExercise({ exercise, setExerciseSaveState }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void }) {
+  if (!exercise.id) {
+    alert('exercises must have IDs to be updated')
+    return
+  }
+  setExerciseSaveState("saving");
+  overwriteExercise({id: exercise.id, exercise}).then(() => {
+    setExerciseSaveState("saved")
+  });
+}
+
+export default function ExerciseWidget({ exercise, exerciseType }: { exercise: Exercise, exerciseType: ExerciseType }) {
   const [saveState, setSaveState] = useState<SaveStatus>(exercise.id ? "saved" : "unsaved");
   const [ex, setEx] = useState<Exercise>(exercise);
   const [id, setId] = useState<string | undefined>(exercise.id);
   const justLoadedFromServer = useRef<boolean>(!!ex.id);
+  const [modal, setModal] = useState<ReactElement | null>(null);
+
+  const showModal = () => {
+    const onSubmit = (modalState: ExerciseInputModalState) => {
+      setEx({...ex, ...modalState});
+      setModal(null);
+    }
+    setModal(<ExerciseInputModal
+      initalValues={{weight: ex.weight, reps: ex.reps}}
+      onSubmit={onSubmit}
+      exerciseTypeName={exerciseType.name}
+      handleClose={ () => setModal(null) }
+    />)
+  }
 
   useEffect(() => {
     // This keeps us from saving data we already recieved from the server.
     if (justLoadedFromServer.current) {
       justLoadedFromServer.current = false;
     } else {
-      saveExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
+      if (ex.id) {
+        updateExistingExercise({ exercise: ex, setExerciseSaveState: setSaveState })
+      } else {
+        saveNewExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
+      }
     }
   }, [ex]);
 
@@ -46,18 +74,24 @@ export default function ExerciseWidget({ exercise }: { exercise: Exercise }) {
         <div className="text-xl">
           <i className="fa-solid fa-xmark text-gray-400" /> {ex.reps}
         </div>
-        <EditButtonContainer saveState={saveState} />
+        <EditButtonContainer saveState={saveState} onClick={showModal} />
       </div>
+      { modal }
     </div>
   )
 }
 
-function EditButtonContainer({saveState}: {saveState: SaveStatus}) {
+type EditButtonContainerProps = {
+  saveState: SaveStatus;
+  onClick: () => void;
+}
+
+function EditButtonContainer({saveState, onClick}: EditButtonContainerProps) {
   const disabled = !(saveState === "saved");
   const color = disabled ? "text-gray-400" : "text-fuchsia-900";
   return (
     <div className={`mt-1 ${ color }`}>
-      <button disabled={disabled}><i className="text-lg fa-solid fa-pen-to-square" /></button>
+      <button disabled={disabled} onClick={ onClick }><i className="text-lg fa-solid fa-pen-to-square" /></button>
     </div>
   )
 }
@@ -88,7 +122,7 @@ function SaveStatusOverlayContainer({saveState}: {saveState: SaveStatus}) {
     prevState.current = saveState;
   }, [saveState]);
 
-  const fadeOutClasses = "transition-opacity ease-out duration-500 opacity-0";
+  const fadeOutClasses = "transition-opacity ease-out duration-00 opacity-0";
   const saveStateIndicatorOpacity = isSaveStateIndicatorOpaque ? "opacity-90" : fadeOutClasses;
   return (
     <div

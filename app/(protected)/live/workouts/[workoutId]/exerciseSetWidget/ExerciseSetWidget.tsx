@@ -6,12 +6,7 @@ import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
 import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/getExerciseTypes";
 import ExerciseWidget from "./ExerciseWidget";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import ClientModal from "@/components/ClientModal";
-import SolidButton from "@/components/buttons/SolidButton";
-import Input from "@/components/forms/Input";
-import Form from "@/components/forms/Form";
-import GhostButton from "@/components/buttons/GhostButton";
-
+import ExerciseInputModal, { ExerciseInputModalState } from "./ExerciseInputModal";
 
 type ExerciseWithKey = {
   exercise: Exercise;
@@ -78,40 +73,6 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
   )
 }
 
-type ExerciseInputModalProps = {
-  onSubmit: (e: ExerciseInputModalState) => void;
-  exerciseTypeName: string;
-  handleClose?: () => void
-}
-
-type ExerciseInputModalState = {
-  weight: number
-  reps: number
-}
-
-function ExerciseInputModal({onSubmit, exerciseTypeName, handleClose }: ExerciseInputModalProps) {
-  const [weight, setWeight] = useState<number | undefined>(undefined);
-  const [reps, setReps] = useState<number | undefined>(undefined);
-  const buttonEnabled = (weight != null) && (reps != null);
-
-  return (
-    <ClientModal handleClose={ handleClose }>
-      <Form title="Record exercise" onSubmit={() => {weight && reps && onSubmit({weight, reps})}}>
-        <Input label="Weight" htmlFor="weight" type="number" step="0.5" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
-        <Input label="Reps" htmlFor="reps" type="number" step="1" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
-        <div className="flex flex-row justify-evenly items-center mt-4" >
-          <span className="text-sm">
-            <GhostButton type="button" onClick={handleClose}>Cancel</GhostButton>
-          </span>
-          <span className="text-xl">
-            <SolidButton type="submit" enabled={buttonEnabled}>Save</SolidButton>
-          </span>
-        </div>
-      </Form>
-    </ClientModal>
-  )
-}
-
 type ExercisePanelProps = {
   type: ExerciseType;
   exercisesWithKeys: ExerciseWithKey[];
@@ -123,7 +84,7 @@ function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExerciseP
     <>
       <h2 className="text-xl"><i className="fa-solid fa-dumbbell" /> {type.name}</h2>
       <div className="flex flex-row justify-left overflow-x-scroll">
-        {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} key={ex.key} />)}
+        {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} exerciseType={type} key={ex.key} />)}
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
       </div>
     </>
