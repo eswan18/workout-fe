@@ -3,12 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { Exercise } from "@/lib/resources/apiTypes";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
+import SaveStatusIndicator, { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
 
 
-type SaveState = "saved" | "saving" | "unsaved"
-
-
-export async function saveExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveState) => void, setExerciseId: (id?: string) => void }) {
+export async function saveExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void, setExerciseId: (id?: string) => void }) {
   setExerciseSaveState("saving");
   // If the exercise has an ID, we update it. Otherwise, we create a new one.
   if (exercise.id) {
@@ -24,49 +22,55 @@ export async function saveExercise({ exercise, setExerciseSaveState, setExercise
 }
 
 export default function ExerciseWidget({ exercise }: { exercise: Exercise }) {
-  const [saveState, setSaveState] = useState<SaveState>(exercise.id ? "saved" : "unsaved");
+  const [saveState, setSaveState] = useState<SaveStatus>(exercise.id ? "saved" : "unsaved");
   const [ex, setEx] = useState<Exercise>(exercise);
   const [id, setId] = useState<string | undefined>(exercise.id);
+  const justLoadedFromServer = useRef<boolean>(!!ex.id);
 
   useEffect(() => {
-    saveExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
+    // This keeps us from saving data we already recieved from the server.
+    if (justLoadedFromServer.current) {
+      justLoadedFromServer.current = false;
+    } else {
+      saveExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
+    }
   }, [ex]);
 
   return (
-    <div className="rounded-lg p-1 lg:px-4 shadow-lg m-1 lg:mx-2 flex flex-col items-center w-24 bg-white">
-      <div className="flex flex-col items-center justify-start">
-        <SaveStatusContainer saveState={saveState} />
+    <div className="rounded-lg p-1 shadow-lg m-1 lg:mx-2 flex flex-col items-center w-20 bg-white shrink-0">
+      <div className="flex flex-col items-center justify-start relative">
+        <SaveStatusOverlayContainer saveState={saveState} />
         <div className="text-2xl font-bold mt-1">
           {ex.weight}
         </div>
         <div className="text-xl">
           <i className="fa-solid fa-xmark text-gray-400" /> {ex.reps}
         </div>
-        { /* a little save status indicator */}
-        <StatusAndInteractContainer saveState={saveState} />
+        <EditButtonContainer saveState={saveState} />
       </div>
     </div>
   )
 }
 
-function StatusAndInteractContainer({saveState}: {saveState: SaveState}) {
+function EditButtonContainer({saveState}: {saveState: SaveStatus}) {
   const disabled = !(saveState === "saved");
-  // This is the bottom of the widget, that shows a save indicator *or* buttons to edit & delete.
   const color = disabled ? "text-gray-400" : "text-fuchsia-900";
   return (
-    <div className={`mt-2 ${ color }`}>
+    <div className={`mt-1 ${ color }`}>
       <button disabled={disabled}><i className="text-lg fa-solid fa-pen-to-square" /></button>
     </div>
   )
 }
 
-function SaveStatusContainer({saveState}: {saveState: SaveState}) {
+function SaveStatusOverlayContainer({saveState}: {saveState: SaveStatus}) {
   const [isSaveStateIndicatorOpaque, setIsSaveStateIndicatorOpaque] = useState(false);
-  const prevState = useRef<SaveState | undefined>(undefined);
+  const prevState = useRef<SaveStatus | undefined>(saveState);
+  const [isFullyHidden, setIsFullyHidden] = useState(true);
 
   useEffect(() => {
     // Temporarily make the save indicator opaque when the save state changes.
-    if (prevState.current != null) {
+    if (prevState.current != saveState) {
+      setIsFullyHidden(false);
       setIsSaveStateIndicatorOpaque(true);
       // If we've saved the data, let the indicator fade out after a second.
       if (saveState === "saved") {
@@ -74,24 +78,25 @@ function SaveStatusContainer({saveState}: {saveState: SaveState}) {
           setIsSaveStateIndicatorOpaque(false)
         }, 1000);
       }
+      // As the idicator fades out, set the fully hidden state to true so that the
+      // previously-covered objects can respond to clicks.
+      setTimeout(() => {
+        setIsFullyHidden(true);
+      }, 1500);
     }
     // Record the previous state for comparison next time.
     prevState.current = saveState;
   }, [saveState]);
 
-  const saveStateIndicatorOpacity = isSaveStateIndicatorOpaque ? "opacity-100" : "opacity-0";
+  const fadeOutClasses = "transition-opacity ease-out duration-500 opacity-0";
+  const saveStateIndicatorOpacity = isSaveStateIndicatorOpaque ? "opacity-90" : fadeOutClasses;
   return (
-    <div className="h-6">
-      <div className='text-lg font-bold'>
-        <div className={`transition-opacity ease-out duration-1000 ${saveStateIndicatorOpacity}`}>
-          {saveState === "saved" ?
-            <i className='fa-regular fa-circle-check' />
-            : saveState === "unsaved" ?
-              <i className="fa-regular fa-circle opacity-25" />
-              :
-              <i className="fa-solid fa-spinner animate-spin" />
-          }
-        </div>
+    <div
+      className={`absolute w-full h-full top-0 left-0
+      bg-white text-4xl ${saveStateIndicatorOpacity} ${isFullyHidden ? "hidden" : null}`}
+    >
+      <div className="flex flex-row justify-center items-center h-full">
+        <SaveStatusIndicator saveStatus={saveState} />
       </div>
     </div>
   )

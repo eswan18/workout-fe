@@ -136,7 +136,7 @@ function ExerciseTypeSelector({ setType, exTypeOptions }: ExerciseTypeSelectorPr
   return (
     <select className="w-full rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2" onChange={(e) => setType(exTypeOptions.find((type) => type.name === e.target.value))}>
       <option value="">Choose an exercise type</option>
-      {exTypeOptions.map((type) => <option value={type.name}>{type.name}</option>)}
+      {exTypeOptions.map((type) => <option value={type.name} key={type.id}>{type.name}</option>)}
     </select>
   )
 }
