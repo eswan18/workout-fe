@@ -47,11 +47,22 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
     }
     // This feels janky, but we need a unique key for each exercise that is constant across renders.
     const newKey = Math.random();
-    function onSubmit(exercise: Exercise) {
-      setExercisesWithKeys([...exercisesWithKeys, { exercise, key: newKey }])
+    function onSubmit({weight, reps}: ExerciseInputModalState) {
+      if (!type || !type.id) {
+        // This should never happen.
+        throw new Error("can't create new exercise because no exercise type is selected")
+      }
+      const newExercise = {
+        workout_id: workoutId,
+        exercise_type_id: type.id,
+        weight,
+        reps,
+        start_time: new Date(),
+      }
+      setExercisesWithKeys([...exercisesWithKeys, { exercise: newExercise, key: newKey }])
       setModal(null);
     }
-    setModal(<ExerciseInputModal onSubmit={onSubmit} workoutId={workoutId} exerciseTypeId={type.id} handleClose={ () => setModal(null) } />)
+    setModal(<ExerciseInputModal onSubmit={onSubmit} exerciseTypeName={type.name} handleClose={ () => setModal(null) } />)
   }
 
   return (
@@ -68,32 +79,24 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
 }
 
 type ExerciseInputModalProps = {
-  onSubmit: (exercise: Exercise) => void;
-  workoutId: string;
-  exerciseTypeId: string;
+  onSubmit: (e: ExerciseInputModalState) => void;
+  exerciseTypeName: string;
   handleClose?: () => void
 }
 
-function ExerciseInputModal({onSubmit, workoutId, exerciseTypeId, handleClose }: ExerciseInputModalProps) {
+type ExerciseInputModalState = {
+  weight: number
+  reps: number
+}
+
+function ExerciseInputModal({onSubmit, exerciseTypeName, handleClose }: ExerciseInputModalProps) {
   const [weight, setWeight] = useState<number | undefined>(undefined);
   const [reps, setReps] = useState<number | undefined>(undefined);
   const buttonEnabled = (weight != null) && (reps != null);
 
-  let exercise: Exercise = {
-    workout_id: workoutId,
-    exercise_type_id: exerciseTypeId,
-    weight: weight,
-    reps: reps,
-    start_time: new Date(),
-  }
-  useEffect(() => {
-    exercise.weight = weight;
-    exercise.reps = reps;
-  }, [weight, reps])
-
   return (
     <ClientModal handleClose={ handleClose }>
-      <Form title="Record exercise" onSubmit={() => {onSubmit(exercise)}}>
+      <Form title="Record exercise" onSubmit={() => {weight && reps && onSubmit({weight, reps})}}>
         <Input label="Weight" htmlFor="weight" type="number" step="0.5" id="weight" name="Weight" placeholder="9000" onValueUpdate={setWeight} />
         <Input label="Reps" htmlFor="reps" type="number" step="1" id="reps" name="Reps" placeholder="42" onValueUpdate={setReps} />
         <div className="flex flex-row justify-evenly items-center mt-4" >
