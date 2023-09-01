@@ -34,7 +34,6 @@ export async function updateExistingExercise({ exercise, setExerciseSaveState }:
 export default function ExerciseWidget({ exercise, exerciseType }: { exercise: Exercise, exerciseType: ExerciseType }) {
   const [saveState, setSaveState] = useState<SaveStatus>(exercise.id ? "saved" : "unsaved");
   const [ex, setEx] = useState<Exercise>(exercise);
-  const [id, setId] = useState<string | undefined>(exercise.id);
   const justLoadedFromServer = useRef<boolean>(!!ex.id);
   const [modal, setModal] = useState<ReactElement | null>(null);
 
@@ -52,13 +51,14 @@ export default function ExerciseWidget({ exercise, exerciseType }: { exercise: E
   }
 
   useEffect(() => {
-    // This keeps us from saving data we already recieved from the server.
+    // This keeps us from saving data we already received from the server.
     if (justLoadedFromServer.current) {
       justLoadedFromServer.current = false;
     } else {
-      if (ex.id) {
+      if (ex.id != null) {
         updateExistingExercise({ exercise: ex, setExerciseSaveState: setSaveState })
       } else {
+        const setId = (id?: string) => { setEx({...ex, id}) }
         saveNewExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
       }
     }
