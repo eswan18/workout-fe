@@ -32,9 +32,17 @@ export async function updateExistingExercise({ exercise, setExerciseSaveState }:
   });
 }
 
-export default function ExerciseWidget({ exercise, exerciseType }: { exercise: Exercise, exerciseType: ExerciseType }) {
+interface ExerciseWidgetProps {
+  exercise: Exercise;
+  exerciseType: ExerciseType;
+}
+
+export default function ExerciseWidget({ exercise, exerciseType}: ExerciseWidgetProps) {
   const [saveState, setSaveState] = useState<SaveStatus>(exercise.id ? "saved" : "unsaved");
   const [ex, setEx] = useState<Exercise>(exercise);
+  // We have to keep track of the id separately from the exercise because otherwise when we first save the exercise,
+  // we'll enter an infinite loop when we try to set the Id field and thus re-trigger the useEffect.
+  const [id, setId] = useState<string | undefined>(exercise.id);
   const justLoadedFromServer = useRef<boolean>(!!ex.id);
   const [modal, setModal] = useState<ReactElement | null>(null);
 
@@ -57,11 +65,9 @@ export default function ExerciseWidget({ exercise, exerciseType }: { exercise: E
     if (justLoadedFromServer.current) {
       justLoadedFromServer.current = false;
     } else {
-      if (ex.id != null) {
+      if (id != null) {
         updateExistingExercise({ exercise: ex, setExerciseSaveState: setSaveState })
       } else {
-        // This is causing an infinite loop.
-        const setId = (id?: string) => { setEx({...ex, id}) }
         saveNewExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
       }
     }
