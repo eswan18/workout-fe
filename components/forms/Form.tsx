@@ -1,5 +1,5 @@
 interface FormProps {
-  title: string;
+  title?: string;
   action?: (data: FormData) => any;
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
   className?: string;
@@ -14,7 +14,7 @@ export default function Form({ title, action, onSubmit, className, children }: F
           onSubmit={onSubmit}
           className={`flex flex-col ${className}`}
       >
-        <h2 className="text-2xl font-bold my-2">{title}</h2>
+        { title && <h2 className="text-2xl font-bold my-2">{title}</h2> }
         { children }
       </form>
     </div>

@@ -9,6 +9,7 @@ import ExerciseInputModal, { ExerciseInputModalState } from "./ExerciseInputModa
 
 
 export async function saveNewExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void, setExerciseId: (id?: string) => void }) {
+  console.log('saving new')
   if (exercise.id) {
     alert("Exercises that have an ID shouldn't be saved")
     return
@@ -44,6 +45,7 @@ export default function ExerciseWidget({ exercise, exerciseType }: { exercise: E
     }
     setModal(<ExerciseInputModal
       initalValues={{weight: ex.weight, reps: ex.reps}}
+      inputType="update"
       onSubmit={onSubmit}
       exerciseTypeName={exerciseType.name}
       handleClose={ () => setModal(null) }
@@ -58,6 +60,7 @@ export default function ExerciseWidget({ exercise, exerciseType }: { exercise: E
       if (ex.id != null) {
         updateExistingExercise({ exercise: ex, setExerciseSaveState: setSaveState })
       } else {
+        // This is causing an infinite loop.
         const setId = (id?: string) => { setEx({...ex, id}) }
         saveNewExercise({ exercise: ex, setExerciseSaveState: setSaveState, setExerciseId: setId })
       }

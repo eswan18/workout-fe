@@ -20,9 +20,9 @@ type ExerciseSetWidgetProps = {
 }
 
 export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }: ExerciseSetWidgetProps) {
-  const exesWithKeys: ExerciseWithKey[] = exercises.map((ex, idx) => ({ exercise: ex, key: idx }));
+  const initialExercisesWithKeys: ExerciseWithKey[] = exercises.map((ex, idx) => ({ exercise: ex, key: idx }));
   const [type, setType] = useState<ExerciseType | undefined>(exerciseType);
-  const [exercisesWithKeys, setExercisesWithKeys] = useState<ExerciseWithKey[]>(exesWithKeys);
+  const [exercisesWithKeys, setExercisesWithKeys] = useState<ExerciseWithKey[]>(initialExercisesWithKeys);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [exTypeOptions, setExTypeOptions] = useState<ExerciseType[]>([]);
   const [modal, setModal] = useState<ReactElement | null>(null);
@@ -57,7 +57,12 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
       setExercisesWithKeys([...exercisesWithKeys, { exercise: newExercise, key: newKey }])
       setModal(null);
     }
-    setModal(<ExerciseInputModal onSubmit={onSubmit} exerciseTypeName={type.name} handleClose={ () => setModal(null) } />)
+    setModal(<ExerciseInputModal
+      onSubmit={onSubmit}
+      inputType="create"
+      exerciseTypeName={type.name}
+      handleClose={ () => setModal(null) }
+    />)
   }
 
   return (
