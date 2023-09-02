@@ -4,7 +4,7 @@ import SolidPlusButton from "@/components/buttons/SolidPlusButton"
 
 export default function CreateNewExerciseWidget({ onClick }: { onClick: () => void}) {
   return (
-    <div className="rounded-lg p-2 lg:p-4 shadow-lg m-1 lg:m-2 flex flex-col items-center justify-center w-24">
+    <div className="flex flex-col items-center justify-center w-20">
       <SolidPlusButton type="button" onClick={onClick}/>
     </div>
   )

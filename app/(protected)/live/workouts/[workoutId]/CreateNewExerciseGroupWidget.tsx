@@ -1,11 +1,11 @@
 'use client'
 
-import LabeledSolidPlusButton from "@/components/buttons/LabeledSolidPlusButton"
+import SolidButton from "@/components/buttons/SolidButton"
 
 export default function CreateNewExerciseGroupWidget({ onClick }: { onClick: () => void}) {
   return (
-    <div className="w-32 rounded-lg p-2 lg:p-4 m-auto">
-      <LabeledSolidPlusButton type="button" label="Add Set" onClick={onClick}/>
+    <div className="rounded-lg p-2 lg:p-4 mt-4 whitespace-nowrap flex justify-start">
+      <SolidButton type="button" onClick={onClick}>Add new set</SolidButton>
     </div>
   )
 }
