@@ -27,7 +27,7 @@ export default function NewWorkoutPanel({ workoutTypes, error }: { workoutTypes:
     return <LabeledSolidPlusButton type="button" label={workoutType.name} key={index} onClick={onClick} />
   }) : <p>{error}</p>
   return (
-    <div className="rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
+    <div className="w-full rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50">
       { workoutTypes && <h2 className="text-gray-900 text-lg lg:text-2xl">New Workout by Type</h2> }
       <div className="flex flex-row flex-wrap mt-2 justify-between after:flex-1">
         { mainContent }
