@@ -30,14 +30,14 @@ export async function updateExistingExercise({ exercise, setExerciseSaveState }:
   });
 }
 
-interface DumbExerciseWidgetProps {
+interface ExerciseWidgetProps {
   weight: number;
   reps: number;
   saveStatus: SaveStatus;
   onEditButtonClick: () => void;
 }
 
-export default function ExerciseWidget({ weight, reps, saveStatus, onEditButtonClick}: DumbExerciseWidgetProps) {
+export default function ExerciseWidget({ weight, reps, saveStatus, onEditButtonClick}: ExerciseWidgetProps) {
   return (
     <div className="rounded-lg p-1 shadow-lg m-1 lg:mx-2 flex flex-col items-center w-20 bg-white shrink-0">
       <div className="flex flex-col items-center justify-start relative">
