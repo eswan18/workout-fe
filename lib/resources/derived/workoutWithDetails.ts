@@ -5,19 +5,30 @@ import { WorkoutWithDetails, WorkoutWithType, Exercise, ExerciseWithType, Exerci
 
 const ROUTE = '/derived/workout_details/'
 
-export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDetails> {
-  const wktWithDtls = await get({route: `${ROUTE}${id}`}) as WorkoutWithDetails;
+function convertDates(workout: WorkoutWithDetails): WorkoutWithDetails {
   // Fix a couple of columns that should be typed as dates.
-  wktWithDtls.workout.start_time = new Date(wktWithDtls.workout.start_time);
-  if (wktWithDtls.workout.end_time) {
-    wktWithDtls.workout.end_time = new Date(wktWithDtls.workout.end_time);
+  const wkt = {...workout};
+  wkt.workout.start_time = new Date(wkt.workout.start_time);
+  if (wkt.workout.end_time) {
+    wkt.workout.end_time = new Date(wkt.workout.end_time);
   }
-  wktWithDtls.exercises.forEach((exercise) => {
+  wkt.exercises.forEach((exercise) => {
     if (exercise.start_time) {
       exercise.start_time = new Date(exercise.start_time);
     }
   })
-  return wktWithDtls;
+  return wkt
+}
+
+export async function getAllWorkoutsWithDetails(): Promise<WorkoutWithDetails[]> {
+  const wktsWithDtls = await get({route: ROUTE}) as WorkoutWithDetails[];
+  return wktsWithDtls.map((wktWithDtls) => convertDates(wktWithDtls));
+}
+
+export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDetails> {
+  const wktWithDtls = await get({route: `${ROUTE}${id}`}) as WorkoutWithDetails;
+  const wktWithDtlsTyped = convertDates(wktWithDtls);
+  return wktWithDtlsTyped;
 }
 
 export type ExerciseSet = {

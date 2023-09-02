@@ -1,5 +1,6 @@
 import { getAllWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
 import { getAllWorkouts } from "@/lib/resources/workouts/getWorkouts";
+import { getAllWorkoutsWithDetails } from "@/lib/resources/derived/workoutWithDetails";
 import NewWorkoutPanel from "./NewWorkoutPanel";
 import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
 
