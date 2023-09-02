@@ -1,6 +1,6 @@
 'use client'
 
-import { KeyboardEvent, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const KEY_NAME_ESC = 'Escape';
 const KEY_EVENT_TYPE = 'keyup';

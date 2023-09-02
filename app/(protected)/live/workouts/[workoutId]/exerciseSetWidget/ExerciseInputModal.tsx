@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react";
 import ClientModal from "@/components/ClientModal";
 import SolidButton from "@/components/buttons/SolidButton";
