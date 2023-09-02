@@ -8,7 +8,7 @@ import Form from "@/components/forms/Form";
 
 type ExerciseInputModalProps = {
   onSubmit: (e: ExerciseInputModalState) => void;
-  onTrashClick?: () => void;
+  onDeleteButtonClick?: () => void;
   inputType: "create" | "update";
   exerciseTypeName: string;
   handleClose?: () => void
@@ -23,7 +23,7 @@ export type ExerciseInputModalState = {
   reps: number
 }
 
-export default function ExerciseInputModal({onSubmit, onTrashClick, inputType, exerciseTypeName, handleClose, initalValues }: ExerciseInputModalProps) {
+export default function ExerciseInputModal({onSubmit, onDeleteButtonClick, inputType, exerciseTypeName, handleClose, initalValues }: ExerciseInputModalProps) {
   const [weight, setWeight] = useState<string>(initalValues?.weight?.toString()|| "");
   const [reps, setReps] = useState<string>(initalValues?.reps?.toString() || "");
   const weightAsNumber = parseFloat(weight);
@@ -55,7 +55,7 @@ export default function ExerciseInputModal({onSubmit, onTrashClick, inputType, e
         <div className="flex flex-row justify-between items-center mt-4 mb-6" >
           <h2 className="text-2xl font-bold">{exerciseTypeName}</h2>
           <div className="text-base text-red-600">
-            { inputType == "update" && <TrashButton onTrashClick={onTrashClick} /> }
+            { inputType == "update" && <TrashButton onTrashClick={onDeleteButtonClick} /> }
           </div>
         </div>
         <label htmlFor="weight" className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col">

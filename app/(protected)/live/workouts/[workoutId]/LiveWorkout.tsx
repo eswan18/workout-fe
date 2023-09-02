@@ -8,6 +8,7 @@ import CreateNewExerciseGroupWidget from "./CreateNewExerciseGroupWidget";
 import ExerciseGroupInputModal, { ExerciseGroupInputModalState } from "./exerciseGroupWidget/ExerciseGroupInputModal";
 import ExerciseInputModal, { ExerciseInputModalState } from "./exerciseGroupWidget/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
+import { deleteExercise } from "@/lib/resources/exercises/delete";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -85,10 +86,11 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
     />)
   }
 
-  function openEditExerciseModal (exerciseId: string, {exerciseType, exercises, setExercises}: {exerciseType: ExerciseType, exercises: ExerciseOrLoading[], setExercises: (exercises: ExerciseOrLoading[]) => void}) {
+  function openEditExerciseModal(exerciseId: string, {exerciseType, exercises, setExercises}: {exerciseType: ExerciseType, exercises: ExerciseOrLoading[], setExercises: (exercises: ExerciseOrLoading[]) => void}) {
     const thisExercise = exercises.find((ex) => (ex.id === exerciseId)) as Exercise | undefined;
     if (thisExercise === undefined) { return }
     const onSubmit = (modalState: ExerciseInputModalState) => {
+      // On submit, we update the exercise both in page state and in the database.
       setExercises(exercises.map((ex) => {
         if (ex.id === exerciseId) {
           const newExercise = {...ex, ...modalState}
@@ -100,8 +102,15 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
       }))
       setModal(null);
     }
+    const onDeleteButtonClick = () => {
+      // On delete, we remove the exercise from page state and from the database.
+      setExercises(exercises.filter((ex) => ex.id !== exerciseId))
+      deleteExercise(exerciseId)
+      setModal(null);
+    }
     setModal(<ExerciseInputModal
       initalValues={{weight: thisExercise.weight, reps: thisExercise.reps}}
+      onDeleteButtonClick={onDeleteButtonClick}
       inputType="update"
       onSubmit={onSubmit}
       exerciseTypeName={exerciseType.name}

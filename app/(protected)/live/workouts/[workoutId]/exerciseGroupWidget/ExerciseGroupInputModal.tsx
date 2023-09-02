@@ -7,7 +7,7 @@ import GhostButton from "@/components/buttons/GhostButton";
 import Form from "@/components/forms/Form";
 import { ExerciseType } from "@/lib/resources/apiTypes";
 
-type ExerciseInputModalProps = {
+type ExerciseGroupInputModalProps = {
   onSubmit: (e: ExerciseGroupInputModalState) => void;
   exerciseTypes: ExerciseType[];
   handleClose?: () => void
@@ -17,7 +17,7 @@ export type ExerciseGroupInputModalState = {
   exerciseTypeId: string;
 }
 
-export default function ExerciseGroupInputModal({onSubmit, handleClose, exerciseTypes }: ExerciseInputModalProps) {
+export default function ExerciseGroupInputModal({onSubmit, handleClose, exerciseTypes }: ExerciseGroupInputModalProps) {
   const [exerciseTypeId, setExerciseTypeId] = useState<string | undefined>(undefined);
   const submitButtonEnabled = exerciseTypeId !== undefined;
 
