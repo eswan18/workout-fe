@@ -9,7 +9,6 @@ import ExerciseInputModal, { ExerciseInputModalState } from "./ExerciseInputModa
 
 
 export async function saveNewExercise({ exercise, setExerciseSaveState, setExerciseId }: { exercise: Exercise, setExerciseSaveState: (saveState: SaveStatus) => void, setExerciseId: (id?: string) => void }) {
-  console.log('saving new')
   if (exercise.id) {
     alert("Exercises that have an ID shouldn't be saved")
     return
@@ -35,9 +34,10 @@ export async function updateExistingExercise({ exercise, setExerciseSaveState }:
 interface ExerciseWidgetProps {
   exercise: Exercise;
   exerciseType: ExerciseType;
+  setSelfDeleted: (id: string | undefined) => void;
 }
 
-export default function ExerciseWidget({ exercise, exerciseType}: ExerciseWidgetProps) {
+export default function ExerciseWidget({ exercise, exerciseType, setSelfDeleted }: ExerciseWidgetProps) {
   const [saveState, setSaveState] = useState<SaveStatus>(exercise.id ? "saved" : "unsaved");
   const [ex, setEx] = useState<Exercise>(exercise);
   // We have to keep track of the id separately from the exercise because otherwise when we first save the exercise,
@@ -55,6 +55,7 @@ export default function ExerciseWidget({ exercise, exerciseType}: ExerciseWidget
       initalValues={{weight: ex.weight, reps: ex.reps}}
       inputType="update"
       onSubmit={onSubmit}
+      onTrashClick={() => setSelfDeleted(ex.id)}
       exerciseTypeName={exerciseType.name}
       handleClose={ () => setModal(null) }
     />)

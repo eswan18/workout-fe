@@ -7,6 +7,7 @@ import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/getExerciseTy
 import ExerciseWidget from "./ExerciseWidget";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ExerciseInputModal, { ExerciseInputModalState } from "./ExerciseInputModal";
+import { deleteExercise } from "@/lib/resources/exercises/delete";
 
 type ExerciseWithKey = {
   exercise: Exercise;
@@ -33,6 +34,7 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
       setIsLoading(false);
     })
   }, [])
+
 
   const appendNewExercise = () => {
     if (!type || !type.id) {
@@ -65,11 +67,24 @@ export default function ExerciseSetWidget({ exerciseType, exercises, workoutId }
     />)
   }
 
+  const deleteExerciseById = (id: string | undefined) => {
+    if (!id) {
+      return
+    }
+    deleteExercise(id)
+    setExercisesWithKeys(exercisesWithKeys.filter((ex) => ex.exercise.id !== id))
+  }
+
   return (
     <div className="w-full rounded-lg p-2 lg:p-4 shadow-lg bg-fuchsia-50 m-1 lg:m-2">
       {isLoading ? <LoadingSpinner /> :
         type ?
-          <ExercisePanel type={type} exercisesWithKeys={exercisesWithKeys} appendNewExercise={appendNewExercise} />
+          <ExercisePanel
+            type={type}
+            exercisesWithKeys={exercisesWithKeys}
+            appendNewExercise={appendNewExercise}
+            deleteExerciseById={deleteExerciseById}
+          />
           :
           <ExerciseTypeSelector setType={setType} exTypeOptions={exTypeOptions} />
       }
@@ -82,14 +97,24 @@ type ExercisePanelProps = {
   type: ExerciseType;
   exercisesWithKeys: ExerciseWithKey[];
   appendNewExercise: () => void;
+  deleteExerciseById: (key: string | undefined) => void;
 }
 
-function ExercisePanel({ type, exercisesWithKeys, appendNewExercise }: ExercisePanelProps) {
+function ExercisePanel({ type, exercisesWithKeys, appendNewExercise, deleteExerciseById }: ExercisePanelProps) {
   return (
     <>
       <h2 className="text-xl"><i className="fa-solid fa-dumbbell" /> {type.name}</h2>
       <div className="flex flex-row justify-left overflow-x-scroll">
-        {exercisesWithKeys.map((ex) => <ExerciseWidget exercise={ex.exercise} exerciseType={type} key={ex.key} />)}
+        {
+          exercisesWithKeys.map((ex) => (
+            <ExerciseWidget
+              exercise={ex.exercise}
+              exerciseType={type}
+              key={ex.key}
+              setSelfDeleted={deleteExerciseById}
+            />
+          ))
+        }
         <CreateNewExerciseWidget addNewExercise={appendNewExercise} />
       </div>
     </>

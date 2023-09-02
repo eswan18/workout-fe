@@ -82,3 +82,12 @@ type PutParams = {
 export async function put({ route, params, body }: PutParams): Promise<any> {
   return await request({route, method: 'PUT', params, body});
 }
+
+type DeleteParams = {
+  route: string;
+  id: string;
+}
+
+export async function del({ route, id }: DeleteParams): Promise<any> { 
+  return await request({route, params: {id}, method: 'DELETE'});
+}

@@ -6,6 +6,7 @@ import Form from "@/components/forms/Form";
 
 type ExerciseInputModalProps = {
   onSubmit: (e: ExerciseInputModalState) => void;
+  onTrashClick?: () => void;
   inputType: "create" | "update";
   exerciseTypeName: string;
   handleClose?: () => void
@@ -20,7 +21,7 @@ export type ExerciseInputModalState = {
   reps: number
 }
 
-export default function ExerciseInputModal({onSubmit, inputType, exerciseTypeName, handleClose, initalValues }: ExerciseInputModalProps) {
+export default function ExerciseInputModal({onSubmit, onTrashClick, inputType, exerciseTypeName, handleClose, initalValues }: ExerciseInputModalProps) {
   const [weight, setWeight] = useState<string>(initalValues?.weight?.toString()|| "");
   const [reps, setReps] = useState<string>(initalValues?.reps?.toString() || "");
   const weightAsNumber = parseFloat(weight);
@@ -49,10 +50,10 @@ export default function ExerciseInputModal({onSubmit, inputType, exerciseTypeNam
   return (
     <ClientModal handleClose={ handleClose }>
       <Form onSubmit={onFormSubmit}>
-        <div className="flex flex-row justify-between items-center mt-4" >
-          <h2 className="text-2xl font-bold my-2">{exerciseTypeName}</h2>
+        <div className="flex flex-row justify-between items-center mt-4 mb-6" >
+          <h2 className="text-2xl font-bold">{exerciseTypeName}</h2>
           <div className="text-base text-red-600">
-            { inputType == "update" && <i className="fa-regular fa-trash-can px-4" /> }
+            { inputType == "update" && <TrashButton onTrashClick={onTrashClick} /> }
           </div>
         </div>
         <label htmlFor="weight" className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col">
@@ -73,5 +74,13 @@ export default function ExerciseInputModal({onSubmit, inputType, exerciseTypeNam
         </div>
       </Form>
     </ClientModal>
+  )
+}
+
+function TrashButton({onTrashClick}: {onTrashClick?: () => void}) {
+  return (
+    <div className="text-base text-red-600">
+      <button type="button" disabled={!onTrashClick} onClick={onTrashClick}><i className="fa-regular fa-trash-can px-4" /></button>
+    </div>
   )
 }
