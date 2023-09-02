@@ -49,7 +49,7 @@ async function RecentWorkoutCard({workout}: {workout: Workout}) {
   const startTime = workout.start_time ? new Date(workout.start_time) : undefined;
   const startTimeText = startTime ? formatDate(startTime) : "----";
   return (
-    <Link href={`/live/workouts/${workout.id}`}>
+    <Link href={`/workouts/${workout.id}`}>
       <div className="rounded-lg p-2 lg:p-4 shadow-lg w-32 h-32 flex flex-col">
         <p className="text-sm">{ startTimeText }</p>
         <h2 className="text-gray-900 text-base lg:text-lg">Workout</h2>

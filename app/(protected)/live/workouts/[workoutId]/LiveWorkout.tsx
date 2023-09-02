@@ -146,7 +146,7 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
       { modal }
       <div className="w-full flex flex-row justify-center text-xl">
         <Link href="/dashboard">
-          <SolidButton type="button" onClick={() => {}}>Finish workout</SolidButton>
+          <SolidButton type="button" onClick={() => {}}>Finish workout <i className="fa-solid fa-arrow-right" /></SolidButton>
         </Link>
       </div>
     </main>
