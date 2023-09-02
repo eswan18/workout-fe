@@ -144,7 +144,7 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
       }
       <CreateNewExerciseGroupWidget onClick={ onClickCreateNewExerciseGroup } />
       { modal }
-      <div className="w-full flex flex-row justify-center text-xl">
+      <div className="w-full flex flex-row justify-center text-xl font-bold">
         <Link href="/dashboard">
           <SolidButton type="button" onClick={() => {}}>Finish workout <i className="fa-solid fa-arrow-right" /></SolidButton>
         </Link>

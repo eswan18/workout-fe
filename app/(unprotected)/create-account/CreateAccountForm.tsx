@@ -44,7 +44,7 @@ export default function CreateAccountForm() {
     >
       <Input htmlFor='email' type='email' id='email' name='email' placeholder='bobby.tables@gmail.com' label='Email' />
       <Input htmlFor='password' type='password' id='password' name='password' placeholder='correcthorsebatterystaple' label='Password' />
-      <div className='flex w-full justify-center'>
+      <div className='flex w-full justify-center font-bold'>
         {loading ?
           <LoadingSpinner />
           : <SolidButton type="submit">Submit</SolidButton>

@@ -58,7 +58,7 @@ export default function LoginForm() {
     <Form title='Log In' onSubmit={handleSubmit}>
       <Input htmlFor='email' type='email' id='email' name='Email' label="Email" placeholder='bobby.tables@gmail.com' />
       <Input htmlFor='password' type='password' id='password' name='Password' label='Password' placeholder='correcthorsebatterystaple' />
-      <div className='flex w-full justify-center'>
+      <div className='flex w-full justify-center font-bold'>
         {loading ?
           <LoadingSpinner />
           : <SolidButton type="submit">Log In</SolidButton>
