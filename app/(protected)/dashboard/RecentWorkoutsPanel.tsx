@@ -13,7 +13,7 @@ export default async function RecentWorkoutsPanel({workouts}: RecentWorkoutsPane
     const bDate = new Date(b.start_time ?? "1970-01-01");
     return bDate.getTime() - aDate.getTime();
   })
-  const recentWorkouts = workouts.slice(0, 3);
+  const recentWorkouts = workouts.slice(0, 4);
   return (
     <div className="w-full">
       <h2 className="text-2xl">Recent Workouts</h2>
@@ -50,7 +50,7 @@ async function RecentWorkoutCard({workout}: {workout: Workout}) {
   const startTimeText = startTime ? formatDate(startTime) : "----";
   return (
     <Link href={`/workouts/${workout.id}`}>
-      <div className="rounded-lg p-2 lg:p-4 shadow-lg w-32 h-32 flex flex-col">
+      <div className="rounded-lg p-2 lg:p-4 shadow-lg w-32 h-32 flex flex-col gap-2">
         <p className="text-sm">{ startTimeText }</p>
         <h2 className="text-gray-900 text-base lg:text-lg">Workout</h2>
       </div>
