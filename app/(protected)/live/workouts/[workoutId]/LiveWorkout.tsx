@@ -9,6 +9,8 @@ import ExerciseGroupInputModal, { ExerciseGroupInputModalState } from "./exercis
 import ExerciseInputModal, { ExerciseInputModalState } from "./exerciseGroupWidget/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import { deleteExercise } from "@/lib/resources/exercises/delete";
+import SolidButton from "@/components/buttons/SolidButton";
+import Link from "next/link";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -28,11 +30,8 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
   const [modal, setModal] = useState<React.ReactElement | null>(null);
 
   const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
-  const addSet = (exerciseType: ExerciseType | undefined, exercises: Exercise[]) => {
+  const addGroup = (exerciseType: ExerciseType | undefined, exercises: Exercise[]) => {
     setGroups([...groups, {exerciseType, exercises, key: Math.random()}])
-  }
-  const deleteSetByKey = (key: number) => {
-    setGroups(groups.filter((g) => g.key !== key))
   }
   const setExercisesForGroup = (key: number, exercises: ExerciseOrLoading[]) => {
     const newGroups = groups.map((g) => {
@@ -57,7 +56,7 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
         // This should never happen.
         throw new Error("exercise type not found")
       }
-      addSet(exerciseType, []);
+      addGroup(exerciseType, []);
     }
     setModal(<ExerciseGroupInputModal exerciseTypes={exerciseTypes} onSubmit={onSubmit} handleClose={() => setModal(null)} />)
   }
@@ -145,6 +144,11 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
       }
       <CreateNewExerciseGroupWidget onClick={ onClickCreateNewExerciseGroup } />
       { modal }
+      <div className="w-full flex flex-row justify-center text-xl">
+        <Link href="/dashboard">
+          <SolidButton type="button" onClick={() => {}}>Finish workout</SolidButton>
+        </Link>
+      </div>
     </main>
   )
 }

@@ -10,7 +10,7 @@ interface ExerciseWidgetProps {
 
 export default function ExerciseWidget({ weight, reps, saveStatus, onEditButtonClick}: ExerciseWidgetProps) {
   return (
-    <div className="rounded-lg shadow-lg m-1 flex flex-col items-center w-20 bg-white shrink-0">
+    <div className="rounded-lg shadow-lg m-1 flex flex-col items-center w-20 h-24 bg-white shrink-0">
       <div className="flex flex-col items-center justify-start relative">
         <SaveStatusOverlayContainer saveStatus={saveStatus} />
         <div className="text-2xl font-bold mt-1">

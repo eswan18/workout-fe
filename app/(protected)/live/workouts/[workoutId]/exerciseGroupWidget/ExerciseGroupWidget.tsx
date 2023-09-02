@@ -3,13 +3,6 @@
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
 import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
 import ExerciseWidget from "./ExerciseWidget";
-import { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
-
-type ExerciseWithKey = {
-  exercise: Exercise;
-  saveStatus: SaveStatus;
-  key: number;
-}
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
