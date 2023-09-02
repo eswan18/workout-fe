@@ -37,9 +37,13 @@ export default function ExerciseGroupInputModal({onSubmit, handleClose, exercise
         <div className="flex flex-row justify-between items-center mt-4 mb-6" >
           <h2 className="text-2xl font-bold">Start a new exercise</h2>
         </div>
-        <label htmlFor="weight" className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col">
+        <label htmlFor="exercise-type" className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col">
           <p className="mb-1">Exercise Type</p>
-          <select value={exerciseTypeId} onChange={(e) => setExerciseTypeId(e.target.value)}>
+          <select
+            className="dark:text-gray-900 rounded-md border border-gray-300"
+            value={exerciseTypeId}
+            onChange={(e) => setExerciseTypeId(e.target.value)}
+          >
             {exerciseTypes.map((type) => (
               <option key={type.id} value={type.id}>{type.name}</option>
             ))}
