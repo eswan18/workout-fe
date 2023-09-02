@@ -10,7 +10,7 @@ export default async function ExerciseGroupWidget({ exerciseType, exercises }: E
     <div className="">
       <h2 className="text-xl"><i className="fa-solid fa-dumbbell" /> {exerciseType.name}</h2>
       <div className="flex flex-row justify-left overflow-x-scroll">
-      { exercises.map((ex) => <ExerciseWidget exercise={ex} />) }
+      { exercises.map((ex) => <ExerciseWidget exercise={ex} key={ex.id} />) }
       </div>
     </div>
   )

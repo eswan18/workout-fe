@@ -20,7 +20,7 @@ export default function WorkoutView({ workout, exerciseGroups }: WorkoutViewProp
         <Link href={`/live/workouts/${workout.id}`}><i className="fa-solid fa-pen-to-square text-fuchsia-900" title="Edit workout" /></Link>
       </div>
       {
-        groups.map(({exerciseType, exercises}) => <ExerciseGroupWidget exerciseType={exerciseType} exercises={exercises} />)
+        groups.map(({exerciseType, exercises}) => <ExerciseGroupWidget exerciseType={exerciseType} exercises={exercises} key={exercises[0].id} />)
       }
     </main>
   )
