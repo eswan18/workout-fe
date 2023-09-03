@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import ClientModal from "@/components/ClientModal";
-import SolidButton from "@/components/buttons/SolidButton";
-import GhostButton from "@/components/buttons/GhostButton";
 import Form from "@/components/forms/Form";
 import { ExerciseType } from "@/lib/resources/apiTypes";
 
@@ -19,7 +17,6 @@ export type ExerciseGroupInputModalState = {
 
 export default function ExerciseGroupInputModal({onSubmit, handleClose, exerciseTypes }: ExerciseGroupInputModalProps) {
   const [exerciseTypeId, setExerciseTypeId] = useState<string | undefined>(undefined);
-  const submitButtonEnabled = exerciseTypeId !== undefined;
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,13 +46,18 @@ export default function ExerciseGroupInputModal({onSubmit, handleClose, exercise
             ))}
           </select>
         </label>
-        <div className="flex flex-row justify-evenly items-center mt-4" >
-          <span className="text-base">
-            <GhostButton type="button" onClick={handleClose}>Cancel</GhostButton>
-          </span>
-          <span className="text-xl">
-            <SolidButton type="submit" enabled={submitButtonEnabled}>Go</SolidButton>
-          </span>
+        <div className="flex flex-row justify-evenly items-center mt-4 text-lg" >
+          <button
+            className='flex flex-row justify-center items-center
+                      text-gold py-2 px-4 m-2 gap-2 font-bold'
+            onClick={handleClose}
+          >Cancel</button>
+          <button
+            className='flex flex-row justify-center items-center
+                      rounded-full text-white bg-gold
+                      py-2 px-4 m-2 gap-2 font-bold text-xl'
+            type="submit"
+          >Start</button>
         </div>
       </Form>
     </ClientModal>

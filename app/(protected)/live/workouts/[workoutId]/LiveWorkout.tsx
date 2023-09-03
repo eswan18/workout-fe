@@ -9,7 +9,6 @@ import ExerciseGroupInputModal, { ExerciseGroupInputModalState } from "./exercis
 import ExerciseInputModal, { ExerciseInputModalState } from "./exerciseGroupWidget/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import { deleteExercise } from "@/lib/resources/exercises/delete";
-import SolidButton from "@/components/buttons/SolidButton";
 import Link from "next/link";
 
 type ExerciseGroup = {
@@ -120,7 +119,7 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
-      <h1 className="text-3xl m-2 text-center my-4 lg:my-10">{ workoutName }</h1>
+      <h1 className="text-3xl m-2 text-center my-4 lg:my-10 font-bold">{ workoutName }</h1>
       {
         groups.map(({exerciseType, exercises, key}) => {
           const setExercises = (exercises: ExerciseOrLoading[]) => setExercisesForGroup(key, exercises);
@@ -146,7 +145,14 @@ export default function LiveWorkout({ workout, exerciseSets, exerciseTypes }: Li
       { modal }
       <div className="w-full flex flex-row justify-center text-xl font-bold">
         <Link href="/dashboard">
-          <SolidButton type="button" onClick={() => {}}>Finish workout <i className="fa-solid fa-arrow-right" /></SolidButton>
+            <button
+              className='flex flex-row justify-center items-center
+                        rounded-full text-white bg-gold
+                        py-2 px-4 m-2 gap-3'
+            >
+              <p>Finish Workout</p>
+              <i className="fi fi-br-checkbox inline-flex align-[-0.2rem]" />
+            </button>
         </Link>
       </div>
     </main>

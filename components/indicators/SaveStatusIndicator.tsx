@@ -3,10 +3,10 @@ export type SaveStatus = 'unsaved' | 'saving' | 'saved';
 export default function SaveStatusIndicator({saveStatus}: {saveStatus: SaveStatus}) {
   switch (saveStatus) {
     case "unsaved":
-      return <i className="fa-regular fa-circle" />
+      return <i className="fi fi-br-circle" />
     case "saving":
-      return <i className="fa-solid fa-spinner animate-spin" />
+      return <i className="fi fi-br-rotate-right animate-spin" />
     case "saved":
-      return <i className='fa-regular fa-circle-check' />
+      return <i className='fi fi-br-check-circle' />
   }
 }

@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import ClientModal from "@/components/ClientModal";
-import SolidButton from "@/components/buttons/SolidButton";
-import GhostButton from "@/components/buttons/GhostButton";
 import Form from "@/components/forms/Form";
 
 type ExerciseInputModalProps = {
@@ -29,7 +27,6 @@ export default function ExerciseInputModal({onSubmit, onDeleteButtonClick, input
   const weightAsNumber = parseFloat(weight);
   const repsAsNumber = parseFloat(reps);
 
-  const saveButtonEnabled = (weight !== "") && (reps !== "");
   const saveButtonText = inputType == "create" ? "Create" : "Update";
 
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,12 +64,17 @@ export default function ExerciseInputModal({onSubmit, onDeleteButtonClick, input
           <input className='dark:text-gray-900 rounded-md border border-gray-300' id="Reps" type="number" name="Reps" value={reps} onChange={onRepsChange} step="any" />
         </label>
         <div className="flex flex-row justify-evenly items-center mt-4" >
-          <span className="text-base">
-            <GhostButton type="button" onClick={handleClose}>Cancel</GhostButton>
-          </span>
-          <span className="text-xl">
-            <SolidButton type="submit" enabled={saveButtonEnabled}>{ saveButtonText }</SolidButton>
-          </span>
+          <button
+            className='flex flex-row justify-center items-center
+                      text-gold py-2 px-4 m-2 gap-2 font-bold'
+            onClick={handleClose}
+          >Cancel</button>
+          <button
+            className='flex flex-row justify-center items-center
+                      rounded-full text-white bg-gold
+                      py-2 px-4 m-2 gap-2 font-bold text-xl'
+            type="submit"
+          >{ saveButtonText }</button>
         </div>
       </Form>
     </ClientModal>
@@ -82,7 +84,7 @@ export default function ExerciseInputModal({onSubmit, onDeleteButtonClick, input
 function TrashButton({onTrashClick}: {onTrashClick?: () => void}) {
   return (
     <div className="text-base text-red-600">
-      <button type="button" disabled={!onTrashClick} onClick={onTrashClick}><i className="fa-regular fa-trash-can px-4" /></button>
+      <button type="button" disabled={!onTrashClick} onClick={onTrashClick} title="Delete set"><i className="fi fi-rs-trash-xmark text-lg px-4" /></button>
     </div>
   )
 }

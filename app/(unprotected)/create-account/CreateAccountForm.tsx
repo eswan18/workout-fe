@@ -4,8 +4,6 @@ import { useState } from "react";
 import takeCreateUserAction from './takeCreateUserAction';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import SolidButton from '@/components/buttons/SolidButton';
-import GhostButton from '@/components/buttons/GhostButton';
 import Form from '@/components/forms/Form';
 import Input from '@/components/forms/Input';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -29,7 +27,7 @@ export default function CreateAccountForm() {
     data.append('password', password);
     takeCreateUserAction(data)
       .then(
-        (res) => {
+        () => {
           alert("Success! Please sign in now")
           router.push('/api/auth/signin')
         }
@@ -47,13 +45,25 @@ export default function CreateAccountForm() {
       <div className='flex w-full justify-center font-bold'>
         {loading ?
           <LoadingSpinner />
-          : <SolidButton type="submit">Submit</SolidButton>
+          :
+            <button
+              className='flex flex-row justify-center items-center
+                        rounded-full text-white bg-gold
+                        py-2 px-4 m-2 gap-2'
+              type="submit"
+            >
+              <p>Create</p>
+              <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
+            </button>
         }
       </div>
-      <div className='mt-4 text-sm text-center'>
+      <div className='mt-4 text-sm flex flex-col items-center'>
         <p>Already have an account?</p>
         <Link href='/login'>
-          <GhostButton type="button">Sign In</GhostButton>
+          <button className='flex flex-row justify-center items-center
+                      rounded-full border-2 border-gold text-gold
+                      py-2 px-3 m-2 font-bold'
+          >Log in</button>
         </Link>
       </div>
     </Form>

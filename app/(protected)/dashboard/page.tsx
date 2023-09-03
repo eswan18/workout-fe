@@ -1,5 +1,4 @@
 import { getAllWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
-import { getAllWorkouts } from "@/lib/resources/workouts/getWorkouts";
 import { getAllWorkoutsWithDetails } from "@/lib/resources/derived/workoutWithDetails";
 import NewWorkoutPanel from "./NewWorkoutPanel";
 import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
@@ -21,7 +20,7 @@ export default async function DashboardPage() {
         <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
       </div>
       <div className="w-full items-center justify-around lg:flex">
-        <NewWorkoutPanel workoutTypes={workoutTypes} error='Failed to fetch workout type data' />
+        <NewWorkoutPanel workoutTypes={workoutTypes} />
       </div>
     </main>
   )

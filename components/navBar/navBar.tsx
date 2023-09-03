@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import NavBarRight from './navBarRight'
 import { getCurrentUser } from '@/lib/session';
 
@@ -9,9 +10,9 @@ export default async function NavBar() {
 
 function NavBarLeft() {
   return (
-    <div className='flex flex-row justify-start items-center'>
-      <h1 className='text-sm lg:text-lg px-1 lg:px-3 font-bold'>Ethan&apos;s Workout App</h1>
-    </div>
+    <Link href='/' className='flex flex-row justify-start items-center'>
+        <h1 className='text-sm lg:text-lg px-1 lg:px-3 font-bold decoration-gold decoration-2 underline underline-offset-4'>Flex of <span className='text-gold'>Gold</span></h1>
+    </Link>
   )
 }
 
