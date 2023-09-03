@@ -5,9 +5,12 @@ import NewWorkoutPanel from "./NewWorkoutPanel";
 import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
 
 
+const N_EXERCISES = 4;
+
+
 export default async function DashboardPage() {
-  const workouts = await getAllWorkouts();
   const workoutTypes = await getAllWorkoutTypes();
+  const allWorkouts = await getAllWorkoutsWithDetails({limit: N_EXERCISES});
 
   return (
     <main className="flex min-h-screen flex-col justify-start gap-10 p-10 lg:p-16">
@@ -15,7 +18,7 @@ export default async function DashboardPage() {
         <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
       </div>
       <div className="w-full items-center justify-around lg:flex">
-        <RecentWorkoutsPanel workouts={workouts} />
+        <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
       </div>
       <div className="w-full items-center justify-around lg:flex">
         <NewWorkoutPanel workoutTypes={workoutTypes} error='Failed to fetch workout type data' />

@@ -20,13 +20,23 @@ function convertDates(workout: WorkoutWithDetails): WorkoutWithDetails {
   return wkt
 }
 
-export async function getAllWorkoutsWithDetails(): Promise<WorkoutWithDetails[]> {
-  const wktsWithDtls = await get({route: ROUTE}) as WorkoutWithDetails[];
+type GetAllWorkoutsWithDetailsParams = {
+  limit?: number;
+}
+
+export async function getAllWorkoutsWithDetails({limit}: GetAllWorkoutsWithDetailsParams): Promise<WorkoutWithDetails[]> {
+  const params = limit ? {limit: limit.toString()} : undefined;
+  const wktsWithDtls = await get({route: ROUTE, params}) as WorkoutWithDetails[];
   return wktsWithDtls.map((wktWithDtls) => convertDates(wktWithDtls));
 }
 
 export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDetails> {
-  const wktWithDtls = await get({route: `${ROUTE}${id}`}) as WorkoutWithDetails;
+  const params = {id};
+  const wktsWithDtls = await get({route: ROUTE, params}) as WorkoutWithDetails[];
+  if (wktsWithDtls.length > 1) {
+    throw new Error(`Multiple workouts found with id ${id}`);
+  }
+  const wktWithDtls = wktsWithDtls[0];
   const wktWithDtlsTyped = convertDates(wktWithDtls);
   return wktWithDtlsTyped;
 }

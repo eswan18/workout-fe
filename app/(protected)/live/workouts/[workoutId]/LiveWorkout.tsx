@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Exercise, ExerciseType, WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupWidget, { LoadingExercise, ExerciseOrLoading } from './exerciseGroupWidget';
+import ExerciseGroupWidget, { ExerciseOrLoading } from './exerciseGroupWidget';
 import CreateNewExerciseGroupWidget from "./CreateNewExerciseGroupWidget";
 import ExerciseGroupInputModal, { ExerciseGroupInputModalState } from "./exerciseGroupWidget/ExerciseGroupInputModal";
 import ExerciseInputModal, { ExerciseInputModalState } from "./exerciseGroupWidget/ExerciseInputModal";
