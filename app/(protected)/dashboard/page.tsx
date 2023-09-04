@@ -11,7 +11,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="flex flex-col justify-start gap-10 p-10 lg:p-16">
-      <div className="mb-4 text-gray-900 dark:text-gray-100">
+      <div className="mb-4">
         <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
       </div>
       <div className="w-full items-center justify-around lg:flex">

@@ -14,7 +14,7 @@ export default function Form({
   children,
 }: FormProps) {
   return (
-    <div className="flex flex-col items-center dark:bg-gray-700">
+    <div className="flex flex-col items-center">
       <form
         action={action}
         onSubmit={onSubmit}

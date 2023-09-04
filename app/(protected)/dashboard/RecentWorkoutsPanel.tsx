@@ -18,13 +18,13 @@ export default async function RecentWorkoutsPanel({
   return (
     <div className="w-full">
       <h2 className="text-2xl">Recent Workouts</h2>
-      <div className="flex flex-row gap-2 lg:gap-4 flex-wrap">
+      <div className="flex flex-row gap-2 lg:gap-4 flex-wrap mt-2">
         {wktsWithDetails.length > 0 ? (
           wktsWithDetails.map(({ workout }) => (
             <RecentWorkoutCard key={workout.id} workout={workout} />
           ))
         ) : (
-          <p className="text-gray-500 pt-2">None yet!</p>
+          <p className="text-gray-500 dark:text-gray-300 pt-2">None yet!</p>
         )}
       </div>
     </div>
@@ -66,9 +66,9 @@ async function RecentWorkoutCard({ workout }: { workout: WorkoutWithType }) {
   const name = workout.workout_type_name ?? "Custom Workout";
   return (
     <Link href={`/workouts/${workout.id}`}>
-      <div className="rounded-lg p-2 lg:p-4 shadow-lg w-32 h-32 flex flex-col gap-2">
+      <div className="rounded-lg p-2 lg:p-4 shadow-lg w-32 h-32 flex flex-col gap-2 bg-white dark:bg-gray-800 dark:shadow-2xl">
         <p className="text-sm">{startTimeText}</p>
-        <h2 className="text-gray-900 text-base lg:text-lg">{name}</h2>
+        <h2 className="text-gray-600 dark:text-gray-300 text-base lg:text-lg font-bold">{name}</h2>
       </div>
     </Link>
   );

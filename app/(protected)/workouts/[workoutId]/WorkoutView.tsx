@@ -37,13 +37,15 @@ export default function WorkoutView({
           </button>
         </Link>
       </div>
-      {groups.map(({ exerciseType, exercises }) => (
-        <ExerciseGroupWidget
-          exerciseType={exerciseType}
-          exercises={exercises}
-          key={exercises[0].id}
-        />
-      ))}
+      <div className="flex flex-col gap-6">
+        {groups.map(({ exerciseType, exercises }) => (
+          <ExerciseGroupWidget
+            exerciseType={exerciseType}
+            exercises={exercises}
+            key={exercises[0].id}
+          />
+        ))}
+      </div>
     </main>
   );
 }

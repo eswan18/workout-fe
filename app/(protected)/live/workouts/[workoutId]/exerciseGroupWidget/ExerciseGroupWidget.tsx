@@ -25,11 +25,11 @@ export default function ExerciseGroupWidget({
   onClickEditExercise,
 }: ExerciseGroupWidgetProps) {
   return (
-    <div className="mt-6 mx-2">
+    <div>
       <h2 className="text-xl mx-1">
         <i className="fi fi-ss-gym" /> {exerciseType.name}
       </h2>
-      <div className="flex flex-row justify-left flex-wrap">
+      <div className="flex flex-row justify-left flex-wrap gap-2">
         {exercises.map((ex) => {
           if ("isLoading" in ex) {
             return;

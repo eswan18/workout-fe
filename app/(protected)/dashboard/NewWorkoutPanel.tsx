@@ -34,7 +34,7 @@ export default function NewWorkoutPanel({
   return (
     <div className="w-full pt-2">
       {workoutTypes && (
-        <h2 className="text-gray-900 text-lg lg:text-2xl">
+        <h2 className="text-lg lg:text-2xl">
           New Workout by Type
         </h2>
       )}
@@ -53,7 +53,7 @@ type NewWorkoutButtonProps = {
 function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
   return (
     <button className="flex flex-col font-bold" onClick={onClick}>
-      <div className="w-32 h-16 rounded-lg shadow-lg flex flex-row justify-between items-center px-2">
+      <div className="w-32 h-16 rounded-lg shadow-lg flex flex-row justify-between items-center px-2 text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 dark:shadow-2xl">
         <p>{name}</p>
         <i className="fi fi-sr-arrow-alt-circle-right text-3xl inline-flex align-[-0.2rem] text-gold" />
       </div>

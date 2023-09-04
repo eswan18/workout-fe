@@ -32,7 +32,8 @@ export default function NavBarRight({
     </button>
   );
   return (
-    <div className="flex flex-wrap justify-end lg:gap-2 items-center h-full text-sm">
+    <div className="flex flex-wrap justify-end lg:gap-2 items-center h-full text-sm text-gray-800 dark:text-gray-300">
+      <i className="text-lg fi fi-rs-circle-user inline-flex align-[-0.25rem]" />
       <p className="overflow-hidden text-ellipsis">{userEmail}</p>
       {button}
     </div>

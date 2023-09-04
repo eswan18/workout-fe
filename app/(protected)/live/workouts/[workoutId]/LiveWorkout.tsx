@@ -181,47 +181,49 @@ export default function LiveWorkout({
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
-      <h1 className="text-3xl m-2 text-center my-4 lg:my-10 font-bold">
+      <h1 className="text-3xl text-center my-4 lg:my-10 font-bold dark:text-gray-300">
         {workoutName}
       </h1>
-      {groups.map(({ exerciseType, exercises, key }) => {
-        const setExercises = (exercises: ExerciseOrLoading[]) =>
-          setExercisesForGroup(key, exercises);
-        function onClickCreateNewExercise(): void {
-          openNewExerciseModal({
-            exerciseType: exerciseType as ExerciseType,
-            exercises,
-            setExercises,
-          });
-        }
-        function onClickEditExercise(exerciseId: string): void {
-          openEditExerciseModal(exerciseId, {
-            exerciseType: exerciseType as ExerciseType,
-            exercises,
-            setExercises,
-          });
-        }
-        if (!exerciseType) {
-          return;
-        }
-        return (
-          <ExerciseGroupWidget
-            exerciseType={exerciseType}
-            exercises={exercises}
-            onClickCreateNewExercise={onClickCreateNewExercise}
-            onClickEditExercise={onClickEditExercise}
-            key={key}
-          />
-        );
-      })}
+      <div className="flex flex-col gap-6 px-2">
+        {groups.map(({ exerciseType, exercises, key }) => {
+          const setExercises = (exercises: ExerciseOrLoading[]) =>
+            setExercisesForGroup(key, exercises);
+          function onClickCreateNewExercise(): void {
+            openNewExerciseModal({
+              exerciseType: exerciseType as ExerciseType,
+              exercises,
+              setExercises,
+            });
+          }
+          function onClickEditExercise(exerciseId: string): void {
+            openEditExerciseModal(exerciseId, {
+              exerciseType: exerciseType as ExerciseType,
+              exercises,
+              setExercises,
+            });
+          }
+          if (!exerciseType) {
+            return;
+          }
+          return (
+            <ExerciseGroupWidget
+              exerciseType={exerciseType}
+              exercises={exercises}
+              onClickCreateNewExercise={onClickCreateNewExercise}
+              onClickEditExercise={onClickEditExercise}
+              key={key}
+            />
+          );
+        })}
       <CreateNewExerciseGroupWidget onClick={onClickCreateNewExerciseGroup} />
+      </div>
       {modal}
       <div className="w-full flex flex-row justify-center text-xl font-bold">
         <Link href="/dashboard">
           <button
             className="flex flex-row justify-center items-center
                         rounded-full text-white bg-gold
-                        py-3 px-4 m-2 gap-3"
+                        py-3 px-4 m-2 gap-3 dark:text-gray-700"
           >
             <p>Finish Workout</p>
             <i className="fi fi-br-checkbox inline-flex align-[-0.2rem]" />

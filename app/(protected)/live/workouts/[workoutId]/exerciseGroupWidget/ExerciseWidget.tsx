@@ -15,8 +15,8 @@ export default function ExerciseWidget({
   onEditButtonClick,
 }: ExerciseWidgetProps) {
   return (
-    <div className="m-1 flex flex-col justify-between items-center w-20 h-[7.5rem] shrink-0">
-      <div className="rounded-lg shadow-lg flex flex-col items-center justify-center relative w-full h-20 bg-white shrink-0">
+    <div className="flex flex-col justify-between items-center w-20 h-[7.5rem] shrink-0">
+      <div className="rounded-lg shadow-lg flex flex-col items-center justify-center relative w-full h-20 bg-white dark:bg-gray-900 shrink-0">
         <SaveStatusOverlayContainer saveStatus={saveStatus} />
         <div className="text-2xl font-bold mt-1">{weight}</div>
         <div className="text-xl">

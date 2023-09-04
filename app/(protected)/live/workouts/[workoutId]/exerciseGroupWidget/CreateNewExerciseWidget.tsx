@@ -6,8 +6,8 @@ export default function CreateNewExerciseWidget({
   onClick: () => void;
 }) {
   return (
-    <div className="m-1 flex flex-col justify-start items-center w-20 h-20 shrink-0">
-      <div className="rounded-lg shadow-lg flex flex-col w-full h-full bg-white shrink-0 justify-center items-center">
+    <div className="flex flex-col justify-start items-center w-20 h-20 shrink-0">
+      <div className="rounded-lg shadow-lg flex flex-col w-full h-full  shrink-0 bg-white dark:bg-gray-900 justify-center items-center">
         <button
           className="text-gold text-4xl"
           title="Record new set"

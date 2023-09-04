@@ -45,7 +45,7 @@ export default function ClientModal({
             className="float-left w-8 h-8 lg:h-11 lg:w-11"
             onClick={handleClose}
           >
-            <i className="fi fi-rs-cross text-gray-900 text-base lg:text-2xl p-2" />
+            <i className="fi fi-rs-cross text-gray-900 dark:text-gray-100 text-base lg:text-2xl p-2" />
           </button>
         </div>
         {children}
