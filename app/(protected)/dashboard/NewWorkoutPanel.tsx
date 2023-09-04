@@ -2,7 +2,7 @@
 
 import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
-import { createNewWorkout } from "@/lib/resources/workouts/createNewWorkout";
+import { createWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 
 async function createAndStartWorkout(workoutTypeId: string): Promise<Workout> {
@@ -11,7 +11,7 @@ async function createAndStartWorkout(workoutTypeId: string): Promise<Workout> {
     status: "in-progress",
     start_time: new Date(), // start the workout right now.
   };
-  return await createNewWorkout({ workout });
+  return await createWorkout({ workout });
 }
 
 export default function NewWorkoutPanel({
@@ -33,11 +33,7 @@ export default function NewWorkoutPanel({
   });
   return (
     <div className="w-full pt-2">
-      {workoutTypes && (
-        <h2 className="text-lg lg:text-2xl">
-          New Workout by Type
-        </h2>
-      )}
+      {workoutTypes && <h2 className="text-lg lg:text-2xl">New Workout</h2>}
       <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4">
         {newWorkoutCards}
       </div>
@@ -52,9 +48,9 @@ type NewWorkoutButtonProps = {
 
 function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
   return (
-    <button className="flex flex-col font-bold" onClick={onClick}>
-      <div className="w-32 h-16 rounded-lg shadow-lg flex flex-row justify-between items-center px-2 text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 dark:shadow-2xl">
-        <p>{name}</p>
+    <button className="flex flex-col" onClick={onClick}>
+      <div className="w-32 h-16 rounded-lg shadow-md dark:shadow-sm shadow-gold dark:shadow-gold flex flex-row justify-between items-center px-2 text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900">
+        <p className="px-2">{name}</p>
         <i className="fi fi-sr-arrow-alt-circle-right text-3xl inline-flex align-[-0.2rem] text-gold" />
       </div>
     </button>

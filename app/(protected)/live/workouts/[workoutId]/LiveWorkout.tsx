@@ -17,7 +17,8 @@ import ExerciseInputModal, {
 } from "./exerciseGroupWidget/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import { deleteExercise } from "@/lib/resources/exercises/delete";
-import Link from "next/link";
+import { updateWorkout } from "@/lib/resources/workouts";
+import { useRouter } from "next/navigation";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -36,7 +37,9 @@ export default function LiveWorkout({
   exerciseSets,
   exerciseTypes,
 }: LiveWorkoutProps) {
-  // Sets aren't a construct in the database, so we need to add an artificial key to each set.
+  const router = useRouter();
+
+  // Workout groupings aren't a construct in the database, so we need to add an artificial key to each set.
   const initialGroups: ExerciseGroup[] = exerciseSets.map((set) => ({
     exerciseType: set.exerciseType,
     exercises: set.exercises,
@@ -178,6 +181,20 @@ export default function LiveWorkout({
     );
   }
 
+  const onFinishWorkout = () => {
+    // Mark the workout finished.
+    updateWorkout({
+      workoutId: workout.id,
+      fields: {
+        end_time: new Date(),
+        status: "completed",
+      },
+    }).then(() => {
+      // For now, redirect to the view-only workout page. Eventually this should go to some kind of summary.
+      router.push(`/workouts/${workout.id}`);
+    });
+  };
+
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
@@ -215,20 +232,19 @@ export default function LiveWorkout({
             />
           );
         })}
-      <CreateNewExerciseGroupWidget onClick={onClickCreateNewExerciseGroup} />
+        <CreateNewExerciseGroupWidget onClick={onClickCreateNewExerciseGroup} />
       </div>
       {modal}
       <div className="w-full flex flex-row justify-center text-xl font-bold">
-        <Link href="/dashboard">
-          <button
-            className="flex flex-row justify-center items-center
-                        rounded-full text-white bg-gold
-                        py-3 px-4 m-2 gap-3 dark:text-gray-700"
-          >
-            <p>Finish Workout</p>
-            <i className="fi fi-br-checkbox inline-flex align-[-0.2rem]" />
-          </button>
-        </Link>
+        <button
+          className="flex flex-row justify-center items-center
+                      rounded-full text-white bg-gold
+                      py-3 px-4 m-2 gap-3 dark:text-gray-900"
+          onClick={onFinishWorkout}
+        >
+          <p>Finish Workout</p>
+          <i className="fi fi-br-checkbox inline-flex align-[-0.2rem]" />
+        </button>
       </div>
     </main>
   );

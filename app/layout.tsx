@@ -15,7 +15,9 @@ export const metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen relative bg-gray-100 dark:bg-gray-700`}>
+      <body
+        className={`${inter.className} min-h-screen relative bg-gray-100 dark:bg-gray-800`}
+      >
         <NavBar />
         <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
           <div className="content-container w-[48rem] flex-shrink">

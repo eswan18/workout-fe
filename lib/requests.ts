@@ -8,7 +8,7 @@ const HTTP_TIMEOUT = 3000;
 
 type RequestParams = {
   route: string;
-  method: "GET" | "POST" | "PUT" | "DELETE";
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   params?: Record<string, string>;
   body?: string;
 };
@@ -88,6 +88,16 @@ type PutParams = {
 
 export async function put({ route, params, body }: PutParams): Promise<any> {
   return await request({ route, method: "PUT", params, body });
+}
+
+type PatchParams = {
+  route: string;
+  id: string;
+  body?: string;
+};
+
+export async function patch({ route, id, body }: PatchParams): Promise<any> {
+  return await request({ route, method: "PATCH", params: { id }, body });
 }
 
 type DeleteParams = {

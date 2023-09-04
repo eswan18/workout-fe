@@ -5,7 +5,7 @@ import { post } from "@/lib/requests";
 
 const route = `/workouts/`;
 
-export async function createNewWorkout({
+export async function createWorkout({
   workout,
 }: {
   workout: Workout;
