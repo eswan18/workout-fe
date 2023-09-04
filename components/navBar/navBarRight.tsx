@@ -1,24 +1,40 @@
 "use client";
 
-import { signIn, signOut } from 'next-auth/react';
+import { signIn, signOut } from "next-auth/react";
 
-export default function NavBarRight({ userEmail }: { userEmail: String | undefined }) {
+export default function NavBarRight({
+  userEmail,
+}: {
+  userEmail: String | undefined;
+}) {
   const handleClick = () => {
-    userEmail ? signOut({ callbackUrl: "/"}) : signIn();
-  }
+    userEmail ? signOut({ callbackUrl: "/" }) : signIn();
+  };
   const textSize = userEmail ? "text-xs" : "text-sm";
   const buttonText = userEmail ? "Log Out" : "Sign In";
+  const button = userEmail ? (
+    <button
+      className="flex flex-row justify-center items-center
+                 rounded-full border-gold text-gold
+                 py-2 m-2 lg:pr-2 font-bold text-sm"
+      onClick={handleClick}
+    >
+      Log Out
+    </button>
+  ) : (
+    <button
+      className="flex flex-row justify-center items-center
+                 rounded-full border-2 border-gold text-gold
+                 py-1 lg:py-2 px-3 m-2 font-bold text-sm"
+      onClick={handleClick}
+    >
+      Sign In
+    </button>
+  );
   return (
-    <div className={`flex flex-wrap justify-end lg:gap-2 items-center h-full ${textSize}`}>
-      <p className='overflow-hidden text-ellipsis'>{ userEmail }</p>
-      <button
-        className='flex flex-row justify-center items-center
-                   rounded-full border-2 border-gold text-gold
-                   py-2 px-3 m-2 font-bold'
-        onClick={handleClick}
-      >
-        {buttonText}
-      </button>
+    <div className="flex flex-wrap justify-end lg:gap-2 items-center h-full text-sm">
+      <p className="overflow-hidden text-ellipsis">{userEmail}</p>
+      {button}
     </div>
-  )
+  );
 }

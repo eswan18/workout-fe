@@ -1,0 +1,9 @@
+/public
+/.vercel
+/.tsbuild
+/build
+/.next
+/node_modules
+.infisical.json
+/.vercel_build
+/.github

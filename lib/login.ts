@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
@@ -8,25 +8,29 @@ type User = {
   token: string;
 };
 
-
-export default async function loginUser(email: string, password: string): Promise<User | null> {
+export default async function loginUser(
+  email: string,
+  password: string,
+): Promise<User | null> {
   /* Log in a user and get a token from the server */
   if (!email || !password) {
-    console.log('Missing email or password');
+    console.log("Missing email or password");
     return null;
   }
 
   let formData = new URLSearchParams();
-  formData.append('username', email);
-  formData.append('password', password);
-  formData.append('grant_type', 'password');
+  formData.append("username", email);
+  formData.append("password", password);
+  formData.append("grant_type", "password");
 
   const response = await fetch(`${apiUrl}/token/`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    credentials: 'include',
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    credentials: "include",
     body: formData.toString(),
-  }).catch((error) => { console.log(error) });
+  }).catch((error) => {
+    console.log(error);
+  });
 
   if (!response) {
     return null;
@@ -34,7 +38,7 @@ export default async function loginUser(email: string, password: string): Promis
   if (!response.ok) {
     const errorData = await response.json();
     if (response.status === 401) {
-      console.log('Invalid credentials');
+      console.log("Invalid credentials");
       return null;
     }
     console.log(errorData.detail);
@@ -42,6 +46,6 @@ export default async function loginUser(email: string, password: string): Promis
   }
   const data = await response.json();
   const token = data.access_token;
-  revalidateTag('currentUser');
-  return {"id": email, email, token};
+  revalidateTag("currentUser");
+  return { id: email, email, token };
 }

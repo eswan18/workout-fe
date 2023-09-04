@@ -9,25 +9,25 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
-      name: 'Email and Password',
+      name: "Email and Password",
       credentials: {
         email: { label: "Email", type: "text", placeholder: "eswan" },
-        password: {  label: "Password", type: "password" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log(credentials)
+        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
-          console.log('Error: Missing email or password');
+          console.log("Error: Missing email or password");
           return null;
         }
         const user = await loginUser(credentials.email, credentials.password);
-        return user
-      }
-    })
+        return user;
+      },
+    }),
   ],
   callbacks: {
-    async jwt({token, user}) {
-      if (user && 'token' in user) {
+    async jwt({ token, user }) {
+      if (user && "token" in user) {
         const access_token = user.token;
         token.accessToken = access_token;
       }
@@ -35,11 +35,11 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
-      if ('accessToken' in token) {
+      if ("accessToken" in token) {
         // @ts-expect-error Property 'accessToken' does not exist on type 'Session'.
         session.accessToken = token.accessToken;
       }
-      return session
-    }
-  }
-}
+      return session;
+    },
+  },
+};

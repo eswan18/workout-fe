@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import CreateAccountForm from '@/app/(unprotected)/create-account/CreateAccountForm';
+import type { Meta, StoryObj } from "@storybook/react";
+import CreateAccountForm from "@/app/(unprotected)/create-account/CreateAccountForm";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: 'Forms/CreateAccountForm',
+  title: "Forms/CreateAccountForm",
   component: CreateAccountForm,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } satisfies Meta<typeof CreateAccountForm>;
 

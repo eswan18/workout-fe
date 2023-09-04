@@ -1,42 +1,42 @@
 export type Workout = {
-  id?: string
-  user_id?: string
-  start_time?: Date
-  end_time?: Date
-  status: "in-progress" | "paused" | "completed"
-  notes?: string
+  id?: string;
+  user_id?: string;
+  start_time?: Date;
+  end_time?: Date;
+  status: "in-progress" | "paused" | "completed";
+  notes?: string;
   // Relations
-  workout_type_id?: string
-}
+  workout_type_id?: string;
+};
 
 export type WorkoutType = {
-  id?: string
-  name: string
-  notes?: string
-  parent_workout_type_id?: string
-}
+  id?: string;
+  name: string;
+  notes?: string;
+  parent_workout_type_id?: string;
+};
 
 export type Exercise = {
-  id?: string
-  user_id?: string
-  start_time?: Date
-  weight?: number
-  weight_unit?: string
-  reps?: number
-  seconds?: number
-  notes?: string
+  id?: string;
+  user_id?: string;
+  start_time?: Date;
+  weight?: number;
+  weight_unit?: string;
+  reps?: number;
+  seconds?: number;
+  notes?: string;
   // Relations
-  exercise_type_id: string
-  workout_id: string
-}
+  exercise_type_id: string;
+  workout_id: string;
+};
 
 export type ExerciseType = {
-  id?: string
-  owner_user_id?: string
-  name: string
-  number_of_weights?: number
-  notes?: string
-}
+  id?: string;
+  owner_user_id?: string;
+  name: string;
+  number_of_weights?: number;
+  notes?: string;
+};
 
 ////////////////////////////////////////////////////
 // Derived types
@@ -58,7 +58,7 @@ export type ExerciseWithType = {
   number_of_weights?: number;
   exercise_type_notes?: string;
   exercise_type_owner_user_id?: string;
-}
+};
 
 export type WorkoutWithType = {
   id: string;
@@ -71,9 +71,9 @@ export type WorkoutWithType = {
   workout_type_notes?: string;
   parent_workout_type_id?: string;
   workout_type_owner_user_id?: string;
-}
+};
 
 export type WorkoutWithDetails = {
   workout: WorkoutWithType;
   exercises: ExerciseWithType[];
-}
+};

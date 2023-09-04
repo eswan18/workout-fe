@@ -3,16 +3,14 @@ import { getAllWorkoutsWithDetails } from "@/lib/resources/derived/workoutWithDe
 import NewWorkoutPanel from "./NewWorkoutPanel";
 import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
 
-
 const N_EXERCISES = 4;
-
 
 export default async function DashboardPage() {
   const workoutTypes = await getAllWorkoutTypes();
-  const allWorkouts = await getAllWorkoutsWithDetails({limit: N_EXERCISES});
+  const allWorkouts = await getAllWorkoutsWithDetails({ limit: N_EXERCISES });
 
   return (
-    <main className="flex min-h-screen flex-col justify-start gap-10 p-10 lg:p-16">
+    <main className="flex flex-col justify-start gap-10 p-10 lg:p-16">
       <div className="mb-4 text-gray-900 dark:text-gray-100">
         <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
       </div>
@@ -23,5 +21,5 @@ export default async function DashboardPage() {
         <NewWorkoutPanel workoutTypes={workoutTypes} />
       </div>
     </main>
-  )
+  );
 }

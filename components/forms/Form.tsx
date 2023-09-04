@@ -6,17 +6,23 @@ interface FormProps {
   children: React.ReactNode;
 }
 
-export default function Form({ title, action, onSubmit, className, children }: FormProps) {
+export default function Form({
+  title,
+  action,
+  onSubmit,
+  className,
+  children,
+}: FormProps) {
   return (
     <div className="flex flex-col items-center dark:bg-gray-700">
       <form
-          action={action}
-          onSubmit={onSubmit}
-          className={`flex flex-col ${className}`}
+        action={action}
+        onSubmit={onSubmit}
+        className={`flex flex-col ${className}`}
       >
-        { title && <h2 className="text-2xl font-bold my-2">{title}</h2> }
-        { children }
+        {title && <h2 className="text-2xl font-bold my-2">{title}</h2>}
+        {children}
       </form>
     </div>
-  )
+  );
 }

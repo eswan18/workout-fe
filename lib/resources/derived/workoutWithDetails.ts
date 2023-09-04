@@ -1,13 +1,19 @@
-'use server'
+"use server";
 
-import { get } from '@/lib/requests';
-import { WorkoutWithDetails, WorkoutWithType, Exercise, ExerciseWithType, ExerciseType } from '@/lib/resources/apiTypes';
+import { get } from "@/lib/requests";
+import {
+  WorkoutWithDetails,
+  WorkoutWithType,
+  Exercise,
+  ExerciseWithType,
+  ExerciseType,
+} from "@/lib/resources/apiTypes";
 
-const ROUTE = '/derived/workout_details/'
+const ROUTE = "/derived/workout_details/";
 
 function convertDates(workout: WorkoutWithDetails): WorkoutWithDetails {
   // Fix a couple of columns that should be typed as dates.
-  const wkt = {...workout};
+  const wkt = { ...workout };
   wkt.workout.start_time = new Date(wkt.workout.start_time);
   if (wkt.workout.end_time) {
     wkt.workout.end_time = new Date(wkt.workout.end_time);
@@ -16,23 +22,33 @@ function convertDates(workout: WorkoutWithDetails): WorkoutWithDetails {
     if (exercise.start_time) {
       exercise.start_time = new Date(exercise.start_time);
     }
-  })
-  return wkt
+  });
+  return wkt;
 }
 
 type GetAllWorkoutsWithDetailsParams = {
   limit?: number;
-}
+};
 
-export async function getAllWorkoutsWithDetails({limit}: GetAllWorkoutsWithDetailsParams): Promise<WorkoutWithDetails[]> {
-  const params = limit ? {limit: limit.toString()} : undefined;
-  const wktsWithDtls = await get({route: ROUTE, params}) as WorkoutWithDetails[];
+export async function getAllWorkoutsWithDetails({
+  limit,
+}: GetAllWorkoutsWithDetailsParams): Promise<WorkoutWithDetails[]> {
+  const params = limit ? { limit: limit.toString() } : undefined;
+  const wktsWithDtls = (await get({
+    route: ROUTE,
+    params,
+  })) as WorkoutWithDetails[];
   return wktsWithDtls.map((wktWithDtls) => convertDates(wktWithDtls));
 }
 
-export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDetails> {
-  const params = {id};
-  const wktsWithDtls = await get({route: ROUTE, params}) as WorkoutWithDetails[];
+export async function getWorkoutWithDetails(
+  id: string,
+): Promise<WorkoutWithDetails> {
+  const params = { id };
+  const wktsWithDtls = (await get({
+    route: ROUTE,
+    params,
+  })) as WorkoutWithDetails[];
   if (wktsWithDtls.length > 1) {
     throw new Error(`Multiple workouts found with id ${id}`);
   }
@@ -44,12 +60,12 @@ export async function getWorkoutWithDetails(id: string): Promise<WorkoutWithDeta
 export type ExerciseSet = {
   exerciseType: ExerciseType;
   exercises: Exercise[];
-}
+};
 
 export type WorkoutWithExerciseSets = {
   workout: WorkoutWithType;
   exerciseSets: ExerciseSet[];
-}
+};
 
 function sortExercises(exercises: ExerciseWithType[]): ExerciseWithType[] {
   let exCopy = [...exercises];
@@ -82,9 +98,9 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
           name: exercise.exercise_type_name,
           number_of_weights: exercise.number_of_weights,
           notes: exercise.exercise_type_notes,
-          owner_user_id: exercise.exercise_type_owner_user_id
+          owner_user_id: exercise.exercise_type_owner_user_id,
         },
-        exercises: []
+        exercises: [],
       };
       exerciseSets.push(currentSet);
     }
@@ -98,7 +114,7 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
       notes: exercise.notes,
       workout_id: exercise.workout_id,
       user_id: exercise.user_id,
-      exercise_type_id: exercise.exercise_type_id
+      exercise_type_id: exercise.exercise_type_id,
     });
     lastSeenTypeId = exercise.exercise_type_id;
   });
@@ -107,14 +123,16 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
 
 // Returns workout details as info about the workout and exercises in groups based on
 // multiple iterations of the same type of exercise.
-export async function getWorkoutWithDetailsAsExerciseSets(id: string): Promise<WorkoutWithExerciseSets> {
+export async function getWorkoutWithDetailsAsExerciseSets(
+  id: string,
+): Promise<WorkoutWithExerciseSets> {
   const wktWithDtls = await getWorkoutWithDetails(id);
   // Sort the exercises by start time, and put nulls last.
   const exercises = sortExercises(wktWithDtls.exercises);
   const exerciseSets = groupExercises(exercises);
   const x = {
     workout: wktWithDtls.workout,
-    exerciseSets: exerciseSets
+    exerciseSets: exerciseSets,
   };
-  return x
+  return x;
 }

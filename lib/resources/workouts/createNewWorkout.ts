@@ -1,14 +1,21 @@
-'use server'
+"use server";
 
-import { Workout } from "../apiTypes"
+import { Workout } from "../apiTypes";
 import { post } from "@/lib/requests";
 
-const route = `/workouts/`
+const route = `/workouts/`;
 
-export async function createNewWorkout({workout}: {workout: Workout}): Promise<Workout> {
-  const workouts = await post({ route, body: JSON.stringify(workout) }) as Workout[];
+export async function createNewWorkout({
+  workout,
+}: {
+  workout: Workout;
+}): Promise<Workout> {
+  const workouts = (await post({
+    route,
+    body: JSON.stringify(workout),
+  })) as Workout[];
   if (workouts.length > 1) {
-    console.log("Warning: more than one workout was created")
+    console.log("Warning: more than one workout was created");
   }
-  return workouts[0]
+  return workouts[0];
 }

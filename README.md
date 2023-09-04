@@ -45,7 +45,6 @@ You can also run the front end locally but use the staging or prod API backend. 
 ./pull_env --prod
 ```
 
-
 ## Docker
 
 The current deploy process doesn't require a docker image, but I experimented with hosting in Kubernetes so I've set up the infrastructure needed.
