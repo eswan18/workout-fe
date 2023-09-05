@@ -1,6 +1,7 @@
 "use server";
 
 import { getAccessToken } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 const API_URL = process.env.WORKOUT_API_URL;
 // The timeout in milliseconds for HTTP requests.
@@ -53,8 +54,15 @@ export async function request({
     let error;
     try {
       const payload = await response.json();
+      // This is likely a 401 error, so (eventually) we should make this log the user out.
+      // I wasn't able to find a way to do that server-side so I'll come back to this.
+      if (response.status === 401) {
+        console.log("Invalid credentials -- sending to login");
+        redirect("/login");
+      }
       error = new Error(JSON.stringify(payload.detail));
     } catch (e) {
+      console.error(e);
       error = new Error(`Failed to fetch ${url} and unable to decode json`);
     }
     throw error;

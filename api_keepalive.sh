@@ -3,6 +3,7 @@
 # The API spins down on inactivity. This script pings the API every 30 seconds to keep it alive during development.
 # We need to parse the env file and remove single quotes.
 api_url=$(cat .env.local | grep WORKOUT_API_URL | tail -1 | awk -F '=' '{print $2}' | sed "s/'//g")
+api_url="https://api.flexofgold.app/v1/"
 
 while true; do
     echo "Pinging $api_url"

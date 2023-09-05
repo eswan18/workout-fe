@@ -10,8 +10,6 @@ export default function NavBarRight({
   const handleClick = () => {
     userEmail ? signOut({ callbackUrl: "/" }) : signIn();
   };
-  const textSize = userEmail ? "text-xs" : "text-sm";
-  const buttonText = userEmail ? "Log Out" : "Sign In";
   const button = userEmail ? (
     <button
       className="flex flex-row justify-center items-center

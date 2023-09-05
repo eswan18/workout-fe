@@ -1,6 +1,7 @@
 import Link from "next/link";
 import NavBarRight from "./navBarRight";
 import { getCurrentUser } from "@/lib/session";
+import Logo from "../branding/Logo";
 
 export default async function NavBar() {
   const user = await getCurrentUser();
@@ -10,10 +11,11 @@ export default async function NavBar() {
 
 function NavBarLeft() {
   return (
-    <Link href="/" className="flex flex-row justify-start items-center">
-      <h1 className="dark:text-gray-200 text-sm lg:text-lg px-2 lg:px-3 font-bold decoration-gold decoration-2 underline underline-offset-4">
-        Flex of <span className="text-gold">Gold</span>
-      </h1>
+    <Link
+      href="/"
+      className="flex flex-row justify-start items-center text-sm lg:text-lg px-2 lg:px-3"
+    >
+      <Logo />
     </Link>
   );
 }
