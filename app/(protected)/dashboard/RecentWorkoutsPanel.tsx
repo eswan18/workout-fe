@@ -91,13 +91,13 @@ async function RecentWorkoutCard({
   const exerciseCount = exercises.length;
 
   const startTimeText = startTime ? formatDate(startTime) : "----";
-  const name = workout.workout_type_name ?? "Custom";
+  const name = workout.workout_type_name ?? "Custom Workout";
   return (
     <Link href={`/workouts/${workout.id}`}>
       <div className="rounded-lg p-2 lg:p-3 shadow-md dark:shadow-sm shadow-gold w-32 h-32 flex flex-col bg-white dark:bg-gray-900 dark:shadow-gold text-gray-600 dark:text-gray-400">
         <div className="flex-grow">
           <p className="text-sm">{startTimeText}</p>
-          <h2 className="text-gray-800 dark:text-gray-300 text-base lg:text-lg font-bold">
+          <h2 className="text-gray-800 dark:text-gray-300 text-base lg:text-lg font-bold leading-normal lg:leading-tight">
             {name}
           </h2>
         </div>
