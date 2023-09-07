@@ -6,8 +6,15 @@ import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
 const N_EXERCISES = 4;
 
 export default async function DashboardPage() {
-  const workoutTypes = await getAllWorkoutTypes();
-  const allWorkouts = await getAllWorkoutsWithDetails({ limit: N_EXERCISES });
+  const workoutsResult = await getAllWorkoutsWithDetails({
+    limit: N_EXERCISES,
+  });
+  if (!workoutsResult.success) throw workoutsResult.error;
+  const allWorkouts = workoutsResult.data;
+
+  const workoutTypesResult = await getAllWorkoutTypes();
+  if (!workoutTypesResult.success) throw workoutTypesResult.error;
+  const workoutTypes = workoutTypesResult.data;
 
   return (
     <main className="flex flex-col justify-start gap-10 p-10 lg:p-16">

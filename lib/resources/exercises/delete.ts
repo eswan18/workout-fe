@@ -1,9 +1,10 @@
 "use server";
 
-import { del } from "@/lib/requests";
+import { del, RequestResult } from "@/lib/requests";
 
 const ROUTE = "/exercises/";
 
-export async function deleteExercise(id: string): Promise<void> {
-  await del({ route: ROUTE, id });
+export async function deleteExercise(id: string): Promise<RequestResult<void>> {
+  const result = (await del({ route: ROUTE, id })) as RequestResult<void>;
+  return result;
 }

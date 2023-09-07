@@ -1,15 +1,16 @@
 "use server";
 
-import { get } from "@/lib/requests";
+import { get, RequestResult } from "@/lib/requests";
 import { Exercise } from "@/lib/resources/apiTypes";
 
 const ROUTE = "/exercises/";
 
 export async function getExercisesByWorkoutId(
   workoutId: string,
-): Promise<Exercise[]> {
-  return (await get({
+): Promise<RequestResult<Exercise[]>> {
+  const result = (await get({
     route: ROUTE,
     params: { workout_id: workoutId },
-  })) as Exercise[];
+  })) as RequestResult<Exercise[]>;
+  return result;
 }

@@ -11,13 +11,10 @@ type PageParams = {
 
 export default async function WorkoutPage({ params }: { params: PageParams }) {
   // This component just pulls the data and then passes the rest to the client component.
-  const workout = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
-  const workoutName = workout.workout.workout_type_name || "Custom";
+  const result = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
+  if (!result.success) throw result.error;
+  const { workout, exerciseSets } = result.data;
+  const workoutName = workout.workout_type_name || "Custom";
   metadata.title = `Workout: ${workoutName}`;
-  return (
-    <WorkoutView
-      workout={workout.workout}
-      exerciseGroups={workout.exerciseSets}
-    />
-  );
+  return <WorkoutView workout={workout} exerciseGroups={exerciseSets} />;
 }

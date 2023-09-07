@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Input from "@/components/forms/Input";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { WorkoutType } from "@/lib/resources/apiTypes";
+import { createWorkoutType } from "@/lib/resources/workoutTypes";
 
 export default function NewWorkoutTypeForm() {
   const router = useRouter();
@@ -22,40 +20,53 @@ export default function NewWorkoutTypeForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    /* todo ... */
+    const wktType = { name, notes };
+    console.log("wktType");
+    console.log(wktType);
+    createWorkoutType(wktType).then((result) => {
+      if (!result.success) {
+        setLoading(false);
+        throw result.error;
+      }
+      setLoading(false);
+      router.push("/dashboard");
+    });
   };
 
   return (
-    <form className="flex flex-col w-full" onSubmit={handleSubmit}>
-      <h1 className="text-2xl font-bold">New Workout Type</h1>
-      <label
-        htmlFor="name"
-        className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col"
-      >
-        <p className="mb-1">Workout Type Name</p>
-        <input
-          className="dark:text-gray-900 rounded-md border border-gray-300"
-          id="name"
-          type="text"
-          name="name"
-          value={name}
-          onChange={onNameChange}
-        />
-      </label>
-      <label
-        htmlFor="notes"
-        className="mb-3 text-gray-700 dark:text-gray-100 flex flex-col"
-      >
-        <p className="mb-1">Notes (optional)</p>
-        <textarea
-          className="dark:text-gray-900 rounded-md border border-gray-300"
-          id="notes"
-          name="notes"
-          value={notes}
-          onChange={onNotesChange}
-        />
-      </label>
-
+    <form onSubmit={handleSubmit} className="flex flex-col">
+      <h1 className="text-2xl font-bold mb-3">Create New Workout Type</h1>
+      <div className="flex flex-col mb-3">
+        <label
+          htmlFor="email"
+          className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
+        >
+          <p>Workout type name</p>
+          <input
+            className="w-full dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+            type="text"
+            id="name"
+            name="email"
+            placeholder="Going super saiyan"
+            value={name}
+            onChange={onNameChange}
+          />
+        </label>
+        <label
+          htmlFor="notes"
+          className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
+        >
+          <p>Notes</p>
+          <textarea
+            className="w-full dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+            id="notes"
+            name="notes"
+            placeholder="This is my favorite friday workout"
+            value={notes}
+            onChange={onNotesChange}
+          />
+        </label>
+      </div>
       <div className="flex w-full justify-center font-bold">
         {loading ? (
           <LoadingSpinner />

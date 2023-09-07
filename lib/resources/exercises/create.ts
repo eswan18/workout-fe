@@ -1,25 +1,40 @@
 "use server";
 
-import { post } from "@/lib/requests";
+import {
+  post,
+  RequestResult,
+  newRequestSuccess,
+  newRequestFailure,
+} from "@/lib/requests";
 import { Exercise } from "@/lib/resources/apiTypes";
 
 const ROUTE = "/exercises/";
 
 export async function createExercises(
   exercises: Exercise[],
-): Promise<Exercise[]> {
-  return (await post({
+): Promise<RequestResult<Exercise[]>> {
+  const result = (await post({
     route: ROUTE,
     body: JSON.stringify(exercises),
-  })) as Exercise[];
+  })) as RequestResult<Exercise[]>;
+  return result;
 }
 
-export async function createExercise(exercise: Exercise): Promise<Exercise> {
-  const exercises = (await post({
+export async function createExercise(
+  exercise: Exercise,
+): Promise<RequestResult<Exercise>> {
+  const result = (await post({
     route: ROUTE,
     body: JSON.stringify(exercise),
-  })) as Exercise[];
-  if (exercises.length !== 1)
-    throw new Error("Expected 1 exercise, got " + exercises.length);
-  return exercises[0];
+  })) as RequestResult<Exercise[]>;
+  if (result.success === false) {
+    return result;
+  }
+  if (result.data.length !== 1) {
+    return await newRequestFailure(
+      new Error("Expected 1 exercise, got " + result.data.length),
+    );
+  }
+  const createdExercise = result.data[0];
+  return await newRequestSuccess(createdExercise);
 }

@@ -53,24 +53,37 @@ export default function LoginForm() {
   };
 
   return (
-    <Form title="Log In" onSubmit={handleSubmit}>
-      <Input
-        htmlFor="email"
-        type="email"
-        id="email"
-        name="Email"
-        label="Email"
-        placeholder="bobby.tables@gmail.com"
-      />
-      <Input
+    <form onSubmit={handleSubmit} className="flex flex-col">
+      <h1 className="text-2xl font-bold mb-3">Log In</h1>
+      <div className="flex flex-col mb-3">
+        <label
+          htmlFor="email"
+          className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
+        >
+          Email
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="bobby.tables@gmail.com"
+            className="dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+          />
+        </label>
+      </div>
+      <label
         htmlFor="password"
-        type="password"
-        id="password"
-        name="Password"
-        label="Password"
-        placeholder="correcthorsebatterystaple"
-      />
-      <div className="flex w-full justify-center font-bold">
+        className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
+      >
+        Password
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="correcthorsebatterystaple"
+          className="dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
+        />
+      </label>
+      <div className="flex w-full justify-center font-bold my-2">
         {loading ? (
           <LoadingSpinner />
         ) : (
@@ -102,6 +115,6 @@ export default function LoginForm() {
           </button>
         </Link>
       </div>
-    </Form>
+    </form>
   );
 }

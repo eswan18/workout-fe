@@ -14,12 +14,36 @@ type RequestParams = {
   body?: string;
 };
 
+// Because all our API calls are in server functions, javascript errors don't propagate to the client.
+// Instead, we return a RequestResult, in the model of Rust's Result type.
+export type RequestResult<T> = RequestSuccess<T> | RequestFailure;
+
+export type RequestSuccess<T> = {
+  success: true;
+  data: T;
+};
+
+export type RequestFailure = {
+  success: false;
+  error: Error;
+};
+
+export async function newRequestSuccess<T>(
+  data: T,
+): Promise<RequestSuccess<T>> {
+  return { success: true, data };
+}
+
+export async function newRequestFailure(error: Error): Promise<RequestFailure> {
+  return { success: false, error };
+}
+
 export async function request({
   route,
   method,
   params,
   body,
-}: RequestParams): Promise<any> {
+}: RequestParams): Promise<RequestResult<any>> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), HTTP_TIMEOUT);
 
@@ -67,7 +91,7 @@ export async function request({
     }
     throw error;
   }
-  return await response.json();
+  return newRequestSuccess(await response.json());
 }
 
 type GetParams = {
@@ -75,7 +99,10 @@ type GetParams = {
   params?: Record<string, string>;
 };
 
-export async function get({ route, params }: GetParams): Promise<any> {
+export async function get({
+  route,
+  params,
+}: GetParams): Promise<RequestResult<any>> {
   return await request({ route, method: "GET", params });
 }
 
@@ -84,7 +111,10 @@ type PostParams = {
   body?: string;
 };
 
-export async function post({ route, body }: PostParams): Promise<any> {
+export async function post({
+  route,
+  body,
+}: PostParams): Promise<RequestResult<any>> {
   return await request({ route, method: "POST", body });
 }
 
@@ -94,7 +124,11 @@ type PutParams = {
   body?: string;
 };
 
-export async function put({ route, params, body }: PutParams): Promise<any> {
+export async function put({
+  route,
+  params,
+  body,
+}: PutParams): Promise<RequestResult<any>> {
   return await request({ route, method: "PUT", params, body });
 }
 
@@ -104,7 +138,11 @@ type PatchParams = {
   body?: string;
 };
 
-export async function patch({ route, id, body }: PatchParams): Promise<any> {
+export async function patch({
+  route,
+  id,
+  body,
+}: PatchParams): Promise<RequestResult<any>> {
   return await request({ route, method: "PATCH", params: { id }, body });
 }
 
@@ -113,6 +151,9 @@ type DeleteParams = {
   id: string;
 };
 
-export async function del({ route, id }: DeleteParams): Promise<any> {
+export async function del({
+  route,
+  id,
+}: DeleteParams): Promise<RequestResult<any>> {
   return await request({ route, params: { id }, method: "DELETE" });
 }

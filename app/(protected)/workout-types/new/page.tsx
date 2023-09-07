@@ -7,7 +7,7 @@ export const metadata = {
 
 export default async function NewWorkoutTypePage() {
   return (
-    <main className="flex flex-col items-center justify-start">
+    <main className="flex flex-col items-center justify-start py-8">
       <NewWorkoutTypeForm />
     </main>
   );

@@ -1,18 +1,33 @@
 "use server";
 
-import { get } from "@/lib/requests";
+import {
+  get,
+  RequestResult,
+  newRequestFailure,
+  newRequestSuccess,
+} from "@/lib/requests";
 import { Workout } from "@/lib/resources/apiTypes";
 
 const ROUTE = `/workouts/`;
 
-export async function getWorkoutById(id: string): Promise<Workout> {
-  const workouts = (await get({ route: ROUTE, params: { id } })) as Workout[];
-  if (workouts.length > 1) {
-    throw new Error(`Multiple workouts found with id ${id}`);
+export async function getWorkoutById(
+  id: string,
+): Promise<RequestResult<Workout>> {
+  const result = (await get({ route: ROUTE, params: { id } })) as RequestResult<
+    Workout[]
+  >;
+  if (!result.success) {
+    return result;
   }
-  return workouts[0];
+  if (result.data.length > 1) {
+    return await newRequestFailure(
+      new Error(`Multiple workouts found with id ${id}`),
+    );
+  }
+  const workout = result.data[0];
+  return await newRequestSuccess(workout);
 }
 
-export async function getAllWorkouts(): Promise<Workout[]> {
-  return (await get({ route: ROUTE })) as Workout[];
+export async function getAllWorkouts(): Promise<RequestResult<Workout[]>> {
+  return (await get({ route: ROUTE })) as RequestResult<Workout[]>;
 }

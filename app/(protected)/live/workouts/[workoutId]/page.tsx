@@ -16,14 +16,20 @@ export default async function LiveWorkoutPage({
   params: PageParams;
 }) {
   // This component just pulls the data and then passes the rest to the client component.
-  const workout = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
-  const exerciseTypes = await getAllExerciseTypes();
-  const workoutName = workout.workout.workout_type_name || "Custom";
+  const result = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
+  if (!result.success) throw result.error;
+  const { workout, exerciseSets } = result.data;
+  const workoutName = workout.workout_type_name || "Custom";
+
+  const exerciseTypesResult = await getAllExerciseTypes();
+  if (!exerciseTypesResult.success) throw exerciseTypesResult.error;
+  const exerciseTypes = exerciseTypesResult.data;
+
   metadata.title = `Live Workout: ${workoutName}`;
   return (
     <LiveWorkout
-      workout={workout.workout}
-      exerciseSets={workout.exerciseSets}
+      workout={workout}
+      exerciseSets={exerciseSets}
       exerciseTypes={exerciseTypes}
     />
   );

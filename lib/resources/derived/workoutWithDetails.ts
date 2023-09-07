@@ -1,6 +1,11 @@
 "use server";
 
-import { get } from "@/lib/requests";
+import {
+  get,
+  newRequestFailure,
+  newRequestSuccess,
+  RequestResult,
+} from "@/lib/requests";
 import {
   WorkoutWithDetails,
   WorkoutWithType,
@@ -32,29 +37,42 @@ type GetAllWorkoutsWithDetailsParams = {
 
 export async function getAllWorkoutsWithDetails({
   limit,
-}: GetAllWorkoutsWithDetailsParams): Promise<WorkoutWithDetails[]> {
+}: GetAllWorkoutsWithDetailsParams): Promise<
+  RequestResult<WorkoutWithDetails[]>
+> {
   const params = limit ? { limit: limit.toString() } : undefined;
-  const wktsWithDtls = (await get({
+  const result = (await get({
     route: ROUTE,
     params,
-  })) as WorkoutWithDetails[];
-  return wktsWithDtls.map((wktWithDtls) => convertDates(wktWithDtls));
+  })) as RequestResult<WorkoutWithDetails[]>;
+  if (!result.success) {
+    return result;
+  }
+  const wktsWithDtls = result.data.map((wktWithDtls) =>
+    convertDates(wktWithDtls),
+  );
+  return await newRequestSuccess(wktsWithDtls);
 }
 
 export async function getWorkoutWithDetails(
   id: string,
-): Promise<WorkoutWithDetails> {
+): Promise<RequestResult<WorkoutWithDetails>> {
   const params = { id };
-  const wktsWithDtls = (await get({
+  const result = (await get({
     route: ROUTE,
     params,
-  })) as WorkoutWithDetails[];
-  if (wktsWithDtls.length > 1) {
-    throw new Error(`Multiple workouts found with id ${id}`);
+  })) as RequestResult<WorkoutWithDetails[]>;
+  if (!result.success) {
+    return result;
   }
-  const wktWithDtls = wktsWithDtls[0];
+  if (result.data.length > 1) {
+    return await newRequestFailure(
+      new Error(`Multiple workouts found with id ${id}`),
+    );
+  }
+  const wktWithDtls = result.data[0];
   const wktWithDtlsTyped = convertDates(wktWithDtls);
-  return wktWithDtlsTyped;
+  return await newRequestSuccess(wktWithDtlsTyped);
 }
 
 export type ExerciseSet = {
@@ -125,14 +143,17 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
 // multiple iterations of the same type of exercise.
 export async function getWorkoutWithDetailsAsExerciseSets(
   id: string,
-): Promise<WorkoutWithExerciseSets> {
-  const wktWithDtls = await getWorkoutWithDetails(id);
+): Promise<RequestResult<WorkoutWithExerciseSets>> {
+  const result = await getWorkoutWithDetails(id);
+  if (!result.success) {
+    return result;
+  }
+  const wktWithDtls = result.data;
   // Sort the exercises by start time, and put nulls last.
   const exercises = sortExercises(wktWithDtls.exercises);
   const exerciseSets = groupExercises(exercises);
-  const x = {
+  return await newRequestSuccess({
     workout: wktWithDtls.workout,
     exerciseSets: exerciseSets,
-  };
-  return x;
+  });
 }

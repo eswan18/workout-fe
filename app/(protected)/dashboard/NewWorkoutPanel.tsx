@@ -15,7 +15,12 @@ async function createAndStartWorkout(
     status: "in-progress",
     start_time: new Date(), // start the workout right now.
   };
-  return await createWorkout({ workout });
+
+  const result = await createWorkout({ workout });
+  if (!result.success) {
+    throw result.error;
+  }
+  return result.data;
 }
 
 export default function NewWorkoutPanel({
@@ -26,8 +31,6 @@ export default function NewWorkoutPanel({
   const [modal, setModal] = useState<React.ReactNode | null>(null);
   const router = useRouter();
   // a temporary thing to test what happens with more workouts
-  workoutTypes = workoutTypes.concat(workoutTypes).concat(workoutTypes);
-  workoutTypes = workoutTypes.concat(workoutTypes).concat(workoutTypes);
   const newWorkoutCards = workoutTypes.slice(0, 3).map((workoutType, index) => {
     const onClick = () => {
       if (!workoutType.id) throw new Error("Workout type id is null");
@@ -53,7 +56,6 @@ export default function NewWorkoutPanel({
       {workoutTypes && <h2 className="text-lg lg:text-2xl">New Workout</h2>}
       <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4">
         {newWorkoutCards}
-        {/* <NewWorkoutButton name="More" onClick={onMoreClick} showAsDots /> */}
         <MoreWorkoutsButton onClick={onMoreClick} />
       </div>
       {modal}
@@ -89,7 +91,7 @@ function NewWorkoutButton({
 function MoreWorkoutsButton({ onClick }: { onClick: () => void }) {
   return (
     <button className="flex flex-col" onClick={onClick}>
-      <div className="h-16 rounded-lg flex flex-row justify-between items-center px-4 dark:text-gray-300 text-gold">
+      <div className="h-16 rounded-lg flex flex-row justify-between items-center px-4 text-gold">
         <p className="pr-3 font-bold">More Workouts...</p>
       </div>
     </button>

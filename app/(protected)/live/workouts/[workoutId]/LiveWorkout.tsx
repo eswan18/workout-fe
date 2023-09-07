@@ -111,8 +111,11 @@ export default function LiveWorkout({
         reps,
         start_time: new Date(),
       };
-      createExercise(newExercise).then((ex) => {
-        console.log("new ex", ex);
+      createExercise(newExercise).then((result) => {
+        if (!result.success) {
+          throw result.error;
+        }
+        const ex = result.data;
         setExercises([...exercises, ex]);
       });
       setModal(null);

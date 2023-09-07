@@ -29,7 +29,7 @@ export default function MoreWorkoutTypesModal({
     };
     return (
       <tr
-        className="cursor-pointer even:bg-gray-50 border-y-[1px] border-gray-200"
+        className="cursor-pointer even:bg-gray-50 dark:even:bg-gray-800 border-y-[1px] border-gray-200 dark:border-gray-700"
         onClick={onClick}
         key={workoutType.id}
         title={workoutType.name}
@@ -63,7 +63,7 @@ export default function MoreWorkoutTypesModal({
             </div>
           </div>
           <div>
-            <p className="text-lg text-gray-500">OR</p>
+            <p className="text-lg text-gray-500 dark:text-gray-400">OR</p>
           </div>
           <div className="w-[40%] flex-shrink flex flex-col items-center text-gold text-sm gap-6 max-w-xl">
             <button onClick={createNewWorkoutType}>
