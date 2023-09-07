@@ -22,8 +22,8 @@ export default function WorkoutView({
   return (
     <main>
       <div className="flex flex-col justify-start items-center lg:my-10 my-4">
-        <div className="flex flex-row justify-center flex-wrap w-full px-4 gap-4">
-          <div className="w-0 flex-grow flex-shrink"></div>
+        <div className="flex flex-row justify-between items-start flex-wrap w-full px-4 gap-4">
+          <div className="w-0 flex-grow flex-shrink hidden sm:block">{/* Spacer */}</div>
           <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center text-3xl min-w-fit">
             <h1>{workoutName}</h1>
             <Link
@@ -41,7 +41,7 @@ export default function WorkoutView({
               </button>
             </Link>
           </div>
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-end min-w-fit">
+          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center min-w-fit">
             <WorkoutOverviewCard
               workout={workout}
               exerciseGroups={exerciseGroups}
