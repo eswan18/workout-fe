@@ -1,5 +1,6 @@
-import { WorkoutWithType, WorkoutWithDetails } from "@/lib/resources/apiTypes";
+import { WorkoutWithDetails } from "@/lib/resources/apiTypes";
 import Link from "next/link";
+import { formatDateYMD, formatDurationHMS } from "@/lib/time";
 
 type RecentWorkoutsPanelProps = {
   wktsWithDetails: WorkoutWithDetails[];
@@ -34,46 +35,6 @@ export default async function RecentWorkoutsPanel({
   );
 }
 
-function formatDate(date: Date): string {
-  // Extract date components
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hour = String(date.getHours()).padStart(2, "0");
-  const minute = String(date.getMinutes()).padStart(2, "0");
-
-  const today = new Date();
-  if (
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate()
-  ) {
-    return `Today (${hour}:${minute})`;
-  } else if (
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate() - 1
-  ) {
-    return "Yesterday";
-  }
-
-  // Combine components into a single string
-  return `${year}-${month}-${day}`;
-}
-
-function differenceInHoursMinutesAndSecondsFormatted(
-  start: Date,
-  end: Date,
-): string {
-  const diff = Math.abs(start.getTime() - end.getTime());
-  const hours = Math.floor(diff / 1000 / 60 / 60);
-  const minutes = Math.floor(diff / 1000 / 60) % 60;
-  const seconds = Math.floor(diff / 1000) % 60;
-  return `${hours}:${String(minutes).padStart(2, "0")}:${String(
-    seconds,
-  ).padStart(2, "0")}`;
-}
-
 async function RecentWorkoutCard({
   workoutWithDtls,
 }: {
@@ -85,12 +46,10 @@ async function RecentWorkoutCard({
     : undefined;
   const endTime = workout.end_time ? new Date(workout.end_time) : undefined;
   const durationString =
-    startTime && endTime
-      ? differenceInHoursMinutesAndSecondsFormatted(startTime, endTime)
-      : "Unfinished";
+    startTime && endTime ? formatDurationHMS(startTime, endTime) : "Unfinished";
   const exerciseCount = exercises.length;
 
-  const startTimeText = startTime ? formatDate(startTime) : "----";
+  const startTimeText = startTime ? formatDateYMD(startTime, true) : "----";
   const name = workout.workout_type_name ?? "Custom Workout";
   return (
     <Link href={`/workouts/${workout.id}`}>

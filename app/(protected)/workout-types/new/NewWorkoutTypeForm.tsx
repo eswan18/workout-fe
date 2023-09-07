@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { createWorkoutType } from "@/lib/resources/workoutTypes";
+import { toast } from "react-toastify";
 
 export default function NewWorkoutTypeForm() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export default function NewWorkoutTypeForm() {
       }
       setLoading(false);
       router.push("/dashboard");
+      toast.success("Workout type created!");
     });
   };
 

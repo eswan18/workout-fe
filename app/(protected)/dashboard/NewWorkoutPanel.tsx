@@ -92,7 +92,7 @@ function MoreWorkoutsButton({ onClick }: { onClick: () => void }) {
   return (
     <button className="flex flex-col" onClick={onClick}>
       <div className="h-16 rounded-lg flex flex-row justify-between items-center px-4 text-gold">
-        <p className="pr-3 font-bold">More Workouts...</p>
+        <p className="pr-3 font-bold">More Options...</p>
       </div>
     </button>
   );

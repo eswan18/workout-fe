@@ -2,8 +2,10 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "@flaticon/flaticon-uicons/css/all/all.css";
+import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import NavBar from "@/components/navBar/navBar";
+import ToastProvider from "./ToastProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,13 +20,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={`${inter.className} min-h-screen relative bg-gray-100 dark:bg-gray-800`}
       >
-        <NavBar />
-        <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
-          <div className="content-container w-[48rem] flex-shrink">
-            {props.children}
+        <ToastProvider>
+          <NavBar />
+          <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
+            <div className="content-container w-[48rem] flex-shrink">
+              {props.children}
+            </div>
           </div>
-        </div>
-        <Analytics />
+          <Analytics />
+        </ToastProvider>
       </body>
     </html>
   );

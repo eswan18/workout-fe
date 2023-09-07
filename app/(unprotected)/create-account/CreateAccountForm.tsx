@@ -3,9 +3,8 @@
 import { useState } from "react";
 import takeCreateUserAction from "./takeCreateUserAction";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import Link from "next/link";
-import Form from "@/components/forms/Form";
-import Input from "@/components/forms/Input";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function CreateAccountForm() {
@@ -27,11 +26,11 @@ export default function CreateAccountForm() {
     data.append("password", password);
     takeCreateUserAction(data)
       .then(() => {
-        alert("Success! Please sign in now");
         router.push("/api/auth/signin");
+        toast.success("Success! Please sign in now");
       })
       .catch((err) => {
-        alert(err);
+        toast.error(err.message);
       })
       .finally(() => {
         setLoading(false);
