@@ -14,6 +14,5 @@ export default async function ProtectedLayout({
     // In the long run, it would be nice for this to return the user to the specific page they requested.
     redirect("api/auth/signin?callbackUrl=/dashboard");
   }
-
   return <>{children}</>;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter, redirect } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
@@ -37,13 +37,13 @@ export default function LoginForm() {
         password: password,
         callbackUrl,
       });
-      setLoading(false);
 
       if (!res?.error) {
         router.push(callbackUrl);
       } else {
         // I should come back to this and handle the various possible errors.
         toast.error("Invalid email or password");
+        setLoading(false);
       }
     } catch (error: any) {
       setLoading(false);

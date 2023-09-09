@@ -54,7 +54,7 @@ export default function NewWorkoutPanel({
   return (
     <div className="w-full pt-2">
       {workoutTypes && <h2 className="text-lg lg:text-2xl">New Workout</h2>}
-      <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4">
+      <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-center lg:justify-start items-center">
         {newWorkoutCards}
         <MoreWorkoutsButton onClick={onMoreClick} />
       </div>
@@ -90,7 +90,8 @@ function NewWorkoutButton({
 
 function MoreWorkoutsButton({ onClick }: { onClick: () => void }) {
   return (
-    <button className="flex flex-col" onClick={onClick}>
+    <button className="flex flex-col w-32 lg:w-auto" onClick={onClick}>
+      {/* Forcing the button to be exactly 32 in small screens helps because then it lines up better in two-row layouts. */}
       <div className="h-16 rounded-lg flex flex-row justify-between items-center px-4 text-gold">
         <p className="pr-3 font-bold">More Options...</p>
       </div>

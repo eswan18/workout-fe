@@ -13,6 +13,7 @@ export default function WorkoutView({
   workout,
   exerciseGroups,
 }: WorkoutViewProps) {
+  const startTime = formatDateYMDHM(new Date(workout.start_time));
   const groups = exerciseGroups.map((set) => ({
     exerciseType: set.exerciseType,
     exercises: set.exercises,
@@ -23,8 +24,13 @@ export default function WorkoutView({
     <main>
       <div className="flex flex-col justify-start items-center lg:my-10 my-4">
         <div className="flex flex-row justify-between items-start flex-wrap w-full px-4 gap-4">
-          <div className="w-0 flex-grow flex-shrink hidden sm:block">{/* Spacer */}</div>
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center text-3xl min-w-fit">
+          <div className="w-0 flex-grow flex-shrink hidden sm:block">
+            {/* Spacer */}
+          </div>
+          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center text-3xl min-w-fit gap-1">
+            <span className="text-base text-gray-500 dark:text-gray-400">
+              {startTime}
+            </span>
             <h1>{workoutName}</h1>
             <Link
               href={`/live/workouts/${workout.id}`}
@@ -33,8 +39,7 @@ export default function WorkoutView({
             >
               <button
                 className="flex flex-row justify-center items-center
-                          rounded-full border-gold text-gold
-                          py-2 px-3"
+                          rounded-full border-gold text-gold mt-2"
               >
                 <p>Edit</p>
                 <i className="fi fi-rr-edit ml-1.5 inline-flex align-[-0.2rem]" />
@@ -79,23 +84,25 @@ function WorkoutOverviewCard({ workout, exerciseGroups }: WorkoutViewProps) {
     0,
   );
   return (
-    <div className="rounded-lg p-2 lg:p-3 shadow-md dark:shadow-sm flex flex-col gap-2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-xs items-center w-auto">
-      <h2 className="text-xl">Overview</h2>
-      <div className="flex flex-row justify-between gap-8 w-auto">
-        <div className="flex flex-col justify-end items-start">
-          <span className="text-base">Duration</span>
-          <span className="text-lg">{durationString}</span>
+    <div className="rounded-lg p-2 lg:p-3 shadow-md dark:shadow-sm flex flex-col gap-2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs items-center w-auto">
+      <div className="flex flex-col justify-between w-auto">
+        <div className="flex flex-row justify-center items-center gap-1">
+          <div className="flex flex-col px-2 py-1 items-center justify-start">
+            <span className="text-gray-500 dark:text-gray-400">Exercises</span>
+            <span className="text-lg">{nExercises}</span>
+          </div>
+          <div className="flex flex-col px-2 py-1 items-center justify-start">
+            <span className="text-gray-500 dark:text-gray-400">Sets</span>
+            <span className="text-lg">{nSets}</span>
+          </div>
+          <div className="flex flex-col px-2 py-1 items-center justify-start">
+            <span className="text-gray-500 dark:text-gray-400">Reps</span>
+            <span className="text-lg">{nReps}</span>
+          </div>
         </div>
-        <div className="flex flex-col justify-start items-end">
-          <div>
-            {nExercises} exercise{nExercises != 1 && "s"}
-          </div>
-          <div>
-            {nSets} set{nSets != 1 && "s"}
-          </div>
-          <div>
-            {nReps} rep{nReps != 1 && "s"}
-          </div>
+        <div className="flex flex-col px-2 py-1 items-center justify-start">
+          <span className="text-gray-500 dark:text-gray-400">Duration</span>
+          <span className="text-lg">{durationString}</span>
         </div>
       </div>
     </div>

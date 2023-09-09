@@ -16,7 +16,10 @@ type RequestParams = {
 
 // Because all our API calls are in server functions, javascript errors don't propagate to the client.
 // Instead, we return a RequestResult, in the model of Rust's Result type.
-export type RequestResult<T> = RequestSuccess<T> | RequestFailure;
+export type RequestResult<T> =
+  | RequestSuccess<T>
+  | RequestFailure
+  | RequestAuthFailure;
 
 export type RequestSuccess<T> = {
   success: true;
@@ -25,6 +28,13 @@ export type RequestSuccess<T> = {
 
 export type RequestFailure = {
   success: false;
+  authFailure: false;
+  error: Error;
+};
+
+export type RequestAuthFailure = {
+  success: false;
+  authFailure: true;
   error: Error;
 };
 
@@ -35,7 +45,13 @@ export async function newRequestSuccess<T>(
 }
 
 export async function newRequestFailure(error: Error): Promise<RequestFailure> {
-  return { success: false, error };
+  return { success: false, authFailure: false, error };
+}
+
+export async function newRequestAuthFailure(
+  error: Error,
+): Promise<RequestAuthFailure> {
+  return { success: false, authFailure: true, error };
 }
 
 export async function request({
@@ -72,24 +88,14 @@ export async function request({
       clearTimeout(timeoutId);
     });
   if (!response) {
-    throw new Error(`Failed to fetch ${route}`);
+    return newRequestFailure(new Error(`Failed to fetch ${route}`));
   }
   if (!response.ok) {
-    let error;
-    try {
-      const payload = await response.json();
-      // This is likely a 401 error, so (eventually) we should make this log the user out.
-      // I wasn't able to find a way to do that server-side so I'll come back to this.
-      if (response.status === 401) {
-        console.log("Invalid credentials -- sending to login");
-        redirect("/login");
-      }
-      error = new Error(JSON.stringify(payload.detail));
-    } catch (e) {
-      console.error(e);
-      error = new Error(`Failed to fetch ${url} and unable to decode json`);
+    const payload = await response.text();
+    if (response.status === 401) {
+      return newRequestAuthFailure(new Error(payload));
     }
-    throw error;
+    return newRequestFailure(new Error(payload));
   }
   return newRequestSuccess(await response.json());
 }

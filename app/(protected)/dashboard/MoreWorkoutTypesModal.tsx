@@ -52,11 +52,11 @@ export default function MoreWorkoutTypesModal({
   return (
     <ClientModal handleClose={handleClose}>
       <div className="flex flex-col max-w-md h-128 m-auto gap-6">
-        <h2 className="text-lg lg:text-2xl font-bold">Start a Workout</h2>
-        <div className="flex flex-row justify-between items-center w-full gap-2 lg:gap-4 lg:pb-4">
+        <h2 className="text-xl sm:text-2xl font-bold">Start a Workout</h2>
+        <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-4 lg:pb-4">
           <div className="flex flex-col px-2">
-            <h3 className="text-lg">Workout Types</h3>
-            <div className="w-48 h-48 overflow-y-scroll flex-grow flex-shrink-0 mx-auto">
+            <h3 className="text-lg sm:text-xl pb-1">Workout Types</h3>
+            <div className="w-48 h-48 overflow-y-scroll flex-grow flex-shrink-0 mx-auto border-t-2 border-gray-300 dark:border-gray-500">
               <table className="w-full table-auto border-collapse">
                 <tbody>{rows}</tbody>
               </table>
@@ -65,10 +65,10 @@ export default function MoreWorkoutTypesModal({
           <div>
             <p className="text-lg text-gray-500 dark:text-gray-400">OR</p>
           </div>
-          <div className="w-[40%] flex-shrink flex flex-col items-center text-gold text-sm gap-6 max-w-xl">
+          <div className="lg:w-[40%] flex-shrink flex flex-col items-center text-gold text-sm gap-6 lg:max-w-xl">
             <button onClick={createNewWorkoutType}>
               <div className="flex flex-row justify-between items-center gap-2 px-2">
-                <i className="fi fi-rr-square-plus inline-flex align-[-0.5rem] text-3xl" />
+                <i className="fi fi-rr-square-plus inline-flex align-[-0.5rem] text-xl lg:text-3xl" />
                 <p className="text-left">
                   Create a <span className="font-bold">new</span> type of
                   workout
@@ -77,7 +77,7 @@ export default function MoreWorkoutTypesModal({
             </button>
             <button onClick={createAndStartCustomWorkout}>
               <div className="flex flex-row justify-between items-center gap-2 px-2">
-                <i className="fi fi-rr-square-plus inline-flex align-[-0.5rem] text-3xl" />
+                <i className="fi fi-rr-square-plus inline-flex align-[-0.5rem] text-xl lg:text-3xl" />
                 <p className="text-left">
                   Start a <span className="font-bold">custom</span> workout
                 </p>
