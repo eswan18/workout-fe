@@ -1,12 +1,11 @@
 "use client";
 
 import { signIn, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
-export default function NavBarRight({
-  userEmail,
-}: {
-  userEmail: String | undefined;
-}) {
+export default function NavBarRight() {
+  const session = useSession();
+  const userEmail = session.data?.user?.email;
   const handleClick = () => {
     userEmail ? signOut({ callbackUrl: "/" }) : signIn();
   };

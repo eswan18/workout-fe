@@ -1,4 +1,4 @@
-import { revalidateTag } from "next/cache";
+"use server";
 
 const apiUrl = process.env.WORKOUT_API_URL;
 
@@ -46,6 +46,5 @@ export default async function loginUser(
   }
   const data = await response.json();
   const token = data.access_token;
-  revalidateTag("currentUser");
   return { id: email, email, token };
 }

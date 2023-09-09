@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter, redirect } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
@@ -11,7 +11,6 @@ export default function LoginForm() {
   // Pulled largely from this tutorial: https://codevoweb.com/nextjs-use-custom-login-and-signup-pages-for-nextauth-js/
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const searchParams = useSearchParams();
   // Redirect the user to the dashboard if there's no callback URL.
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
@@ -19,7 +18,6 @@ export default function LoginForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    setError("");
 
     const elements = event.currentTarget
       .elements as HTMLFormControlsCollection & {
@@ -47,7 +45,6 @@ export default function LoginForm() {
       }
     } catch (error: any) {
       setLoading(false);
-      setError(error);
     }
   };
 

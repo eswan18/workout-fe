@@ -1,12 +1,9 @@
 import Link from "next/link";
 import NavBarRight from "./navBarRight";
-import { getCurrentUser } from "@/lib/session";
 import Logo from "../branding/Logo";
 
 export default async function NavBar() {
-  const user = await getCurrentUser();
-  const userEmail = user?.email as string | undefined;
-  return SyncNavBar({ userEmail });
+  return SyncNavBar();
 }
 
 function NavBarLeft() {
@@ -21,11 +18,11 @@ function NavBarLeft() {
 }
 
 // This synchronous version is used for Storybook.
-export function SyncNavBar({ userEmail }: { userEmail: String | undefined }) {
+export function SyncNavBar() {
   return (
     <div className="flex flex-row justify-between bg-white dark:bg-gray-950 text-gray-800 border-b-[1px] border-gray-300 dark:border-0 h-12 sm:h-14">
       <NavBarLeft />
-      <NavBarRight userEmail={userEmail} />
+      <NavBarRight />
     </div>
   );
 }

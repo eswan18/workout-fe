@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import NavBar from "@/components/navBar/navBar";
 import ToastProvider from "./ToastProvider";
+import { NextAuthProvider } from "./NextAuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,15 +21,17 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={`${inter.className} min-h-screen relative bg-gray-100 dark:bg-gray-800`}
       >
-        <ToastProvider>
-          <NavBar />
-          <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
-            <div className="content-container w-[48rem] flex-shrink">
-              {props.children}
+        <NextAuthProvider>
+          <ToastProvider>
+            <NavBar />
+            <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
+              <div className="content-container w-[48rem] flex-shrink">
+                {props.children}
+              </div>
             </div>
-          </div>
-          <Analytics />
-        </ToastProvider>
+            <Analytics />
+          </ToastProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

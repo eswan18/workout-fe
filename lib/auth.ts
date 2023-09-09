@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         const user = await loginUser(credentials.email, credentials.password);
+        // I can't figure out how to get the navbar to refresh; this does nothing right now.
         return user;
       },
     }),
