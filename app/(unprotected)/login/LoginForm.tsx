@@ -6,6 +6,16 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function LoginForm() {
   // Pulled largely from this tutorial: https://codevoweb.com/nextjs-use-custom-login-and-signup-pages-for-nextauth-js/
@@ -49,63 +59,48 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col">
-      <h1 className="text-2xl font-bold mb-3">Log In</h1>
-      <div className="flex flex-col mb-3">
-        <label
-          htmlFor="email"
-          className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
-        >
-          Email
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="bobby.tables@gmail.com"
-            className="dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-          />
-        </label>
-      </div>
-      <label
-        htmlFor="password"
-        className="mb-1 text-gray-700 dark:text-gray-100 flex flex-col items-start gap-1"
-      >
-        Password
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="correcthorsebatterystaple"
-          className="dark:text-gray-200 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-        />
-      </label>
-      <div className="flex w-full justify-center font-bold my-2">
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <button
-            className="flex flex-row justify-center items-center
-                        rounded-full text-white bg-gold
-                        py-2 px-4 m-2 gap-2"
-            type="submit"
-          >
-            <p>Log In</p>
-            <i className="text-lg fi fi-bs-sign-in-alt inline-flex align-[-0.2rem]" />
-          </button>
-        )}
-      </div>
-      <div className="mt-4 text-sm flex flex-col items-center">
-        <p>Don&apos;t have an account?</p>
+    <Card>
+      <CardHeader>
+        <CardTitle>Log In</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="bobby.tables@gmail.com"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="correcthorsebatterystaple"
+            />
+          </div>
+          <div className="w-full flex flex-col items-center">
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <Button size='lg' type='submit' className="flex flex-row gap-2">
+                <p>Log In</p>
+                <i className="fi fi-bs-sign-in-alt inline-flex align-[-0.2rem]" />
+              </Button>
+            )}
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex flex-col items-center gap-1">
+        <p className="text-xs">Don&apos;t have an account?</p>
         <Link href="/create-account">
-          <button
-            className="flex flex-row justify-center items-center
-                      rounded-full border-2 border-gold text-gold
-                      py-2 px-3 m-2 font-bold"
-          >
-            Create Account
-          </button>
+          <Button size="sm" variant="outline">Create Account</Button>
         </Link>
-      </div>
-    </form>
+      </CardFooter>
+    </Card>
   );
 }
