@@ -2,6 +2,7 @@
 
 import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function NavBarRight() {
   const session = useSession();
@@ -33,6 +34,7 @@ export default function NavBarRight() {
       <i className="text-lg fi fi-rs-circle-user inline-flex align-[-0.25rem]" />
       <p className="overflow-hidden text-ellipsis">{userEmail}</p>
       {button}
+      <ThemeToggle />
     </div>
   );
 }

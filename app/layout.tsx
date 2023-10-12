@@ -7,6 +7,7 @@ import React from "react";
 import NavBar from "@/components/navBar/navBar";
 import ToastProvider from "./ToastProvider";
 import { NextAuthProvider } from "./NextAuthProvider";
+import { ThemeProvider } from "./ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,17 +22,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={`${inter.className} min-h-screen relative bg-gray-100 dark:bg-gray-800`}
       >
-        <NextAuthProvider>
-          <ToastProvider>
-            <NavBar />
-            <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
-              <div className="content-container w-[48rem] flex-shrink">
-                {props.children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextAuthProvider>
+            <ToastProvider>
+              <NavBar />
+              <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
+                <div className="content-container w-[48rem] flex-shrink">
+                  {props.children}
+                </div>
               </div>
-            </div>
-            <Analytics />
-          </ToastProvider>
-        </NextAuthProvider>
+              <Analytics />
+            </ToastProvider>
+          </NextAuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
