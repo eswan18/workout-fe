@@ -4,13 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { createWorkoutType } from "@/lib/resources/workoutTypes";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function NewWorkoutTypeForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
+  const { toast } = useToast();
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -31,7 +32,10 @@ export default function NewWorkoutTypeForm() {
       }
       setLoading(false);
       router.push("/dashboard");
-      toast.success("Workout type created!");
+      toast({
+        title: "Success!",
+        description: "Workout type created!",
+      })
     });
   };
 

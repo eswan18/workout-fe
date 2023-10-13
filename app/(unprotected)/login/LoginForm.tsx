@@ -3,10 +3,10 @@
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
@@ -24,7 +24,8 @@ export default function LoginForm() {
   const searchParams = useSearchParams();
   // Redirect the user to the dashboard if there's no callback URL.
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-
+  const { toast } = useToast();
+ 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -50,7 +51,10 @@ export default function LoginForm() {
         router.push(callbackUrl);
       } else {
         // I should come back to this and handle the various possible errors.
-        toast.error("Invalid email or password");
+        toast({
+          title: "Invalid email or password",
+          description: "Please try again.",
+        })
         setLoading(false);
       }
     } catch (error: any) {

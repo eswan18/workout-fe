@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Exercise,
   ExerciseType,
@@ -39,6 +39,7 @@ export default function LiveWorkout({
   exerciseTypes,
 }: LiveWorkoutProps) {
   const router = useRouter();
+  const { toast } = useToast();
 
   // Workout groupings aren't a construct in the database, so we need to add an artificial key to each set.
   const initialGroups: ExerciseGroup[] = exerciseSets.map((set) => ({
@@ -196,7 +197,9 @@ export default function LiveWorkout({
     }).then(() => {
       // For now, redirect to the view-only workout page. Eventually this should go to some kind of summary.
       router.push(`/workouts/${workout.id}`);
-      toast.success("Workout saved!");
+      toast({
+        title: "Workout saved!"
+      })
     });
   };
 

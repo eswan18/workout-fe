@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "react-toastify";
+import { useToast } from '@/components/ui/use-toast';
 import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 
@@ -11,11 +11,15 @@ export default function Error({
   error: Error;
   reset: () => void;
 }) {
+  const { toast } = useToast();
   // Checking the contents of this string seemsl like a hack, but since server errors
   // are serialized I don't think there's any other way to capture data about error
   // type.
   if (error.message.includes("Could not validate credentials")) {
-    toast.error("You've been logged out... redirecting to login page.");
+    toast({
+      title: "You've been logged out",
+      description: "Redirecting to login page.",
+    })
     signOut().then(() => redirect("/login"));
   }
 

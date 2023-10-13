@@ -3,7 +3,7 @@
 import { useState } from "react";
 import takeCreateUserAction from "./takeCreateUserAction";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { useToast } from '@/components/ui/use-toast';
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 export default function CreateAccountForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,10 +38,16 @@ export default function CreateAccountForm() {
     takeCreateUserAction(data)
       .then(() => {
         router.push("/api/auth/signin");
-        toast.success("Success! Please sign in now");
+        toast({
+          title: "Success!",
+          description: "Please sign in now.",
+        })
       })
       .catch((err) => {
-        toast.error(err.message);
+        toast({
+          title: "Error",
+          description: err.message
+        })
       })
       .finally(() => {
         setLoading(false);

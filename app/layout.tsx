@@ -2,10 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "@flaticon/flaticon-uicons/css/all/all.css";
-import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import NavBar from "@/components/navBar/navBar";
-import ToastProvider from "./ToastProvider";
+import { Toaster } from "@/components/ui/toaster";
 import { NextAuthProvider } from "./NextAuthProvider";
 import { ThemeProvider } from "./ThemeProvider";
 
@@ -24,7 +23,6 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>
-            <ToastProvider>
               <NavBar />
               <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
                 <div className="content-container w-[48rem] flex-shrink">
@@ -32,7 +30,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 </div>
               </div>
               <Analytics />
-            </ToastProvider>
+              <Toaster />
           </NextAuthProvider>
         </ThemeProvider>
       </body>
