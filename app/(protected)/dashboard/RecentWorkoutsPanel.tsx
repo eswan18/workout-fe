@@ -1,6 +1,7 @@
 import { WorkoutWithDetails } from "@/lib/resources/apiTypes";
 import Link from "next/link";
 import { formatDateYMD, formatDurationHMS } from "@/lib/time";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 type RecentWorkoutsPanelProps = {
   wktsWithDetails: WorkoutWithDetails[];
@@ -53,18 +54,16 @@ async function RecentWorkoutCard({
   const name = workout.workout_type_name ?? "Custom Workout";
   return (
     <Link href={`/workouts/${workout.id}`}>
-      <div className="rounded-lg p-2 lg:p-3 shadow-md dark:shadow-sm shadow-gold w-32 h-32 flex flex-col bg-white dark:bg-gray-900 dark:shadow-gold text-gray-600 dark:text-gray-400">
-        <div className="flex-grow">
-          <p className="text-sm">{startTimeText}</p>
-          <h2 className="text-gray-800 dark:text-gray-300 text-base lg:text-lg font-bold leading-normal lg:leading-tight">
-            {name}
-          </h2>
-        </div>
-        <div className="flex-grow-0">
-          <p className="text-sm">{exerciseCount} sets</p>
-          <p className="text-sm">{durationString}</p>
-        </div>
-      </div>
+      <Card className="w-40 h-40 flex flex-col justify-between" >
+        <CardHeader className="p-4">
+          <CardDescription>{startTimeText}</CardDescription>
+          <CardTitle className="text-lg">{name}</CardTitle>
+        </CardHeader>
+        <CardFooter className="flex flex-col items-start p-4 gap-1">
+          <p className="text-sm text-muted-foreground">{exerciseCount} sets</p>
+          <p className="text-sm text-muted-foreground">{durationString}</p>
+        </CardFooter>
+      </Card>
     </Link>
   );
 }
