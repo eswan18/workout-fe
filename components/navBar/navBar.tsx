@@ -24,11 +24,10 @@ export default function NavBar() {
   return (
       <div className="h-12 w-full flex flex-row justify-between bg-background px-2">
         <NavigationMenu>
-          <Link href="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Logo />
-            </NavigationMenuLink>
-          </Link>
+          { /* Using a Next <Link> tag here actually causes hydration errors. */ }
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
+            <Logo />
+          </NavigationMenuLink>
         </NavigationMenu>
         <div className="flex flex-row justify-right items-center gap-2">
           { userEmail
