@@ -17,7 +17,7 @@ export default function NavBar() {
   const handleClick = () => {
     userEmail ? signOut({ callbackUrl: "/" }) : signIn();
   };
-  const onSignOutClick = () => {
+  const doSignOut = () => {
     signOut({ callbackUrl: "/" });
   };
 
@@ -32,7 +32,7 @@ export default function NavBar() {
         </NavigationMenu>
         <div className="flex flex-row justify-right items-center gap-2">
           { userEmail
-            ? <LoggedInStatusDropdown userEmail={userEmail} onSignOutClick={onSignOutClick} />
+            ? <LoggedInStatusDropdown userEmail={userEmail} doSignOut={ doSignOut } />
             : <Button size='sm' onClick={handleClick}>Sign In</Button>
           }
           <ThemeToggle />
@@ -41,7 +41,7 @@ export default function NavBar() {
   );
 }
 
-function LoggedInStatusDropdown({ userEmail, onSignOutClick}: { userEmail: string, onSignOutClick: () => void}) {
+function LoggedInStatusDropdown({ userEmail, doSignOut }: { userEmail: string, doSignOut : () => void}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -60,29 +60,29 @@ function LoggedInStatusDropdown({ userEmail, onSignOutClick}: { userEmail: strin
               <span>Account</span>
             </DropdownMenuItem>
           </Link>
-          <LogOutMenuItemAndAlertDialog />
+          <LogOutMenuItemAndAlertDialog doSignOut={doSignOut} />
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }
 
-function LogOutMenuItemAndAlertDialog() {
+function LogOutMenuItemAndAlertDialog({ doSignOut }: { doSignOut?: () => void}) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem>
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <LogOut size={18} className="mr-2" /><span>Log out</span>
         </DropdownMenuItem>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="md:w-64">
         <AlertDialogHeader>
-          <AlertDialogTitle>Sign Out</AlertDialogTitle>
+          <AlertDialogTitle>Sign out</AlertDialogTitle>
           <AlertDialogDescription>Are you sure?</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={ doSignOut }>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
