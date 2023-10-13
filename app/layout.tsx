@@ -23,14 +23,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>
-              <NavBar />
-              <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
-                <div className="content-container w-[48rem] flex-shrink">
-                  {props.children}
-                </div>
+            <NavBar />
+            <div className="flex flex-row justify-center text-gray-700 dark:text-gray-100">
+              <div className="content-container w-[48rem] flex-shrink">
+                {props.children}
               </div>
-              <Analytics />
-              <Toaster />
+            </div>
+            <Analytics />
+            <Toaster />
           </NextAuthProvider>
         </ThemeProvider>
       </body>

@@ -198,8 +198,8 @@ export default function LiveWorkout({
       // For now, redirect to the view-only workout page. Eventually this should go to some kind of summary.
       router.push(`/workouts/${workout.id}`);
       toast({
-        title: "Workout saved!"
-      })
+        title: "Workout saved!",
+      });
     });
   };
 

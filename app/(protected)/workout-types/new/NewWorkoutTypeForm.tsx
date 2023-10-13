@@ -35,7 +35,7 @@ export default function NewWorkoutTypeForm() {
       toast({
         title: "Success!",
         description: "Workout type created!",
-      })
+      });
     });
   };
 

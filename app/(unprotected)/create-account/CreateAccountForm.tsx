@@ -3,7 +3,7 @@
 import { useState } from "react";
 import takeCreateUserAction from "./takeCreateUserAction";
 import { useRouter } from "next/navigation";
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
@@ -41,13 +41,13 @@ export default function CreateAccountForm() {
         toast({
           title: "Success!",
           description: "Please sign in now.",
-        })
+        });
       })
       .catch((err) => {
         toast({
           title: "Error",
-          description: err.message
-        })
+          description: err.message,
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -61,41 +61,43 @@ export default function CreateAccountForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="bobby.tables@gmail.com"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="correcthorsebatterystaple"
-              />
-            </div>
-            <div className="w-full flex flex-col items-center">
-              {loading ? (
-                <LoadingSpinner />
-              ) : (
-                <Button size='lg' type='submit' className="flex flex-row gap-2">
-                  <p>Create</p>
-                  <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
-                </Button>
-              )}
-            </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="bobby.tables@gmail.com"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="correcthorsebatterystaple"
+            />
+          </div>
+          <div className="w-full flex flex-col items-center">
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <Button size="lg" type="submit" className="flex flex-row gap-2">
+                <p>Create</p>
+                <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
+              </Button>
+            )}
+          </div>
         </form>
       </CardContent>
       <CardFooter className="flex flex-col items-center gap-1">
-          <p className="text-xs">Already have an account?</p>
-          <Link href="/login">
-            <Button size='sm' variant='outline'>Log in</Button>
-          </Link>
+        <p className="text-xs">Already have an account?</p>
+        <Link href="/login">
+          <Button size="sm" variant="outline">
+            Log in
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

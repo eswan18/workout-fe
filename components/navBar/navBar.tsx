@@ -1,15 +1,37 @@
-"use client"
+"use client";
 
 import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
 import Link from "next/link";
 import Logo from "@/components/branding/Logo";
-import { NavigationMenu, NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
 import { LogOut, Settings, User } from "lucide-react";
-import { AlertDialog, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogCancel, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogCancel,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function NavBar() {
   const session = useSession();
@@ -22,25 +44,34 @@ export default function NavBar() {
   };
 
   return (
-      <div className="h-12 w-full flex flex-row justify-between bg-background px-2">
-        <NavigationMenu>
-          { /* Using a Next <Link> tag here actually causes hydration errors. */ }
-          <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-            <Logo />
-          </NavigationMenuLink>
-        </NavigationMenu>
-        <div className="flex flex-row justify-right items-center gap-2">
-          { userEmail
-            ? <LoggedInStatusDropdown userEmail={userEmail} doSignOut={ doSignOut } />
-            : <Button size='sm' onClick={handleClick}>Sign In</Button>
-          }
-          <ThemeToggle />
-        </div>
+    <div className="h-12 w-full flex flex-row justify-between bg-background px-2">
+      <NavigationMenu>
+        {/* Using a Next <Link> tag here actually causes hydration errors. */}
+        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
+          <Logo />
+        </NavigationMenuLink>
+      </NavigationMenu>
+      <div className="flex flex-row justify-right items-center gap-2">
+        {userEmail ? (
+          <LoggedInStatusDropdown userEmail={userEmail} doSignOut={doSignOut} />
+        ) : (
+          <Button size="sm" onClick={handleClick}>
+            Sign In
+          </Button>
+        )}
+        <ThemeToggle />
       </div>
+    </div>
   );
 }
 
-function LoggedInStatusDropdown({ userEmail, doSignOut }: { userEmail: string, doSignOut : () => void}) {
+function LoggedInStatusDropdown({
+  userEmail,
+  doSignOut,
+}: {
+  userEmail: string;
+  doSignOut: () => void;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -49,7 +80,7 @@ function LoggedInStatusDropdown({ userEmail, doSignOut }: { userEmail: string, d
           <p className="overflow-hidden text-ellipsis">{userEmail}</p>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
+      <DropdownMenuContent align="end">
         <DropdownMenuGroup>
           <DropdownMenuLabel>Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -63,15 +94,20 @@ function LoggedInStatusDropdown({ userEmail, doSignOut }: { userEmail: string, d
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
-function LogOutMenuItemAndAlertDialog({ doSignOut }: { doSignOut?: () => void}) {
+function LogOutMenuItemAndAlertDialog({
+  doSignOut,
+}: {
+  doSignOut?: () => void;
+}) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          <LogOut size={18} className="mr-2" /><span>Log out</span>
+          <LogOut size={18} className="mr-2" />
+          <span>Log out</span>
         </DropdownMenuItem>
       </AlertDialogTrigger>
       <AlertDialogContent className="md:w-64">
@@ -81,9 +117,9 @@ function LogOutMenuItemAndAlertDialog({ doSignOut }: { doSignOut?: () => void}) 
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={ doSignOut }>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={doSignOut}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

@@ -25,7 +25,7 @@ export default function LoginForm() {
   // Redirect the user to the dashboard if there's no callback URL.
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const { toast } = useToast();
- 
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -54,7 +54,7 @@ export default function LoginForm() {
         toast({
           title: "Invalid email or password",
           description: "Please try again.",
-        })
+        });
         setLoading(false);
       }
     } catch (error: any) {
@@ -91,7 +91,7 @@ export default function LoginForm() {
             {loading ? (
               <LoadingSpinner />
             ) : (
-              <Button size='lg' type='submit' className="flex flex-row gap-2">
+              <Button size="lg" type="submit" className="flex flex-row gap-2">
                 <p>Log In</p>
                 <i className="fi fi-bs-sign-in-alt inline-flex align-[-0.2rem]" />
               </Button>
@@ -102,7 +102,9 @@ export default function LoginForm() {
       <CardFooter className="flex flex-col items-center gap-1">
         <p className="text-xs">Don&apos;t have an account?</p>
         <Link href="/create-account">
-          <Button size="sm" variant="outline">Create Account</Button>
+          <Button size="sm" variant="outline">
+            Create Account
+          </Button>
         </Link>
       </CardFooter>
     </Card>

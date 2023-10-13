@@ -1,7 +1,13 @@
 import { WorkoutWithDetails } from "@/lib/resources/apiTypes";
 import Link from "next/link";
 import { formatDateYMD, formatDurationHMS } from "@/lib/time";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type RecentWorkoutsPanelProps = {
   wktsWithDetails: WorkoutWithDetails[];
@@ -54,7 +60,7 @@ async function RecentWorkoutCard({
   const name = workout.workout_type_name ?? "Custom Workout";
   return (
     <Link href={`/workouts/${workout.id}`}>
-      <Card className="w-40 h-40 flex flex-col justify-between" >
+      <Card className="w-40 h-40 flex flex-col justify-between">
         <CardHeader className="p-4">
           <CardDescription>{startTimeText}</CardDescription>
           <CardTitle className="text-lg">{name}</CardTitle>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from "@/components/ui/use-toast";
 import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 
@@ -19,7 +19,7 @@ export default function Error({
     toast({
       title: "You've been logged out",
       description: "Redirecting to login page.",
-    })
+    });
     signOut().then(() => redirect("/login"));
   }
 
