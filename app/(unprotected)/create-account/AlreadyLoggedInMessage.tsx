@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { LogOut } from "lucide-react";
 
 export default function AlreadyLoggedInMessage() {
