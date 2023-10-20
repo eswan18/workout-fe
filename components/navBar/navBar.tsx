@@ -4,7 +4,7 @@ import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { ThemeToggle } from "./ThemeToggle";
 import Link from "next/link";
-import Logo from "@/components/branding/Logo";
+import { Logo } from "@/components/branding/Logo";
 import {
   NavigationMenu,
   NavigationMenuLink,
