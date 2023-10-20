@@ -2,22 +2,22 @@
 
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
 export default function AlreadyLoggedInMessage() {
   const initiateSignOut = () => {
     signOut({ callbackUrl: "/" });
   };
   return (
-    <>
-      <div className="m-3">
-        <p>
-          You are already logged in. Log out first if you wish to create a new
-          user.
-        </p>
+    <div className="flex flex-col items-center gap-4">
+      <p>You are already logged in.</p>
+      <div className="flex flex-col items-center gap-1">
+        <p>If you want to create a new user, log out first.</p>
+        <Button onClick={initiateSignOut} variant='outline' size='lg' className="flex flex-row gap-2">
+          <p>Sign out</p>
+          <LogOut />
+        </Button>
       </div>
-      <Button onClick={initiateSignOut}>
-        Sign Out
-      </Button>
-    </>
+    </div>
   );
 }
