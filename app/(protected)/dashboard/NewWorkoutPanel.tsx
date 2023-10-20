@@ -30,7 +30,8 @@ export default function NewWorkoutPanel({
 }) {
   const [modal, setModal] = useState<React.ReactNode | null>(null);
   const router = useRouter();
-  // a temporary thing to test what happens with more workouts
+  // The parent component should pass workout types in order of display priority
+  // (descending), so we can just pull the first few.
   const newWorkoutCards = workoutTypes.slice(0, 3).map((workoutType, index) => {
     const onClick = () => {
       if (!workoutType.id) throw new Error("Workout type id is null");
