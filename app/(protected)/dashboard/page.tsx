@@ -21,9 +21,15 @@ export default async function DashboardPage() {
       <div className="mb-4">
         <h1 className="text-2xl lg:text-4xl">Welcome!</h1>
       </div>
-      <div className="w-full items-center justify-around lg:flex">
-        <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
-      </div>
+      {
+        allWorkouts.length > 0
+        ?
+          <div className="w-full items-center justify-around lg:flex">
+            <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
+          </div>
+        :
+          null
+      }
       <div className="w-full items-center justify-around lg:flex">
         <NewWorkoutPanel workoutTypes={workoutTypes} />
       </div>
