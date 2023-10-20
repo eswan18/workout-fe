@@ -1,7 +1,8 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-
+import { Button } from "@/components/ui/button";
+import { ArrowRightCircle, LogOut } from "lucide-react";
 import Link from "next/link";
 
 export default function AlreadyLoggedInMessage() {
@@ -9,28 +10,20 @@ export default function AlreadyLoggedInMessage() {
     signOut({ callbackUrl: "/" });
   };
   return (
-    <>
-      <div className="m-3">
-        <p>You are already logged in.</p>
-      </div>
+    <div className="flex flex-col items-center gap-4">
+      <p>You are already logged in.</p>
       <Link href="/dashboard">
-        <button
-          className="flex flex-row justify-center items-center
-                    rounded-full text-white bg-primary
-                    py-2 px-4 m-2 gap-2 font-bold"
-        >
+        <Button className="flex flex-row justify-center gap-2">
           <p>Proceed to Dashboard</p>
-          <i className="text-lg fi fi-br-arrow-right inline-flex align-[-0.2rem]" />
-        </button>
+          <ArrowRightCircle />
+        </Button>
       </Link>
-      <button
-        className="flex flex-row justify-center items-center
-                     rounded-full border-2 border-primary text-primary
-                     py-2 px-3 m-2 font-bold text-sm"
-        onClick={initiateSignOut}
-      >
-        Sign Out
-      </button>
-    </>
+      <div className="flex flex-col items-center gap-1">
+        <p className="text-sm">or</p>
+        <Button onClick={initiateSignOut} variant='outline' className="flex flex-row justify-center gap-2">
+          Sign Out <LogOut size={18} />
+        </Button>
+      </div>
+    </div>
   );
 }

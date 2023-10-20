@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function AlreadyLoggedInMessage() {
   const initiateSignOut = () => {
@@ -14,14 +15,9 @@ export default function AlreadyLoggedInMessage() {
           user.
         </p>
       </div>
-      <button
-        className="flex flex-row justify-center items-center
-                    rounded-full border-2 border-gold text-gold
-                    py-2 px-3 m-2 font-bold text-sm"
-        onClick={initiateSignOut}
-      >
+      <Button onClick={initiateSignOut}>
         Sign Out
-      </button>
+      </Button>
     </>
   );
 }
