@@ -44,7 +44,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="h-12 w-full flex flex-row justify-between bg-background px-2">
+    <div className="h-12 w-full flex flex-row justify-between px-2 bg-muted">
       <NavigationMenu>
         {/* Using a Next <Link> tag here actually causes hydration errors. */}
         <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">

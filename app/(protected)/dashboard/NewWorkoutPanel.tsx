@@ -4,7 +4,7 @@ import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
 import { createWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
-import { MoreHorizontal, Weight } from "lucide-react";
+import { Dumbbell, LineChart, LucideActivity, LucideBarChartHorizontalBig, LucideDumbbell, MoreHorizontal, Weight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -39,7 +39,7 @@ export default function NewWorkoutPanel({
   const router = useRouter();
   // The parent component should pass workout types in order of display priority
   // (descending), so we can just pull the first few.
-  const newWorkoutCards = workoutTypes.slice(0, 3).map((workoutType, index) => {
+  const newWorkoutCards = workoutTypes.slice(0, 5).map((workoutType, index) => {
     const onClick = () => {
       if (!workoutType.id) throw new Error("Workout type id is null");
       createAndStartWorkout(workoutType.id).then((workout) =>
@@ -53,7 +53,7 @@ export default function NewWorkoutPanel({
   return (
     <div className="w-full pt-2 flex flex-col justify-start items-start">
       <h2 className="text-lg lg:text-2xl pb-2">New Workout</h2>
-      <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-center lg:justify-start items-center">
+      <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-start items-center">
         {newWorkoutCards}
         <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
       </div>
@@ -73,7 +73,7 @@ function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
       className="w-auto h-16 flex flex-col justify-between items-center"
       onClick={onClick}
     >
-      <Weight />
+      <Dumbbell strokeWidth={3}/>
       <p>{name}</p>
     </Button>
   );

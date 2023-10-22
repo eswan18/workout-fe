@@ -3,6 +3,8 @@ import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import ExerciseGroupWidget from "./ExerciseGroupWidget";
 import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LineChart } from "lucide-react";
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
@@ -47,7 +49,7 @@ export default function WorkoutView({
             </Link>
           </div>
           <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center min-w-fit">
-            <WorkoutOverviewCard
+            <WorkoutStatsCard
               workout={workout}
               exerciseGroups={exerciseGroups}
             />
@@ -67,7 +69,7 @@ export default function WorkoutView({
   );
 }
 
-function WorkoutOverviewCard({ workout, exerciseGroups }: WorkoutViewProps) {
+function WorkoutStatsCard({ workout, exerciseGroups }: WorkoutViewProps) {
   const startTime = new Date(workout.start_time);
   const endTime = workout.end_time && new Date(workout.end_time);
   const durationString = endTime
@@ -84,19 +86,22 @@ function WorkoutOverviewCard({ workout, exerciseGroups }: WorkoutViewProps) {
     0,
   );
   return (
-    <div className="rounded-lg p-2 lg:p-3 shadow-md dark:shadow-sm flex flex-col gap-2 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 text-xs items-center w-auto">
-      <div className="flex flex-col justify-between w-auto">
+    <Card className="bg-background">
+      <CardHeader>
+        <CardTitle className="text-lg text-center">Stats <LineChart className="ml-4 inline-block"/></CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col justify-between w-auto text-sm">
         <div className="flex flex-row justify-center items-center gap-1">
           <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-gray-500 dark:text-gray-400">Exercises</span>
+            <span className="text-muted-foreground">Exercises</span>
             <span className="text-lg">{nExercises}</span>
           </div>
           <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-gray-500 dark:text-gray-400">Sets</span>
+            <span className="text-muted-foreground">Sets</span>
             <span className="text-lg">{nSets}</span>
           </div>
           <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-gray-500 dark:text-gray-400">Reps</span>
+            <span className="text-muted-foreground">Reps</span>
             <span className="text-lg">{nReps}</span>
           </div>
         </div>
@@ -104,7 +109,7 @@ function WorkoutOverviewCard({ workout, exerciseGroups }: WorkoutViewProps) {
           <span className="text-gray-500 dark:text-gray-400">Duration</span>
           <span className="text-lg">{durationString}</span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

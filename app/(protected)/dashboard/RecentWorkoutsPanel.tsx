@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CandlestickChart, LineChart } from "lucide-react";
 
 type RecentWorkoutsPanelProps = {
   wktsWithDetails: WorkoutWithDetails[];
@@ -65,9 +66,12 @@ async function RecentWorkoutCard({
           <CardDescription>{startTimeText}</CardDescription>
           <CardTitle className="text-lg">{name}</CardTitle>
         </CardHeader>
-        <CardFooter className="flex flex-col items-start p-4 gap-1">
-          <p className="text-sm text-muted-foreground">{exerciseCount} sets</p>
-          <p className="text-sm text-muted-foreground">{durationString}</p>
+        <CardFooter className="flex flex-row items-end justify-between">
+          <div className="flex flex-col items-start gap-1">
+            <p className="text-sm text-muted-foreground">{exerciseCount} sets</p>
+            <p className="text-sm text-muted-foreground">{durationString}</p>
+          </div>
+          <LineChart />
         </CardFooter>
       </Card>
     </Link>
