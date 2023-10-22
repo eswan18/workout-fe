@@ -51,11 +51,11 @@ export default function NewWorkoutPanel({
     );
   });
   return (
-    <div className="w-full pt-2">
-      {workoutTypes && <h2 className="text-lg lg:text-2xl">New Workout</h2>}
+    <div className="w-full pt-2 flex flex-col justify-start items-start">
+      <h2 className="text-lg lg:text-2xl pb-2">New Workout</h2>
       <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-center lg:justify-start items-center">
         {newWorkoutCards}
-        <MoreWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
+        <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
       </div>
     </div>
   );
@@ -71,20 +71,20 @@ function NewWorkoutButton({
   onClick,
 }: NewWorkoutButtonProps) {
   return (
-    <Button variant='ghost' className="w-auto h-16 flex flex-col justify-between items-center" onClick={onClick}>
+    <Button variant='secondary' className="w-auto h-16 flex flex-col justify-between items-center" onClick={onClick}>
         <Weight />
         <p>{name}</p>
     </Button>
   );
 }
 
-function MoreWorkoutTypesButtonWithDropdown({workoutTypes}: {workoutTypes: WorkoutType[]}) {
+function AllWorkoutTypesButtonWithDropdown({workoutTypes}: {workoutTypes: WorkoutType[]}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='ghost' className="h-16 w-auto flex flex-col justify-between items-center">
+        <Button variant='secondary' className="h-16 w-auto flex flex-col justify-between items-center">
           <MoreHorizontal />
-          <p>More workouts</p>
+          <p>All workouts</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
