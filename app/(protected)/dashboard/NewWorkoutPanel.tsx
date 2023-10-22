@@ -6,6 +6,8 @@ import { createWorkout } from "@/lib/resources/workouts";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MoreWorkoutTypesModal from "./MoreWorkoutTypesModal";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Goal, MoreHorizontal, MoreHorizontalIcon, MoveRight, Weight } from "lucide-react";
 
 async function createAndStartWorkout(
   workoutTypeId: string | undefined,
@@ -67,35 +69,36 @@ export default function NewWorkoutPanel({
 type NewWorkoutButtonProps = {
   name: string;
   onClick: () => void;
-  showAsDots?: boolean;
 };
 
 function NewWorkoutButton({
   name,
   onClick,
-  showAsDots = false,
 }: NewWorkoutButtonProps) {
+    /*<Link href={`/workouts/${workout.id}`}>
+      <Card className="w-40 h-40 flex flex-col justify-between">
+        <CardHeader className="p-4">
+          <CardDescription>{startTimeText}</CardDescription>
+          <CardTitle className="text-lg">{name}</CardTitle>
+        </CardHeader>
+        <CardFooter className="flex flex-col items-start p-4 gap-1">
+          <p className="text-sm text-muted-foreground">{exerciseCount} sets</p>
+          <p className="text-sm text-muted-foreground">{durationString}</p>
+        </CardFooter>
+      </Card>
+    </Link> */
   return (
-    <button className="flex flex-col" onClick={onClick}>
-      <div className="w-32 h-16 rounded-lg shadow-md dark:shadow-sm shadow-gold dark:shadow-gold flex flex-row justify-between items-center px-4 text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-900">
-        <p className="pr-3 text-left">{name}</p>
-        {showAsDots ? (
-          <i className="fi fi-rs-circle-ellipsis text-3xl inline-flex align-[-0.2rem] text-gold" />
-        ) : (
-          <i className="fi fi-rr-arrow-alt-circle-right text-3xl inline-flex align-[-0.2rem] text-gold" />
-        )}
-      </div>
-    </button>
+    <Button variant='outline' className="w-32 h-16 flex flex-col justify-between items-center" onClick={onClick}>
+        <Weight />{name} 
+    </Button>
   );
 }
 
 function MoreWorkoutsButton({ onClick }: { onClick: () => void }) {
   return (
-    <button className="flex flex-col w-32 lg:w-auto" onClick={onClick}>
+    <Button variant='outline' className="w-32 h-16 lg:w-auto flex flex-col justify-between items-center" onClick={onClick}>
       {/* Forcing the button to be exactly 32 in small screens helps because then it lines up better in two-row layouts. */}
-      <div className="h-16 rounded-lg flex flex-row justify-between items-center px-4 text-gold">
-        <p className="pr-3 font-bold">More Options...</p>
-      </div>
-    </button>
+      <MoreHorizontal />More Options 
+    </Button>
   );
 }
