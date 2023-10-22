@@ -15,5 +15,5 @@ export default function Loading() {
         <Skeleton className="h-4 w-[200px] bg-muted-foreground" />
       </div>
     </main>
-  )
+  );
 }

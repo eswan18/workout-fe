@@ -21,10 +21,14 @@ export default function AlreadyLoggedInMessage() {
           </Button>
         </Link>
       </div>
-      <Separator className="bg-foreground px-8 mt-6 mb-3 w-[75%]"/>
+      <Separator className="bg-foreground px-8 mt-6 mb-3 w-[75%]" />
       <div className="flex flex-col items-center gap-1">
         <p className="text-sm">or</p>
-        <Button onClick={initiateSignOut} variant='outline' className="flex flex-row justify-center gap-2">
+        <Button
+          onClick={initiateSignOut}
+          variant="outline"
+          className="flex flex-row justify-center gap-2"
+        >
           Sign Out <LogOut size={18} />
         </Button>
       </div>

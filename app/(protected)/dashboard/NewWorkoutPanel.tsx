@@ -66,23 +66,31 @@ type NewWorkoutButtonProps = {
   onClick: () => void;
 };
 
-function NewWorkoutButton({
-  name,
-  onClick,
-}: NewWorkoutButtonProps) {
+function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
   return (
-    <Button variant='secondary' className="w-auto h-16 flex flex-col justify-between items-center" onClick={onClick}>
-        <Weight />
-        <p>{name}</p>
+    <Button
+      variant="secondary"
+      className="w-auto h-16 flex flex-col justify-between items-center"
+      onClick={onClick}
+    >
+      <Weight />
+      <p>{name}</p>
     </Button>
   );
 }
 
-function AllWorkoutTypesButtonWithDropdown({workoutTypes}: {workoutTypes: WorkoutType[]}) {
+function AllWorkoutTypesButtonWithDropdown({
+  workoutTypes,
+}: {
+  workoutTypes: WorkoutType[];
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant='secondary' className="h-16 w-auto flex flex-col justify-between items-center">
+        <Button
+          variant="secondary"
+          className="h-16 w-auto flex flex-col justify-between items-center"
+        >
           <MoreHorizontal />
           <p>All workouts</p>
         </Button>
@@ -90,24 +98,22 @@ function AllWorkoutTypesButtonWithDropdown({workoutTypes}: {workoutTypes: Workou
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>All Workouts</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {
-          workoutTypes.map((wktType) => <WorkoutTypeMenuItem workoutType={wktType} key={wktType.id} />)
-        }
+        {workoutTypes.map((wktType) => (
+          <WorkoutTypeMenuItem workoutType={wktType} key={wktType.id} />
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
-function WorkoutTypeMenuItem({workoutType}: {workoutType: WorkoutType}) {
+function WorkoutTypeMenuItem({ workoutType }: { workoutType: WorkoutType }) {
   const router = useRouter();
   const onClick = () => {
     createAndStartWorkout(workoutType.id).then((workout) => {
-      router.push(`/live/workouts/${workout.id}`)
-    })
-  }
+      router.push(`/live/workouts/${workout.id}`);
+    });
+  };
   return (
-    <DropdownMenuItem onClick={onClick} >
-      { workoutType.name }
-    </DropdownMenuItem>
-  )
+    <DropdownMenuItem onClick={onClick}>{workoutType.name}</DropdownMenuItem>
+  );
 }

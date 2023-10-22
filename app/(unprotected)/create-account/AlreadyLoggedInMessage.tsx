@@ -14,7 +14,12 @@ export default function AlreadyLoggedInMessage() {
       <p>You are already logged in.</p>
       <div className="flex flex-col items-center gap-1">
         <p>If you want to create a new user, log out first.</p>
-        <Button onClick={initiateSignOut} variant='outline' size='lg' className="flex flex-row gap-2">
+        <Button
+          onClick={initiateSignOut}
+          variant="outline"
+          size="lg"
+          className="flex flex-row gap-2"
+        >
           <p>Sign out</p>
           <LogOut />
         </Button>
