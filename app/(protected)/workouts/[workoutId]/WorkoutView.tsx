@@ -5,7 +5,7 @@ import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LineChart } from "lucide-react";
+import { Edit, Edit2, Edit3, FileEdit, LineChart } from "lucide-react";
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
@@ -25,28 +25,22 @@ export default function WorkoutView({
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
-      <div className="flex flex-col justify-start items-center lg:my-10 my-4">
+      <div className="flex flex-col justify-start lg:my-10 my-4">
         <div className="flex flex-row justify-between items-start flex-wrap w-full px-4 gap-4">
-          <div className="w-0 flex-grow flex-shrink hidden sm:block">
-            {/* Spacer */}
-          </div>
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center text-3xl min-w-fit gap-1">
+          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-1">
             <span className="text-base text-gray-500 dark:text-gray-400">
               {startTime}
             </span>
-            <h1>{workoutName}</h1>
-            <Link
-              href={`/live/workouts/${workout.id}`}
-              className="text-base lg:text-lg"
-              title="Edit workout"
-            >
-              <Button variant='secondary' size='sm'>
-                <p>Edit</p>
-                <i className="fi fi-rr-edit ml-1.5 inline-flex align-[-0.2rem]" />
-              </Button>
-            </Link>
+            <h1>
+              {workoutName}
+              <Link href={`/live/workouts/${workout.id}`} title="Edit workout" >
+                <Button variant='secondary' size='sm' className="ml-2">
+                  <Edit size={18}/>
+                </Button>
+              </Link>
+            </h1>
           </div>
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center min-w-fit">
+          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-end min-w-fit">
             <WorkoutStatsCard
               workout={workout}
               exerciseGroups={exerciseGroups}
@@ -84,27 +78,25 @@ function WorkoutStatsCard({ workout, exerciseGroups }: WorkoutViewProps) {
     0,
   );
   return (
-    <Card className="bg-background">
-      <CardHeader>
+    <Card>
+      <CardHeader className="pt-3 pb-2">
         <CardTitle className="text-lg text-center">Stats <LineChart className="ml-4 inline-block"/></CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col justify-between w-auto text-sm">
-        <div className="flex flex-row justify-center items-center gap-1">
-          <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-muted-foreground">Exercises</span>
-            <span className="text-lg">{nExercises}</span>
-          </div>
-          <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-muted-foreground">Sets</span>
-            <span className="text-lg">{nSets}</span>
-          </div>
-          <div className="flex flex-col px-2 py-1 items-center justify-start">
-            <span className="text-muted-foreground">Reps</span>
-            <span className="text-lg">{nReps}</span>
-          </div>
+      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
+        <div className="flex flex-col px-2 py-1 items-center justify-start">
+          <span className="text-muted-foreground">Exercises</span>
+          <span className="text-lg">{nExercises}</span>
         </div>
         <div className="flex flex-col px-2 py-1 items-center justify-start">
-          <span className="text-gray-500 dark:text-gray-400">Duration</span>
+          <span className="text-muted-foreground">Sets</span>
+          <span className="text-lg">{nSets}</span>
+        </div>
+        <div className="flex flex-col px-2 py-1 items-center justify-start">
+          <span className="text-muted-foreground">Reps</span>
+          <span className="text-lg">{nReps}</span>
+        </div>
+        <div className="flex flex-col px-2 py-1 items-center justify-start">
+          <span className="text-muted-foreground">Duration</span>
           <span className="text-lg">{durationString}</span>
         </div>
       </CardContent>
