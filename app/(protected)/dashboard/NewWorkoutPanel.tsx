@@ -51,8 +51,8 @@ export default function NewWorkoutPanel({
     );
   });
   return (
-    <div className="w-full pt-2 flex flex-col justify-start items-start">
-      <h2 className="text-lg lg:text-2xl pb-2">New Workout</h2>
+    <div className="w-full pt-2 flex flex-col justify-start items-start gap-1">
+      <h2 className="text-xl font-bold">New Workout</h2>
       <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-start items-center">
         {newWorkoutCards}
         <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
