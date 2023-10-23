@@ -62,7 +62,7 @@ async function RecentWorkoutCard({
   return (
     <Link href={`/workouts/${workout.id}`}>
       <Card className="w-40 h-40 flex flex-col justify-between">
-        <CardHeader className="p-4">
+        <CardHeader className="pt-4">
           <CardDescription>{startTimeText}</CardDescription>
           <CardTitle className="text-lg">{name}</CardTitle>
         </CardHeader>
