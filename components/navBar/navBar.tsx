@@ -47,7 +47,7 @@ export default function NavBar() {
     <div className="h-12 w-full flex flex-row justify-between px-2 bg-muted">
       <NavigationMenu>
         {/* Using a Next <Link> tag here actually causes hydration errors. */}
-        <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
+        <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent`} href="/">
           <Logo />
         </NavigationMenuLink>
       </NavigationMenu>
@@ -55,7 +55,7 @@ export default function NavBar() {
         {userEmail ? (
           <LoggedInStatusDropdown userEmail={userEmail} doSignOut={doSignOut} />
         ) : (
-          <Button size="sm" onClick={handleClick}>
+          <Button size="sm" variant='ghost' onClick={handleClick}>
             Sign In
           </Button>
         )}
@@ -75,7 +75,7 @@ function LoggedInStatusDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="ghost">
           <User size={18} className="mr-1" />
           <p className="overflow-hidden text-ellipsis">{userEmail}</p>
         </Button>
