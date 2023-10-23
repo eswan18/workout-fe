@@ -26,19 +26,21 @@ export default function WorkoutView({
   return (
     <main>
       <div className="flex flex-col justify-start lg:my-10 my-4">
-        <div className="flex flex-row justify-between items-start flex-wrap w-full px-4 gap-4">
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-1">
-            <span className="text-base text-gray-500 dark:text-gray-400">
+        <div className="flex flex-row justify-between items-start flex-wrap w-fullgap-4">
+          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-3">
+            <span className="text-base text-muted-foreground">
               {startTime}
             </span>
-            <h1>
-              {workoutName}
+            <div className="flex flex-row items-center gap-4">
+              <h1 className="text-4xl font-bold">
+                {workoutName}
+              </h1>
               <Link href={`/live/workouts/${workout.id}`} title="Edit workout" >
-                <Button variant='secondary' size='sm' className="ml-2">
-                  <Edit size={18}/>
+                <Button variant='secondary' size='sm'>
+                  <Edit size={18} strokeWidth={3}/>
                 </Button>
               </Link>
-            </h1>
+            </div>
           </div>
           <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-end min-w-fit">
             <WorkoutStatsCard
@@ -79,10 +81,10 @@ function WorkoutStatsCard({ workout, exerciseGroups }: WorkoutViewProps) {
   );
   return (
     <Card>
-      <CardHeader className="pt-3 pb-2">
-        <CardTitle className="text-lg text-center">Stats <LineChart className="ml-4 inline-block"/></CardTitle>
+      <CardHeader className="pt-3 pb-0">
+        <CardTitle className="text-lg text-center">Workout Stats</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
+      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-1">
         <div className="flex flex-col px-2 py-1 items-center justify-start">
           <span className="text-muted-foreground">Exercises</span>
           <span className="text-lg">{nExercises}</span>

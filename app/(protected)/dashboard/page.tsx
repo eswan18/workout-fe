@@ -35,7 +35,7 @@ export default async function DashboardPage() {
   return (
     <main className="flex flex-col justify-start gap-10 p-10 lg:p-16">
       <div className="mb-4">
-        <h1 className="text-2xl lg:text-4xl">Your Dashboard</h1>
+        <h1 className="text-4xl font-bold">Your Dashboard</h1>
       </div>
       <div className="w-full items-center justify-around lg:flex">
         <NewWorkoutPanel workoutTypes={orderedWorkoutTypes} />

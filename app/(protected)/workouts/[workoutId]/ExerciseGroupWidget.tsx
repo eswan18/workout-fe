@@ -1,4 +1,6 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
+import { Dumbbell, XIcon } from "lucide-react";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
@@ -10,11 +12,9 @@ export default async function ExerciseGroupWidget({
   exercises,
 }: ExerciseGroupWidgetProps) {
   return (
-    <div>
-      <h2 className="text-xl">
-        <i className="fi fi-ss-gym" /> {exerciseType.name}
-      </h2>
-      <div className="flex flex-row justify-left gap-2 overflow-x-scroll pb-4 px-1">
+    <div className="w-full px-1 flex flex-col justify-start items-start gap-2">
+      <h2 className="text-lg font-bold">{exerciseType.name}</h2>
+      <div className="flex flex-row justify-left gap-2 overflow-x-scroll pb-4">
         {exercises.map((ex) => (
           <ExerciseWidget exercise={ex} key={ex.id} />
         ))}
@@ -25,12 +25,14 @@ export default async function ExerciseGroupWidget({
 
 async function ExerciseWidget({ exercise }: { exercise: Exercise }) {
   return (
-    <div className="rounded-lg shadow-lg flex flex-col items-center justify-center w-20 h-20 bg-white dark:bg-gray-900 shrink-0">
-      <div className="text-2xl font-bold mt-1">{exercise.weight}</div>
-      <div className="text-xl">
-        <i className="fi fi-sr-cross-small inline-flex align-[-0.2rem] text-gray-400" />
-        {exercise.reps}
-      </div>
-    </div>
+    <Card className="w-20 h-20 shrink-0">
+      <CardContent className="flex flex-col items-center justify-center p-2">
+        <div className="text-2xl font-bold">{exercise.weight}</div>
+        <div className="flex flex-row justify-center items-center">
+          <XIcon size={18} strokeWidth={1} className="inline-block"/>
+          <span className="text-xl">{exercise.reps}</span>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
