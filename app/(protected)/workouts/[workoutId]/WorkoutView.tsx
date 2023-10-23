@@ -4,6 +4,7 @@ import ExerciseGroupWidget from "./ExerciseGroupWidget";
 import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { LineChart } from "lucide-react";
 
 type WorkoutViewProps = {
@@ -39,13 +40,10 @@ export default function WorkoutView({
               className="text-base lg:text-lg"
               title="Edit workout"
             >
-              <button
-                className="flex flex-row justify-center items-center
-                          rounded-full border-gold text-gold mt-2"
-              >
+              <Button variant='secondary' size='sm'>
                 <p>Edit</p>
                 <i className="fi fi-rr-edit ml-1.5 inline-flex align-[-0.2rem]" />
-              </button>
+              </Button>
             </Link>
           </div>
           <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-center min-w-fit">
