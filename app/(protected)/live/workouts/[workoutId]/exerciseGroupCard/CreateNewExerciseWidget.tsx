@@ -1,21 +1,26 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { PlusSquare } from "lucide-react";
+
 export default function CreateNewExerciseWidget({
   onClick,
 }: {
   onClick: () => void;
 }) {
   return (
-    <div className="flex flex-col justify-start items-center w-20 h-20 shrink-0">
-      <div className="rounded-lg shadow-lg flex flex-col w-full h-full  shrink-0 bg-white dark:bg-gray-900 justify-center items-center">
-        <button
-          className="text-gold text-4xl"
+    <Card className="w-20 h-20">
+      <CardContent className="h-full flex flex-col justify-center items-center p-0">
+        <Button
+          className="text-gold p-0"
           title="Record new set"
           onClick={onClick}
+          variant="ghost"
         >
-          <i className="fi fi-rr-square-plus inline-flex align-[-0.5rem]" />
-        </button>
-      </div>
-    </div>
+          <PlusSquare size={48} strokeWidth={1.5} />
+        </Button>
+      </CardContent>
+    </Card>
   );
 }

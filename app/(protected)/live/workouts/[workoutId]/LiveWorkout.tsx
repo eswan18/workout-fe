@@ -8,7 +8,7 @@ import {
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupWidget, { ExerciseOrLoading } from "./exerciseGroupCard";
+import { ExerciseOrLoading } from "./exerciseGroupCard";
 import CreateNewExerciseGroupWidget from "./CreateNewExerciseGroupWidget";
 import ExerciseGroupInputModal, {
   ExerciseGroupInputModalState,
@@ -21,8 +21,8 @@ import { deleteExercise } from "@/lib/resources/exercises/delete";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
-import ExerciseGroupViewCard from "../../../workouts/[workoutId]/ExerciseGroupViewCard";
 import ExerciseGroupCard from "./exerciseGroupCard";
+import { CheckSquare } from "lucide-react";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -223,57 +223,34 @@ export default function LiveWorkout({
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          {groups.map(({ exerciseType, exercises }) => (
-            <ExerciseGroupViewCard
-              exerciseType={exerciseType}
-              exercises={exercises}
-              key={exercises[0].id}
-            />
-          ))}
-          {groups.map(({ exerciseType, exercises }) => (
-            <ExerciseGroupCard
-              exerciseType={exerciseType}
-              exercises={exercises}
-              key={exercises[0].id}
-            />
-          ))}
+          {groups.map(({ exerciseType, exercises, key }) => {
+            const setExercises = (exercises: ExerciseOrLoading[]) =>
+              setExercisesForGroup(key, exercises);
+            function onClickCreateNewExercise(): void {
+              openNewExerciseModal({
+                exerciseType: exerciseType as ExerciseType,
+                exercises,
+                setExercises,
+              });
+            }
+            function onClickEditExercise(exerciseId: string): void {
+              openEditExerciseModal(exerciseId, {
+                exerciseType: exerciseType as ExerciseType,
+                exercises,
+                setExercises,
+              });
+            }
+            return (
+              <ExerciseGroupCard
+                exerciseType={exerciseType}
+                exercises={exercises}
+                key={exercises[0].id}
+                onClickEditExercise={onClickEditExercise}
+                onClickCreateNewExercise={onClickCreateNewExercise}
+              />
+            );
+          })}
         </div>
-      </div>
-
-      <h1 className="text-3xl text-center my-4 lg:my-10 font-bold dark:text-gray-300">
-        {workoutName}
-      </h1>
-      <div className="flex flex-col gap-6 px-2">
-        {groups.map(({ exerciseType, exercises, key }) => {
-          const setExercises = (exercises: ExerciseOrLoading[]) =>
-            setExercisesForGroup(key, exercises);
-          function onClickCreateNewExercise(): void {
-            openNewExerciseModal({
-              exerciseType: exerciseType as ExerciseType,
-              exercises,
-              setExercises,
-            });
-          }
-          function onClickEditExercise(exerciseId: string): void {
-            openEditExerciseModal(exerciseId, {
-              exerciseType: exerciseType as ExerciseType,
-              exercises,
-              setExercises,
-            });
-          }
-          if (!exerciseType) {
-            return;
-          }
-          return (
-            <ExerciseGroupWidget
-              exerciseType={exerciseType}
-              exercises={exercises}
-              onClickCreateNewExercise={onClickCreateNewExercise}
-              onClickEditExercise={onClickEditExercise}
-              key={key}
-            />
-          );
-        })}
         <CreateNewExerciseGroupWidget onClick={onClickCreateNewExerciseGroup} />
       </div>
       {modal}
@@ -285,7 +262,7 @@ export default function LiveWorkout({
           onClick={onFinishWorkout}
         >
           <p>Finish Workout</p>
-          <i className="fi fi-br-checkbox inline-flex align-[-0.2rem]" />
+          <CheckSquare />
         </button>
       </div>
     </main>
