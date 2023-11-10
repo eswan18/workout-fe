@@ -2,7 +2,7 @@
 
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
 import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
-import ExerciseWidget from "./ExerciseWidget";
+import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell } from "lucide-react";
 
@@ -39,7 +39,7 @@ export default function ExerciseGroupCard({
             return;
           }
           return (
-            <ExerciseWidget
+            <ExerciseCard
               weight={ex.weight as number}
               reps={ex.reps as number}
               saveStatus="saved"

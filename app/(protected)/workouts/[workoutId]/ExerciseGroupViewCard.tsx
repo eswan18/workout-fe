@@ -30,7 +30,7 @@ export default async function ExerciseGroupViewCard({
 async function ExerciseViewCard({ exercise }: { exercise: Exercise }) {
   return (
     <Card className="w-20 h-20">
-      <CardContent className="h-full flex flex-col items-center p-0 justify-center">
+      <CardContent className="h-full flex flex-col justify-center items-center p-0">
         <div className="text-2xl font-bold">{exercise.weight}</div>
         <div className="text-lg">
           <X size={14} className="inline-flex text-muted-foreground mr-0.5" />
