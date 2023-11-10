@@ -4,8 +4,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
 import { Dumbbell, X } from "lucide-react";
 
@@ -25,12 +23,10 @@ export default async function ExerciseGroupViewCard({
           <Dumbbell size={36} className="inline mr-2" /> {exerciseType.name}
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="flex flex-row justify-left gap-2 overflow-x-scroll pb-4 px-1">
-          {exercises.map((ex) => (
-            <ExerciseViewCard exercise={ex} key={ex.id} />
-          ))}
-        </div>
+      <CardContent className="flex flex-row justify-left gap-2 overflow-x-scroll">
+        {exercises.map((ex) => (
+          <ExerciseViewCard exercise={ex} key={ex.id} />
+        ))}
       </CardContent>
     </Card>
   );
@@ -42,7 +38,7 @@ async function ExerciseViewCard({ exercise }: { exercise: Exercise }) {
       <CardContent className="h-full flex flex-col items-center p-0 justify-center">
         <div className="text-2xl font-bold">{exercise.weight}</div>
         <div className="text-lg">
-          <X size={16} className="inline-flex text-muted-foreground mr-0.5" />
+          <X size={14} className="inline-flex text-muted-foreground mr-0.5" />
           {exercise.reps}
         </div>
       </CardContent>

@@ -31,7 +31,7 @@ export default function WorkoutView({
             <span className="text-base text-gray-500 dark:text-gray-400">
               {startTime}
             </span>
-            <h1>
+            <h1 className="text-4xl">
               {workoutName}
               <Link href={`/live/workouts/${workout.id}`} title="Edit workout">
                 <Button variant="secondary" size="sm" className="ml-2">
@@ -40,7 +40,7 @@ export default function WorkoutView({
               </Link>
             </h1>
           </div>
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-end min-w-fit">
+          <div className="flex-shrink-0 flex flex-col justify-start items-start min-w-fit">
             <WorkoutStatsCard
               workout={workout}
               exerciseGroups={exerciseGroups}
