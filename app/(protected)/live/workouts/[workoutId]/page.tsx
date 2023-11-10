@@ -20,12 +20,12 @@ export default async function LiveWorkoutPage({
   if (!result.success) throw result.error;
   const { workout, exerciseSets } = result.data;
   const workoutName = workout.workout_type_name || "Custom";
+  metadata.title = `Live Workout: ${workoutName}`;
 
   const exerciseTypesResult = await getAllExerciseTypes();
   if (!exerciseTypesResult.success) throw exerciseTypesResult.error;
   const exerciseTypes = exerciseTypesResult.data;
 
-  metadata.title = `Live Workout: ${workoutName}`;
   return (
     <LiveWorkout
       workout={workout}

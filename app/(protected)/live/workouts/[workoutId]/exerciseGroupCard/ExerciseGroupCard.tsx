@@ -3,6 +3,8 @@
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
 import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
 import ExerciseWidget from "./ExerciseWidget";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dumbbell } from "lucide-react";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
@@ -18,18 +20,20 @@ export type LoadingExercise = {
 
 export type ExerciseOrLoading = Exercise | LoadingExercise;
 
-export default function ExerciseGroupWidget({
+export default function ExerciseGroupCard({
   exerciseType,
   exercises,
   onClickCreateNewExercise,
   onClickEditExercise,
 }: ExerciseGroupWidgetProps) {
   return (
-    <div>
-      <h2 className="text-xl mx-1">
-        <i className="fi fi-ss-gym" /> {exerciseType.name}
-      </h2>
-      <div className="flex flex-row justify-left flex-wrap gap-2">
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <Dumbbell size={36} className="inline mr-2" /> {exerciseType.name}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-row justify-left gap-2 overflow-x-scroll">
         {exercises.map((ex) => {
           if ("isLoading" in ex) {
             return;
@@ -45,7 +49,7 @@ export default function ExerciseGroupWidget({
           );
         })}
         <CreateNewExerciseWidget onClick={onClickCreateNewExercise} />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

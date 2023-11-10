@@ -8,18 +8,21 @@ import {
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupWidget, { ExerciseOrLoading } from "./exerciseGroupWidget";
+import ExerciseGroupWidget, { ExerciseOrLoading } from "./exerciseGroupCard";
 import CreateNewExerciseGroupWidget from "./CreateNewExerciseGroupWidget";
 import ExerciseGroupInputModal, {
   ExerciseGroupInputModalState,
-} from "./exerciseGroupWidget/ExerciseGroupInputModal";
+} from "./exerciseGroupCard/ExerciseGroupInputModal";
 import ExerciseInputModal, {
   ExerciseInputModalState,
-} from "./exerciseGroupWidget/ExerciseInputModal";
+} from "./exerciseGroupCard/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import { deleteExercise } from "@/lib/resources/exercises/delete";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
+import { formatDateYMDHM } from "@/lib/time";
+import ExerciseGroupViewCard from "../../../workouts/[workoutId]/ExerciseGroupViewCard";
+import ExerciseGroupCard from "./exerciseGroupCard";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -40,6 +43,7 @@ export default function LiveWorkout({
 }: LiveWorkoutProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const startTime = formatDateYMDHM(new Date(workout.start_time));
 
   // Workout groupings aren't a construct in the database, so we need to add an artificial key to each set.
   const initialGroups: ExerciseGroup[] = exerciseSets.map((set) => ({
@@ -206,6 +210,36 @@ export default function LiveWorkout({
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
+      <div className="flex flex-col justify-start lg:my-10 my-4 px-4 gap-8">
+        <div className="flex flex-row justify-between items-start flex-wrap gap-2">
+          <div className="flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-1">
+            <span className="text-base text-gray-500 dark:text-gray-400">
+              {startTime}
+            </span>
+            <h1 className="text-4xl">{workoutName}</h1>
+          </div>
+          <div className="flex-shrink-0 flex flex-col justify-start items-start min-w-fit">
+            <span className="text-xl">LIVE (replace with ticking clock)</span>
+          </div>
+        </div>
+        <div className="flex flex-col gap-6">
+          {groups.map(({ exerciseType, exercises }) => (
+            <ExerciseGroupViewCard
+              exerciseType={exerciseType}
+              exercises={exercises}
+              key={exercises[0].id}
+            />
+          ))}
+          {groups.map(({ exerciseType, exercises }) => (
+            <ExerciseGroupCard
+              exerciseType={exerciseType}
+              exercises={exercises}
+              key={exercises[0].id}
+            />
+          ))}
+        </div>
+      </div>
+
       <h1 className="text-3xl text-center my-4 lg:my-10 font-bold dark:text-gray-300">
         {workoutName}
       </h1>

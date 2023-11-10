@@ -1,6 +1,6 @@
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupViewCard from "./ExerciseGroupWidget";
+import ExerciseGroupViewCard from "./ExerciseGroupViewCard";
 import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
