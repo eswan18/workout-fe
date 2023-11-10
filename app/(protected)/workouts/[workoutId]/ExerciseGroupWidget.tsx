@@ -1,10 +1,5 @@
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell, X } from "lucide-react";
 
 type ExerciseGroupWidgetProps = {

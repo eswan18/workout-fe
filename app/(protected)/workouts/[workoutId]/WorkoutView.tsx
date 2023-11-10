@@ -25,9 +25,9 @@ export default function WorkoutView({
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
     <main>
-      <div className="flex flex-col justify-start lg:my-10 my-4">
-        <div className="flex flex-row justify-between items-start flex-wrap w-full px-4 gap-4">
-          <div className="w-0 flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-1">
+      <div className="flex flex-col justify-start lg:my-10 my-4 px-4 gap-8">
+        <div className="flex flex-row justify-between items-start flex-wrap gap-2">
+          <div className="flex-grow flex-shrink-0 flex flex-col justify-start items-start text-3xl min-w-fit gap-1">
             <span className="text-base text-gray-500 dark:text-gray-400">
               {startTime}
             </span>
@@ -47,15 +47,15 @@ export default function WorkoutView({
             />
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-6">
-        {groups.map(({ exerciseType, exercises }) => (
-          <ExerciseGroupViewCard
-            exerciseType={exerciseType}
-            exercises={exercises}
-            key={exercises[0].id}
-          />
-        ))}
+        <div className="flex flex-col gap-6">
+          {groups.map(({ exerciseType, exercises }) => (
+            <ExerciseGroupViewCard
+              exerciseType={exerciseType}
+              exercises={exercises}
+              key={exercises[0].id}
+            />
+          ))}
+        </div>
       </div>
     </main>
   );
