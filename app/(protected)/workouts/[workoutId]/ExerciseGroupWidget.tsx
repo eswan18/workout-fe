@@ -1,36 +1,51 @@
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
+import { Dumbbell, X } from "lucide-react";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
   exercises: Exercise[];
 };
 
-export default async function ExerciseGroupWidget({
+export default async function ExerciseGroupViewCard({
   exerciseType,
   exercises,
 }: ExerciseGroupWidgetProps) {
   return (
-    <div>
-      <h2 className="text-xl">
-        <i className="fi fi-ss-gym" /> {exerciseType.name}
-      </h2>
-      <div className="flex flex-row justify-left gap-2 overflow-x-scroll pb-4 px-1">
-        {exercises.map((ex) => (
-          <ExerciseWidget exercise={ex} key={ex.id} />
-        ))}
-      </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <Dumbbell size={36} className="inline mr-2" /> {exerciseType.name}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-row justify-left gap-2 overflow-x-scroll pb-4 px-1">
+          {exercises.map((ex) => (
+            <ExerciseViewCard exercise={ex} key={ex.id} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
-async function ExerciseWidget({ exercise }: { exercise: Exercise }) {
+async function ExerciseViewCard({ exercise }: { exercise: Exercise }) {
   return (
-    <div className="rounded-lg shadow-lg flex flex-col items-center justify-center w-20 h-20 bg-white dark:bg-gray-900 shrink-0">
-      <div className="text-2xl font-bold mt-1">{exercise.weight}</div>
-      <div className="text-xl">
-        <i className="fi fi-sr-cross-small inline-flex align-[-0.2rem] text-gray-400" />
-        {exercise.reps}
-      </div>
-    </div>
+    <Card className="w-20 h-20">
+      <CardContent className="h-full flex flex-col items-center p-0 justify-center">
+        <div className="text-2xl font-bold">{exercise.weight}</div>
+        <div className="text-lg">
+          <X size={16} className="inline-flex text-muted-foreground mr-0.5" />
+          {exercise.reps}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

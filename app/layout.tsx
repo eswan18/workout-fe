@@ -18,9 +18,7 @@ export const metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} min-h-screen relative`}
-      >
+      <body className={`${inter.className} min-h-screen relative`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>
             <NavBar />

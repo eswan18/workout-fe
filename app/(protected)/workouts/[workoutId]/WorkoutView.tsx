@@ -1,11 +1,11 @@
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupWidget from "./ExerciseGroupWidget";
+import ExerciseGroupViewCard from "./ExerciseGroupWidget";
 import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Edit2, Edit3, FileEdit, LineChart } from "lucide-react";
+import { Edit, LineChart } from "lucide-react";
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
@@ -33,9 +33,9 @@ export default function WorkoutView({
             </span>
             <h1>
               {workoutName}
-              <Link href={`/live/workouts/${workout.id}`} title="Edit workout" >
-                <Button variant='secondary' size='sm' className="ml-2">
-                  <Edit size={18}/>
+              <Link href={`/live/workouts/${workout.id}`} title="Edit workout">
+                <Button variant="secondary" size="sm" className="ml-2">
+                  <Edit size={18} />
                 </Button>
               </Link>
             </h1>
@@ -50,7 +50,7 @@ export default function WorkoutView({
       </div>
       <div className="flex flex-col gap-6">
         {groups.map(({ exerciseType, exercises }) => (
-          <ExerciseGroupWidget
+          <ExerciseGroupViewCard
             exerciseType={exerciseType}
             exercises={exercises}
             key={exercises[0].id}
@@ -80,7 +80,9 @@ function WorkoutStatsCard({ workout, exerciseGroups }: WorkoutViewProps) {
   return (
     <Card>
       <CardHeader className="pt-3 pb-2">
-        <CardTitle className="text-lg text-center">Stats <LineChart className="ml-4 inline-block"/></CardTitle>
+        <CardTitle className="text-lg text-center">
+          Stats <LineChart className="ml-4 inline-block" />
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
         <div className="flex flex-col px-2 py-1 items-center justify-start">

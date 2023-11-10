@@ -4,7 +4,15 @@ import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
 import { createWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
-import { Dumbbell, LineChart, LucideActivity, LucideBarChartHorizontalBig, LucideDumbbell, MoreHorizontal, Weight } from "lucide-react";
+import {
+  Dumbbell,
+  LineChart,
+  LucideActivity,
+  LucideBarChartHorizontalBig,
+  LucideDumbbell,
+  MoreHorizontal,
+  Weight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -73,7 +81,7 @@ function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
       className="w-auto h-16 flex flex-col justify-between items-center"
       onClick={onClick}
     >
-      <Dumbbell strokeWidth={3}/>
+      <Dumbbell strokeWidth={3} />
       <p>{name}</p>
     </Button>
   );
