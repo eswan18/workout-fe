@@ -34,7 +34,7 @@ export default function WorkoutView({
             <h1 className="text-4xl">
               {workoutName}
               <Link href={`/live/workouts/${workout.id}`} title="Edit workout">
-                <Button variant="secondary" size="sm" className="ml-2">
+                <Button variant="secondary" size="sm" className="ml-2 -translate-y-1">
                   <Edit size={18} />
                 </Button>
               </Link>
