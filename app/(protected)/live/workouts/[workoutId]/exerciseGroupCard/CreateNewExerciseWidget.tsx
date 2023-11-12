@@ -65,20 +65,17 @@ function CreateNewExerciseForm({
     <div className="sm:w-64">
       <AlertDialogHeader>
         <AlertDialogTitle>{exerciseTypeName}</AlertDialogTitle>
-        <AlertDialogDescription>Add new set</AlertDialogDescription>
-        <div className="py-6">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="weight">Weight (pounds)</Label>
-              <Input type="number" id="weight" name="weight" placeholder="25" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="reps">Reps</Label>
-              <Input type="number" id="reps" name="reps" placeholder="8" />
-            </div>
-            <div className="w-full flex flex-col items-center"></div>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="weight">Weight (pounds)</Label>
+            <Input type="number" id="weight" name="weight" placeholder="25" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="reps">Reps</Label>
+            <Input type="number" id="reps" name="reps" placeholder="8" />
+          </div>
+          <div className="w-full flex flex-col items-center"></div>
+        </form>
       </AlertDialogHeader>
       <AlertDialogFooter>
         {loading ? (
@@ -87,7 +84,7 @@ function CreateNewExerciseForm({
           <>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={addGivenExercise}>
-              Add
+              Add Set
             </AlertDialogAction>
           </>
         )}
