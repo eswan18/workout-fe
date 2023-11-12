@@ -26,7 +26,7 @@ export default async function RecentWorkoutsPanel({
   });
   return (
     <div className="w-full flex flex-col justify-start items-start">
-      <h2 className="text-2xl">Recent Workouts</h2>
+      <h2 className="text-xl">Recent Workouts</h2>
       <div className="flex flex-row gap-4 flex-wrap mt-2 justify-center lg:justify-start">
         {wktsWithDetails.length > 0 ? (
           wktsWithDetails.map((wktWithDetails) => (
@@ -62,7 +62,7 @@ async function RecentWorkoutCard({
   return (
     <Link href={`/workouts/${workout.id}`}>
       <Card className="w-40 h-40 flex flex-col justify-between">
-        <CardHeader className="p-4">
+        <CardHeader className="pt-4">
           <CardDescription>{startTimeText}</CardDescription>
           <CardTitle className="text-lg">{name}</CardTitle>
         </CardHeader>

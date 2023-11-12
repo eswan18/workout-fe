@@ -9,7 +9,6 @@ import {
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import { ExerciseOrLoading } from "./exerciseGroupCard";
-import CreateNewExerciseGroupWidget from "./CreateNewExerciseGroupWidget";
 import ExerciseGroupInputModal, {
   ExerciseGroupInputModalState,
 } from "./exerciseGroupCard/ExerciseGroupInputModal";
@@ -24,6 +23,8 @@ import { formatDateYMDHM } from "@/lib/time";
 import ExerciseGroupCard from "./exerciseGroupCard";
 import { CheckSquare, Dumbbell, Plus, PlusSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { formatDurationHMS } from "@/lib/time";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -220,7 +221,7 @@ export default function LiveWorkout({
             <h1 className="text-4xl">{workoutName}</h1>
           </div>
           <div className="flex-shrink-0 flex flex-col justify-start items-start min-w-fit">
-            <span className="text-xl">LIVE (replace with ticking clock)</span>
+            <LiveWorkoutCard workout={workout} />
           </div>
         </div>
         <div className="flex flex-col gap-6">
@@ -269,5 +270,27 @@ export default function LiveWorkout({
         </Button>
       </div>
     </main>
+  );
+}
+
+function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
+  const startTime = new Date(workout.start_time);
+  const now = new Date();
+  const elapsedTime = formatDurationHMS(startTime, now);
+
+  return (
+    <Card>
+      <CardHeader className="pt-3 pb-2">
+        <CardTitle className="text-lg text-center">
+          Live
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
+        <div className="flex flex-col px-2 py-1 items-center justify-start">
+          <span className="text-muted-foreground">Time Elapsed</span>
+          <span className="text-lg">{elapsedTime}</span>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

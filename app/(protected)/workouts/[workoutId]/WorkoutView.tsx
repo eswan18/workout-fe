@@ -84,7 +84,7 @@ function WorkoutStatsCard({ workout, exerciseGroups }: WorkoutViewProps) {
           Stats <LineChart className="ml-4 inline-block" />
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
+      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-1">
         <div className="flex flex-col px-2 py-1 items-center justify-start">
           <span className="text-muted-foreground">Exercises</span>
           <span className="text-lg">{nExercises}</span>
