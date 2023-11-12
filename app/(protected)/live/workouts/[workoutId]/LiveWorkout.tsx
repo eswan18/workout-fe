@@ -56,10 +56,7 @@ export default function LiveWorkout({
   const [modal, setModal] = useState<React.ReactElement | null>(null);
 
   const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
-  const addGroup = (
-    exerciseType: ExerciseType,
-    exercises: Exercise[],
-  ) => {
+  const addGroup = (exerciseType: ExerciseType, exercises: Exercise[]) => {
     setGroups([...groups, { exerciseType, exercises, key: Math.random() }]);
   };
   const setExercisesForGroup = (
