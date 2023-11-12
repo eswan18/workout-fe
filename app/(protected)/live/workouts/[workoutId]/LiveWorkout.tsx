@@ -282,7 +282,8 @@ function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
     <Card>
       <CardHeader className="pt-3 pb-2">
         <CardTitle className="text-lg text-center">
-          <Timer size={24} className="pb-1 mr-1 inline" />Live
+          <Timer size={24} className="pb-1 mr-1 inline" />
+          Live
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">

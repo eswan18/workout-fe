@@ -18,7 +18,7 @@ export default function CreateNewExerciseWidget({
         variant="secondary"
       >
         <CardContent className="h-full flex flex-col justify-center items-center p-0">
-            <PlusSquare size={48} strokeWidth={1.2} className="p-0 m-0" />
+          <PlusSquare size={48} strokeWidth={1.2} className="p-0 m-0" />
         </CardContent>
       </Button>
     </Card>
