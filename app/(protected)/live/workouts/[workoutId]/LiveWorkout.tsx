@@ -22,7 +22,8 @@ import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
 import ExerciseGroupCard from "./exerciseGroupCard";
-import { CheckSquare } from "lucide-react";
+import { CheckSquare, Dumbbell, Plus, PlusSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type ExerciseGroup = {
   exerciseType?: ExerciseType;
@@ -250,20 +251,22 @@ export default function LiveWorkout({
               />
             );
           })}
+          <Button
+            variant="secondary"
+            className="w-fit"
+            onClick={onClickCreateNewExerciseGroup}
+          >
+            <Dumbbell className="mr-2" />
+            New exercise
+          </Button>
         </div>
-        <CreateNewExerciseGroupWidget onClick={onClickCreateNewExerciseGroup} />
       </div>
       {modal}
       <div className="w-full flex flex-row justify-center text-xl font-bold">
-        <button
-          className="flex flex-row justify-center items-center
-                      rounded-full text-white bg-gold
-                      py-3 px-4 m-2 gap-3 dark:text-gray-900"
-          onClick={onFinishWorkout}
-        >
-          <p>Finish Workout</p>
+        <Button onClick={onFinishWorkout}>
+          <p className="text-lg mr-3">Finish Workout</p>
           <CheckSquare />
-        </button>
+        </Button>
       </div>
     </main>
   );
