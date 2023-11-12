@@ -27,7 +27,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDurationHMS } from "@/lib/time";
 
 type ExerciseGroup = {
-  exerciseType?: ExerciseType;
+  exerciseType: ExerciseType;
   exercises: ExerciseOrLoading[];
   key: number;
 };
@@ -57,7 +57,7 @@ export default function LiveWorkout({
 
   const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
   const addGroup = (
-    exerciseType: ExerciseType | undefined,
+    exerciseType: ExerciseType,
     exercises: Exercise[],
   ) => {
     setGroups([...groups, { exerciseType, exercises, key: Math.random() }]);
