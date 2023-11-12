@@ -9,7 +9,7 @@ import { Dumbbell } from "lucide-react";
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
   exercises: (Exercise | LoadingExercise)[];
-  onClickCreateNewExercise: () => void;
+  onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
   onClickEditExercise: (exerciseId: string) => void;
 };
 
@@ -23,7 +23,7 @@ export type ExerciseOrLoading = Exercise | LoadingExercise;
 export default function ExerciseGroupCard({
   exerciseType,
   exercises,
-  onClickCreateNewExercise,
+  onAddExercise,
   onClickEditExercise,
 }: ExerciseGroupWidgetProps) {
   return (
@@ -48,7 +48,10 @@ export default function ExerciseGroupCard({
             />
           );
         })}
-        <CreateNewExerciseWidget onClick={onClickCreateNewExercise} />
+        <CreateNewExerciseWidget
+          exerciseTypeName={exerciseType.name}
+          onAddExercise={onAddExercise}
+        />
       </CardContent>
     </Card>
   );
