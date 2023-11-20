@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Exercise,
@@ -272,8 +272,16 @@ export default function LiveWorkout({
 
 function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
   const startTime = new Date(workout.start_time);
-  const now = new Date();
-  const elapsedTime = formatDurationHMS(startTime, now);
+  const [ now, setNow ] = useState(new Date());
+
+  useEffect(() => {
+    // Set up an interval to update the elapsed time every second
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <Card>
@@ -286,7 +294,7 @@ function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
       <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
         <div className="flex flex-col px-2 py-1 items-center justify-start">
           <span className="text-muted-foreground">Time Elapsed</span>
-          <span className="text-lg">{elapsedTime}</span>
+          <span className={`text-lg animate-pulse-4s`}>{formatDurationHMS(startTime, now)}</span>
         </div>
       </CardContent>
     </Card>

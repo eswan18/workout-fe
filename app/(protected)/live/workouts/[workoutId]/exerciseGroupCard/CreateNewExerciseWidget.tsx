@@ -84,7 +84,7 @@ function CreateNewExerciseForm({
                 Cancel
               </Button>
             </DialogClose>
-            <Button onClick={addGivenExercise}>Add Set</Button>
+            <Button type="submit" onClick={addGivenExercise}>Add Set</Button>
           </>
         )}
       </DialogFooter>
