@@ -22,8 +22,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextAuthProvider>
             <NavBar />
-            <div className="flex flex-row justify-center">
-              <div className="content-container w-[48rem] flex-shrink">
+            <div className="flex flex-row justify-center max-w-full">
+              <div className="content-container w-full md:w-[48rem] flex-shrink">
                 {props.children}
               </div>
             </div>
