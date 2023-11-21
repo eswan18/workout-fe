@@ -285,7 +285,7 @@ function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
 
   return (
     <Card>
-      <CardHeader className="pt-3 pb-2">
+      <CardHeader className="pt-3 pb-2 animate-pulse-2s">
         <CardTitle className="text-lg text-center">
           <Timer size={24} className="pb-1 mr-1 inline" />
           Live
@@ -294,7 +294,7 @@ function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
       <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
         <div className="flex flex-col px-2 py-1 items-center justify-start">
           <span className="text-muted-foreground">Time Elapsed</span>
-          <span className={`text-lg animate-pulse-4s`}>{formatDurationHMS(startTime, now)}</span>
+          <span className={`text-lg`}>{formatDurationHMS(startTime, now)}</span>
         </div>
       </CardContent>
     </Card>
