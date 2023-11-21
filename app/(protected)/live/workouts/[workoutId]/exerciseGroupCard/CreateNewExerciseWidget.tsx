@@ -1,6 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import {
   Dialog,
   DialogTrigger,
@@ -10,11 +14,15 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { PlusSquare } from "lucide-react";
 import { useState } from "react";
+
+const formSchema = z.object({
+  reps: z.coerce.number().positive().finite().int(),
+  weight: z.coerce.number().nonnegative().finite(),
+})
 
 export default function CreateNewExerciseWidget({
   exerciseTypeName,
@@ -53,41 +61,70 @@ function CreateNewExerciseForm({
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
 }) {
   const [loading, setLoading] = useState(false);
-  const addGivenExercise = () => {};
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  })
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    // reps && weight && onAddExercise({ reps, weight}).then(() => setLoading(false))
-  };
-  return (
-    <div className="sm:w-64">
-      <DialogHeader>
-        <DialogTitle>{exerciseTypeName}</DialogTitle>
-      </DialogHeader>
-      <div className="flex flex-col gap-4 my-8">
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="weight">Weight (pounds)</Label>
-          <Input type="number" id="weight" name="weight" placeholder="25" />
+    onAddExercise(values);
+    setLoading(false);
+  }
+ 
+ return (
+  <div className="sm:w-64">
+    <DialogHeader>
+      <DialogTitle>{exerciseTypeName}</DialogTitle>
+    </DialogHeader>
+    <Form {...form} >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 my-8">
+          <FormField
+            control={form.control}
+            name="reps"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reps</FormLabel>
+                <FormControl>
+                  <Input placeholder="0" {...field} />
+                </FormControl>
+                <FormDescription>Number of reps</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="weight"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Weight</FormLabel>
+                <FormControl>
+                  <Input placeholder="0" {...field} />
+                </FormControl>
+                <FormDescription>Weight in pounds</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="reps">Reps</Label>
-          <Input type="number" id="reps" name="reps" placeholder="8" />
-        </div>
-      </div>
-      <DialogFooter>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit" onClick={addGivenExercise}>Add Set</Button>
-          </>
-        )}
-      </DialogFooter>
-    </div>
-  );
+        <DialogFooter>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button type="submit" >Add Set</Button>
+              </DialogClose>
+            </>
+          )}
+        </DialogFooter>
+      </form>
+    </Form>
+  </div>
+ )
 }

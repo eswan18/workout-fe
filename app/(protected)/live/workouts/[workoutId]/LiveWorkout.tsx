@@ -12,9 +12,6 @@ import { ExerciseOrLoading } from "./exerciseGroupCard";
 import ExerciseGroupInputModal, {
   ExerciseGroupInputModalState,
 } from "./exerciseGroupCard/ExerciseGroupInputModal";
-import ExerciseInputModal, {
-  ExerciseInputModalState,
-} from "./exerciseGroupCard/ExerciseInputModal";
 import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
 import { deleteExercise } from "@/lib/resources/exercises/delete";
 import { updateWorkout } from "@/lib/resources/workouts";
@@ -97,43 +94,6 @@ export default function LiveWorkout({
       />,
     );
   };
-
-  function openNewExerciseModal({
-    exerciseType,
-    exercises,
-    setExercises,
-  }: {
-    exerciseType: ExerciseType;
-    exercises: ExerciseOrLoading[];
-    setExercises: (exercises: ExerciseOrLoading[]) => void;
-  }) {
-    // This feels janky, but we need a unique key for each exercise that is constant across renders.
-    function onSubmit({ weight, reps }: ExerciseInputModalState) {
-      const newExercise: Exercise = {
-        workout_id: workout.id,
-        exercise_type_id: exerciseType.id as string,
-        weight,
-        reps,
-        start_time: new Date(),
-      };
-      createExercise(newExercise).then((result) => {
-        if (!result.success) {
-          throw result.error;
-        }
-        const ex = result.data;
-        setExercises([...exercises, ex]);
-      });
-      setModal(null);
-    }
-    setModal(
-      <ExerciseInputModal
-        onSubmit={onSubmit}
-        inputType="create"
-        exerciseTypeName={exerciseType.name}
-        handleClose={() => setModal(null)}
-      />,
-    );
-  }
 
   function openEditExerciseModal(
     exerciseId: string,
@@ -223,15 +183,24 @@ export default function LiveWorkout({
         </div>
         <div className="flex flex-col gap-6">
           {groups.map(({ exerciseType, exercises, key }) => {
-            const setExercises = (exercises: ExerciseOrLoading[]) =>
+            const setExercises = (exercises: ExerciseOrLoading[]) => {
               setExercisesForGroup(key, exercises);
-            function onClickCreateNewExercise(): void {
-              openNewExerciseModal({
-                exerciseType: exerciseType as ExerciseType,
-                exercises,
-                setExercises,
-              });
             }
+            const onAddExercise = ({ reps, weight }: { reps: number; weight: number }) => {
+              const newExercise= {
+                reps,
+                weight,
+                exercise_type_id: exerciseType.id as string,
+                workout_id: workout.id,
+              };
+              createExercise(newExercise).then((result) => {
+                if (!result.success) {
+                  return;
+                }
+                const exercise = result.data;
+                setExercises([...exercises, exercise]);
+              });
+            };
             function onClickEditExercise(exerciseId: string): void {
               openEditExerciseModal(exerciseId, {
                 exerciseType: exerciseType as ExerciseType,
@@ -245,7 +214,7 @@ export default function LiveWorkout({
                 exercises={exercises}
                 key={exercises[0].id}
                 onClickEditExercise={onClickEditExercise}
-                onClickCreateNewExercise={onClickCreateNewExercise}
+                onAddExercise={onAddExercise}
               />
             );
           })}
