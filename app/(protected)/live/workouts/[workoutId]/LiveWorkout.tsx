@@ -185,9 +185,15 @@ export default function LiveWorkout({
           {groups.map(({ exerciseType, exercises, key }) => {
             const setExercises = (exercises: ExerciseOrLoading[]) => {
               setExercisesForGroup(key, exercises);
-            }
-            const onAddExercise = ({ reps, weight }: { reps: number; weight: number }) => {
-              const newExercise= {
+            };
+            const onAddExercise = ({
+              reps,
+              weight,
+            }: {
+              reps: number;
+              weight: number;
+            }) => {
+              const newExercise = {
                 reps,
                 weight,
                 exercise_type_id: exerciseType.id as string,
@@ -241,7 +247,7 @@ export default function LiveWorkout({
 
 function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
   const startTime = new Date(workout.start_time);
-  const [ now, setNow ] = useState(new Date());
+  const [now, setNow] = useState(new Date());
 
   useEffect(() => {
     // Set up an interval to update the elapsed time every second
