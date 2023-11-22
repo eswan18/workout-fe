@@ -98,7 +98,6 @@ function CreateNewExerciseForm({
                 <FormControl>
                   <Input placeholder="0" {...field} />
                 </FormControl>
-                <FormDescription>Number of reps</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -108,11 +107,10 @@ function CreateNewExerciseForm({
             name="weight"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Weight</FormLabel>
+                <FormLabel>Weight (pounds)</FormLabel>
                 <FormControl>
                   <Input placeholder="0" {...field} />
                 </FormControl>
-                <FormDescription>Weight in pounds</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
