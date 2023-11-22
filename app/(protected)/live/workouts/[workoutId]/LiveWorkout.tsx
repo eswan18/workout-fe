@@ -12,8 +12,7 @@ import { ExerciseOrLoading } from "./exerciseGroupCard";
 import ExerciseGroupInputModal, {
   ExerciseGroupInputModalState,
 } from "./exerciseGroupCard/ExerciseGroupInputModal";
-import { createExercise, overwriteExercise } from "@/lib/resources/exercises";
-import { deleteExercise } from "@/lib/resources/exercises/delete";
+import { createExercise } from "@/lib/resources/exercises";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
@@ -95,60 +94,6 @@ export default function LiveWorkout({
     );
   };
 
-  function openEditExerciseModal(
-    exerciseId: string,
-    {
-      exerciseType,
-      exercises,
-      setExercises,
-    }: {
-      exerciseType: ExerciseType;
-      exercises: ExerciseOrLoading[];
-      setExercises: (exercises: ExerciseOrLoading[]) => void;
-    },
-  ) {
-    const thisExercise = exercises.find((ex) => ex.id === exerciseId) as
-      | Exercise
-      | undefined;
-    if (thisExercise === undefined) {
-      return;
-    }
-    const onSubmit = (modalState: ExerciseInputModalState) => {
-      // On submit, we update the exercise both in page state and in the database.
-      setExercises(
-        exercises.map((ex) => {
-          if (ex.id === exerciseId) {
-            const newExercise = { ...ex, ...modalState };
-            overwriteExercise({
-              id: exerciseId,
-              exercise: newExercise as Exercise,
-            });
-            return newExercise;
-          } else {
-            return ex;
-          }
-        }),
-      );
-      setModal(null);
-    };
-    const onDeleteButtonClick = () => {
-      // On delete, we remove the exercise from page state and from the database.
-      setExercises(exercises.filter((ex) => ex.id !== exerciseId));
-      deleteExercise(exerciseId);
-      setModal(null);
-    };
-    setModal(
-      <ExerciseInputModal
-        initalValues={{ weight: thisExercise.weight, reps: thisExercise.reps }}
-        onDeleteButtonClick={onDeleteButtonClick}
-        inputType="update"
-        onSubmit={onSubmit}
-        exerciseTypeName={exerciseType.name}
-        handleClose={() => setModal(null)}
-      />,
-    );
-  }
-
   const onFinishWorkout = () => {
     // Mark the workout finished.
     updateWorkout({
@@ -207,13 +152,6 @@ export default function LiveWorkout({
                 setExercises([...exercises, exercise]);
               });
             };
-            function onClickEditExercise(exerciseId: string): void {
-              openEditExerciseModal(exerciseId, {
-                exerciseType: exerciseType as ExerciseType,
-                exercises,
-                setExercises,
-              });
-            }
             // New exercises can only be added to the last group (this allows us to always group things by start time).
             const supportsAddingExercise = idx == groups.length - 1;
             return (
@@ -221,7 +159,6 @@ export default function LiveWorkout({
                 exerciseType={exerciseType}
                 exercises={exercises}
                 key={exercises[0].id}
-                onClickEditExercise={onClickEditExercise}
                 onAddExercise={onAddExercise}
                 supportsAddingExercise={supportsAddingExercise}
               />

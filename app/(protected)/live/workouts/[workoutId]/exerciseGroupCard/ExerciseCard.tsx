@@ -7,7 +7,6 @@ interface ExerciseWidgetProps {
   weight: number;
   reps: number;
   saveStatus: SaveStatus;
-  onEditButtonClick: () => void;
 }
 
 export default function ExerciseCard({

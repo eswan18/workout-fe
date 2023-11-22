@@ -10,7 +10,6 @@ type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
   exercises: (Exercise | LoadingExercise)[];
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
-  onClickEditExercise: (exerciseId: string) => void;
   supportsAddingExercise: boolean;
 };
 
@@ -25,7 +24,6 @@ export default function ExerciseGroupCard({
   exerciseType,
   exercises,
   onAddExercise,
-  onClickEditExercise,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
   return (
@@ -45,7 +43,6 @@ export default function ExerciseGroupCard({
               weight={ex.weight as number}
               reps={ex.reps as number}
               saveStatus="saved"
-              onEditButtonClick={() => onClickEditExercise(ex.id as string)}
               key={ex.id}
             />
           );
