@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import "@flaticon/flaticon-uicons/css/all/all.css";
 import React from "react";
 import NavBar from "@/components/navBar/navBar";
 import { Toaster } from "@/components/ui/toaster";
