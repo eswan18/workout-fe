@@ -9,18 +9,16 @@ import {
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import { ExerciseOrLoading } from "./exerciseGroupCard";
-import ExerciseGroupInputModal, {
-  ExerciseGroupInputModalState,
-} from "./exerciseGroupCard/ExerciseGroupInputModal";
 import { createExercise } from "@/lib/resources/exercises";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
 import ExerciseGroupCard from "./exerciseGroupCard";
-import { CheckSquare, Dumbbell, Timer } from "lucide-react";
+import { CheckSquare, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDurationHMS } from "@/lib/time";
+import StartNewExerciseGroupButton from "./StartNewExerciseGroupButton";
 
 type ExerciseGroup = {
   exerciseType: ExerciseType;
@@ -49,7 +47,6 @@ export default function LiveWorkout({
     exercises: set.exercises,
     key: Math.random(),
   }));
-  const [modal, setModal] = useState<React.ReactElement | null>(null);
 
   const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
   const addGroup = (exerciseType: ExerciseType, exercises: Exercise[]) => {
@@ -68,32 +65,6 @@ export default function LiveWorkout({
     setGroups(newGroups);
   };
 
-  // This is triggered when the user clicks the "New exercise" button.
-  const onClickCreateNewExerciseGroup = () => {
-    const onSubmit = (e: ExerciseGroupInputModalState) => {
-      setModal(null);
-      if (!e.exerciseTypeId) {
-        return;
-      }
-      // Get the exercise type for the given ID.
-      const exerciseType = exerciseTypes.find(
-        (type) => type.id === e.exerciseTypeId,
-      );
-      if (!exerciseType) {
-        // This should never happen.
-        throw new Error("exercise type not found");
-      }
-      addGroup(exerciseType, []);
-    };
-    setModal(
-      <ExerciseGroupInputModal
-        exerciseTypes={exerciseTypes}
-        onSubmit={onSubmit}
-        handleClose={() => setModal(null)}
-      />,
-    );
-  };
-
   const onFinishWorkout = () => {
     // Mark the workout finished.
     updateWorkout({
@@ -110,6 +81,16 @@ export default function LiveWorkout({
       });
     });
   };
+  const onStartNewExerciseGroup = ({ exerciseTypeId }: { exerciseTypeId: string }) => {
+    const exerciseType = exerciseTypes.find(
+      (type) => type.id === exerciseTypeId,
+    );
+    if (!exerciseType) {
+      // This should never happen.
+      throw new Error("exercise type not found");
+    }
+    addGroup(exerciseType, [])
+  }
 
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
@@ -158,25 +139,20 @@ export default function LiveWorkout({
               <ExerciseGroupCard
                 exerciseType={exerciseType}
                 exercises={exercises}
-                key={exercises[0].id}
+                key={key}
                 onAddExercise={onAddExercise}
                 supportsAddingExercise={supportsAddingExercise}
               />
             );
           })}
-          <Button
-            variant="secondary"
-            className="w-fit"
-            onClick={onClickCreateNewExerciseGroup}
-          >
-            <Dumbbell className="mr-2" />
-            New exercise
-          </Button>
+          <StartNewExerciseGroupButton
+            onStartNewExerciseGroup={onStartNewExerciseGroup}
+            exerciseTypes={exerciseTypes}
+          />
         </div>
       </div>
-      {modal}
       <div className="w-full flex flex-row justify-center text-xl font-bold">
-        <Button onClick={onFinishWorkout}>
+        <Button onClick={onFinishWorkout} className="mb-4">
           <p className="text-lg mr-3">Finish Workout</p>
           <CheckSquare />
         </Button>

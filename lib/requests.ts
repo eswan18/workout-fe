@@ -1,7 +1,6 @@
 "use server";
 
 import { getAccessToken } from "@/lib/session";
-import { redirect } from "next/navigation";
 
 const API_URL = process.env.WORKOUT_API_URL;
 // The timeout in milliseconds for HTTP requests.

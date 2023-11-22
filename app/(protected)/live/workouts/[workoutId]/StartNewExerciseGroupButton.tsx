@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { ExerciseType } from "@/lib/resources/apiTypes";
 import {
   Form,
   FormField,
@@ -9,6 +10,14 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -21,22 +30,22 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { PlusSquare } from "lucide-react";
+import { Dumbbell } from "lucide-react";
 import { useState } from "react";
 
 const formSchema = z.object({
-  reps: z.coerce.number().positive().finite().int(),
-  weight: z.coerce.number().nonnegative().finite(),
+  exerciseTypeId: z.string({
+    required_error: "Please select an exercise.",
+  }).uuid(),
 });
 
-export default function CreateNewExerciseButton({
-  exerciseTypeName,
-  onAddExercise,
+export default function StartNewExerciseGroupButton({
+  exerciseTypes,
+  onStartNewExerciseGroup,
 }: {
-  exerciseTypeName: string;
-  onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
+  exerciseTypes: ExerciseType[];
+  onStartNewExerciseGroup: ({ exerciseTypeId }: { exerciseTypeId: string }) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -44,20 +53,21 @@ export default function CreateNewExerciseButton({
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
         <Button
-          className="w-20 h-20 flex flex-col flex-shrink-0 justify-center items-center p-0"
-          title="Record new set"
           variant="secondary"
+          className="w-fit"
         >
-          <PlusSquare size={48} strokeWidth={1.2} className="p-0 m-0" />
+          <Dumbbell className="mr-2" />
+          New exercise
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-row justify-center">
         <div className="sm:w-64">
           <DialogHeader>
-            <DialogTitle>{exerciseTypeName}</DialogTitle>
+            <DialogTitle>Start a new exercise</DialogTitle>
           </DialogHeader>
-          <CreateNewExerciseForm
-            onAddExercise={onAddExercise}
+          <StartNewExerciseGroupForm
+            exerciseTypes={exerciseTypes}
+            onStartNewExerciseGroup={onStartNewExerciseGroup}
             closeDialog={() => setOpen(false)}
           />
         </div>
@@ -66,11 +76,13 @@ export default function CreateNewExerciseButton({
   );
 }
 
-function CreateNewExerciseForm({
-  onAddExercise,
+function StartNewExerciseGroupForm({
+  exerciseTypes,
+  onStartNewExerciseGroup,
   closeDialog,
 }: {
-  onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
+  exerciseTypes: ExerciseType[];
+  onStartNewExerciseGroup: ({ exerciseTypeId }: { exerciseTypeId: string }) => void;
   closeDialog: () => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +91,7 @@ function CreateNewExerciseForm({
   const [loading, setLoading] = useState(false);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    onAddExercise(values);
+    onStartNewExerciseGroup(values);
     setLoading(false);
     // Closing the dialog explicitly allows us to close on submit but only if validation succeeds.
     closeDialog();
@@ -90,25 +102,25 @@ function CreateNewExerciseForm({
         <div className="flex flex-col gap-4 my-8">
           <FormField
             control={form.control}
-            name="reps"
+            name="exerciseTypeId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Reps</FormLabel>
+                <FormLabel>Exercise Type</FormLabel>
                 <FormControl>
-                  <Input placeholder="0" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="weight"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Weight (pounds)</FormLabel>
-                <FormControl>
-                  <Input placeholder="0" {...field} />
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {
+                        exerciseTypes.map((exerciseType) => (
+                          <SelectItem key={exerciseType.id} value={exerciseType.id as string}>
+                            {exerciseType.name}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,7 +137,7 @@ function CreateNewExerciseForm({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Add Set</Button>
+              <Button type="submit">Start</Button>
             </>
           )}
         </DialogFooter>
