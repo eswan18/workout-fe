@@ -45,7 +45,7 @@ export default function CreateNewExerciseWidget({
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
         <Button
-          className="w-20 h-20 flex flex-col justify-center items-center p-0"
+          className="w-20 h-20 flex flex-col flex-shrink-0 justify-center items-center p-0"
           title="Record new set"
           variant="secondary"
         >

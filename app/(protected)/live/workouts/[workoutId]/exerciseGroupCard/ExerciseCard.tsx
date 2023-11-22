@@ -16,7 +16,7 @@ export default function ExerciseCard({
   saveStatus,
 }: ExerciseWidgetProps) {
   return (
-    <Card className="w-20 h-20">
+    <Card className="w-20 h-20 flex-shrink-0">
       <CardContent className="h-full flex flex-col justify-center items-center p-0">
         <SaveStatusOverlayContainer saveStatus={saveStatus} />
         <div className="text-2xl font-bold">{weight}</div>
