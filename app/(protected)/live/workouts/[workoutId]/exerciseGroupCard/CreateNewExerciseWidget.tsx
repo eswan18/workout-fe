@@ -39,8 +39,9 @@ export default function CreateNewExerciseWidget({
   exerciseTypeName: string;
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
 }) {
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
         <Button
@@ -55,6 +56,7 @@ export default function CreateNewExerciseWidget({
         <CreateNewExerciseForm
           exerciseTypeName={exerciseTypeName}
           onAddExercise={onAddExercise}
+          closeDialog={() => setOpen(false)}
         />
       </DialogContent>
     </Dialog>
@@ -64,9 +66,11 @@ export default function CreateNewExerciseWidget({
 function CreateNewExerciseForm({
   exerciseTypeName,
   onAddExercise,
+  closeDialog,
 }: {
   exerciseTypeName: string;
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
+  closeDialog: () => void;
 }) {
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -76,6 +80,8 @@ function CreateNewExerciseForm({
     setLoading(true);
     onAddExercise(values);
     setLoading(false);
+    // Closing the dialog explicitly allows us to close on submit but only if validation succeeds.
+    closeDialog();
   };
 
   return (
@@ -125,9 +131,7 @@ function CreateNewExerciseForm({
                     Cancel
                   </Button>
                 </DialogClose>
-                <DialogClose asChild>
-                  <Button type="submit">Add Set</Button>
-                </DialogClose>
+                <Button type="submit">Add Set</Button>
               </>
             )}
           </DialogFooter>
