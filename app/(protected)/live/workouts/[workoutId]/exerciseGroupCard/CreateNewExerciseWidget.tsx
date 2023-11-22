@@ -53,29 +53,31 @@ export default function CreateNewExerciseWidget({
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-row justify-center">
-        <CreateNewExerciseForm
-          exerciseTypeName={exerciseTypeName}
-          onAddExercise={onAddExercise}
-          closeDialog={() => setOpen(false)}
-        />
+        <div className="sm:w-64">
+          <DialogHeader>
+            <DialogTitle>{exerciseTypeName}</DialogTitle>
+          </DialogHeader>
+          <CreateNewExerciseForm
+            onAddExercise={onAddExercise}
+            closeDialog={() => setOpen(false)}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
 }
 
 function CreateNewExerciseForm({
-  exerciseTypeName,
   onAddExercise,
   closeDialog,
 }: {
-  exerciseTypeName: string;
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
   closeDialog: () => void;
 }) {
-  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+  const [loading, setLoading] = useState(false);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     onAddExercise(values);
@@ -83,60 +85,54 @@ function CreateNewExerciseForm({
     // Closing the dialog explicitly allows us to close on submit but only if validation succeeds.
     closeDialog();
   };
-
   return (
-    <div className="sm:w-64">
-      <DialogHeader>
-        <DialogTitle>{exerciseTypeName}</DialogTitle>
-      </DialogHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-4 my-8">
-            <FormField
-              control={form.control}
-              name="reps"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Reps</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0" {...field} />
-                  </FormControl>
-                  <FormDescription>Number of reps</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="weight"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Weight</FormLabel>
-                  <FormControl>
-                    <Input placeholder="0" {...field} />
-                  </FormControl>
-                  <FormDescription>Weight in pounds</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <DialogFooter>
-            {loading ? (
-              <LoadingSpinner />
-            ) : (
-              <>
-                <DialogClose asChild>
-                  <Button type="button" variant="outline">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button type="submit">Add Set</Button>
-              </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 my-8">
+          <FormField
+            control={form.control}
+            name="reps"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Reps</FormLabel>
+                <FormControl>
+                  <Input placeholder="0" {...field} />
+                </FormControl>
+                <FormDescription>Number of reps</FormDescription>
+                <FormMessage />
+              </FormItem>
             )}
-          </DialogFooter>
-        </form>
-      </Form>
-    </div>
+          />
+          <FormField
+            control={form.control}
+            name="weight"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Weight</FormLabel>
+                <FormControl>
+                  <Input placeholder="0" {...field} />
+                </FormControl>
+                <FormDescription>Weight in pounds</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <DialogFooter>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit">Add Set</Button>
+            </>
+          )}
+        </DialogFooter>
+      </form>
+    </Form>
   );
 }
