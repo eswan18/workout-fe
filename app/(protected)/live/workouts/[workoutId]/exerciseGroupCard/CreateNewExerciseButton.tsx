@@ -32,7 +32,7 @@ const formSchema = z.object({
   weight: z.coerce.number().nonnegative().finite(),
 });
 
-export default function CreateNewExerciseWidget({
+export default function CreateNewExerciseButton({
   exerciseTypeName,
   onAddExercise,
 }: {
@@ -87,7 +87,7 @@ function CreateNewExerciseForm({
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
         <div className="flex flex-col gap-4 my-8">
           <FormField
             control={form.control}

@@ -182,7 +182,7 @@ export default function LiveWorkout({
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          {groups.map(({ exerciseType, exercises, key }) => {
+          {groups.map(({ exerciseType, exercises, key }, idx) => {
             const setExercises = (exercises: ExerciseOrLoading[]) => {
               setExercisesForGroup(key, exercises);
             };
@@ -214,6 +214,8 @@ export default function LiveWorkout({
                 setExercises,
               });
             }
+            // New exercises can only be added to the last group (this allows us to always group things by start time).
+            const supportsAddingExercise = idx == groups.length - 1;
             return (
               <ExerciseGroupCard
                 exerciseType={exerciseType}
@@ -221,6 +223,7 @@ export default function LiveWorkout({
                 key={exercises[0].id}
                 onClickEditExercise={onClickEditExercise}
                 onAddExercise={onAddExercise}
+                supportsAddingExercise={supportsAddingExercise}
               />
             );
           })}

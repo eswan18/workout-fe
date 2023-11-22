@@ -1,7 +1,7 @@
 "use client";
 
 import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
-import CreateNewExerciseWidget from "./CreateNewExerciseWidget";
+import CreateNewExerciseButton from "./CreateNewExerciseButton";
 import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell } from "lucide-react";
@@ -11,6 +11,7 @@ type ExerciseGroupWidgetProps = {
   exercises: (Exercise | LoadingExercise)[];
   onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
   onClickEditExercise: (exerciseId: string) => void;
+  supportsAddingExercise: boolean;
 };
 
 export type LoadingExercise = {
@@ -25,6 +26,7 @@ export default function ExerciseGroupCard({
   exercises,
   onAddExercise,
   onClickEditExercise,
+  supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
   return (
     <Card>
@@ -48,10 +50,10 @@ export default function ExerciseGroupCard({
             />
           );
         })}
-        <CreateNewExerciseWidget
+        { supportsAddingExercise && <CreateNewExerciseButton
           exerciseTypeName={exerciseType.name}
           onAddExercise={onAddExercise}
-        />
+        /> }
       </CardContent>
     </Card>
   );
