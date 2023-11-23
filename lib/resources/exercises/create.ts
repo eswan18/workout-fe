@@ -6,6 +6,7 @@ import {
   newRequestSuccess,
   newRequestFailure,
 } from "@/lib/requests";
+import { fixTypes } from "@/lib/resources/exercises/read";
 import { Exercise } from "@/lib/resources/apiTypes";
 
 const ROUTE = "/exercises/";
@@ -35,6 +36,6 @@ export async function createExercise(
       new Error("Expected 1 exercise, got " + result.data.length),
     );
   }
-  const createdExercise = result.data[0];
+  const createdExercise = await fixTypes(result.data[0]);
   return await newRequestSuccess(createdExercise);
 }

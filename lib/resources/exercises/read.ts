@@ -13,12 +13,12 @@ export async function getExercisesByWorkoutId(
     params: { workout_id: workoutId },
   })) as RequestResult<Exercise[]>;
   if (result.success) {
-    result.data = result.data.map(fixTypes);
+    result.data = await Promise.all(result.data.map(fixTypes));
   }
   return result;
 }
 
-function fixTypes(exercise: Exercise): Exercise {
+export async function fixTypes(exercise: Exercise): Promise<Exercise> {
   exercise = { ...exercise };
   // if "start_time" is a string, convert it to a Date
   if (typeof exercise.start_time === "string") {
