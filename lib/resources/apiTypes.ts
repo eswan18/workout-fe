@@ -77,3 +77,9 @@ export type WorkoutWithDetails = {
   workout: WorkoutWithType;
   exercises: ExerciseWithType[];
 };
+
+// Simplified types
+export type StandaloneExercise = Omit<
+  Exercise,
+  "exercise_type_id" | "workout_id"
+>;

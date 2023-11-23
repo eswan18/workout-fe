@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   Exercise,
   ExerciseType,
+  StandaloneExercise,
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
@@ -125,17 +126,9 @@ export default function LiveWorkout({
             const setExercises = (exercises: ExerciseOrLoading[]) => {
               setExercisesForGroup(key, exercises);
             };
-            const onAddExercise = ({
-              reps,
-              weight,
-            }: {
-              reps: number;
-              weight: number;
-            }) => {
+            const addExercise = (exercise: StandaloneExercise) => {
               const newExercise: Exercise = {
-                reps,
-                weight,
-                start_time: new Date(),
+                ...exercise,
                 exercise_type_id: exerciseType.id as string,
                 workout_id: workout.id,
               };
@@ -154,7 +147,7 @@ export default function LiveWorkout({
                 exerciseType={exerciseType}
                 exercises={exercises}
                 key={key}
-                onAddExercise={onAddExercise}
+                addExercise={addExercise}
                 supportsAddingExercise={supportsAddingExercise}
               />
             );

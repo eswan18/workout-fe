@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { PlusSquare } from "lucide-react";
 import { useState } from "react";
+import { StandaloneExercise } from "@/lib/resources/apiTypes";
 
 const formSchema = z.object({
   reps: z.coerce.number().positive().finite().int(),
@@ -33,10 +34,10 @@ const formSchema = z.object({
 
 export default function CreateNewExerciseButton({
   exerciseTypeName,
-  onAddExercise,
+  addExercise,
 }: {
   exerciseTypeName: string;
-  onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
+  addExercise: (exercise: StandaloneExercise) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -57,7 +58,7 @@ export default function CreateNewExerciseButton({
             <DialogTitle>{exerciseTypeName}</DialogTitle>
           </DialogHeader>
           <CreateNewExerciseForm
-            onAddExercise={onAddExercise}
+            addExercise={addExercise}
             closeDialog={() => setOpen(false)}
           />
         </div>
@@ -67,10 +68,10 @@ export default function CreateNewExerciseButton({
 }
 
 function CreateNewExerciseForm({
-  onAddExercise,
+  addExercise,
   closeDialog,
 }: {
-  onAddExercise: ({ reps, weight }: { reps: number; weight: number }) => void;
+  addExercise: (exercise: StandaloneExercise) => void;
   closeDialog: () => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,7 +80,7 @@ function CreateNewExerciseForm({
   const [loading, setLoading] = useState(false);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    onAddExercise(values);
+    addExercise({ ...values, start_time: new Date() });
     setLoading(false);
     // Closing the dialog explicitly allows us to close on submit but only if validation succeeds.
     closeDialog();

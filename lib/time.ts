@@ -16,6 +16,10 @@ export function formatDateYMDHM(date: Date): string {
 }
 
 export function formatDateYMD(date: Date, relative: boolean = false): string {
+  // Immediately raise an error if "date" isn't a Date
+  if (!(date instanceof Date)) {
+    throw new Error(`date must be a Date but this is ${typeof date}`);
+  }
   // Extract date components
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
