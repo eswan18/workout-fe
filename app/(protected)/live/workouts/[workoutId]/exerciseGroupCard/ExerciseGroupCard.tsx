@@ -1,6 +1,10 @@
 "use client";
 
-import { Exercise, ExerciseType } from "@/lib/resources/apiTypes";
+import {
+  Exercise,
+  ExerciseType,
+  ExerciseWithType,
+} from "@/lib/resources/apiTypes";
 import CreateNewExerciseButton from "./CreateNewExerciseButton";
 import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,6 +30,18 @@ export default function ExerciseGroupCard({
   onAddExercise,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
+  const exercisesWithTypes: ExerciseWithType[] = exercises
+    .filter((ex): ex is Exercise => !("isLoading" in ex))
+    .map((ex) => {
+      return {
+        ...ex,
+        id: ex.id as string,
+        user_id: ex.user_id as string,
+        exercise_type_name: exerciseType.name,
+        exercise_type_id: exerciseType.id as string,
+        exercise_type_owner_user_id: exerciseType.owner_user_id,
+      };
+    });
   return (
     <Card>
       <CardHeader>
@@ -34,18 +50,11 @@ export default function ExerciseGroupCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row justify-left gap-2 overflow-x-scroll">
-        {exercises.map((ex) => {
+        {exercisesWithTypes.map((ex) => {
           if ("isLoading" in ex) {
             return;
           }
-          return (
-            <ExerciseCard
-              weight={ex.weight as number}
-              reps={ex.reps as number}
-              saveStatus="saved"
-              key={ex.id}
-            />
-          );
+          return <ExerciseCard exercise={ex} saveStatus="saved" key={ex.id} />;
         })}
         {supportsAddingExercise && (
           <CreateNewExerciseButton

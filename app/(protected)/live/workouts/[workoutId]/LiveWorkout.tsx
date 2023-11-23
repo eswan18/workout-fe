@@ -132,9 +132,10 @@ export default function LiveWorkout({
               reps: number;
               weight: number;
             }) => {
-              const newExercise = {
+              const newExercise: Exercise = {
                 reps,
                 weight,
+                start_time: new Date(),
                 exercise_type_id: exerciseType.id as string,
                 workout_id: workout.id,
               };
