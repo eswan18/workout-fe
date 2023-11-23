@@ -16,7 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -36,27 +36,32 @@ import { Separator } from "@/components/ui/separator";
 import CreateNewExerciseTypeButton from "./CreateNewExerciseTypeButton";
 
 const formSchema = z.object({
-  exerciseTypeId: z.string({
-    required_error: "Please select an exercise.",
-  }).uuid(),
+  exerciseTypeId: z
+    .string({
+      required_error: "Please select an exercise.",
+    })
+    .uuid(),
 });
 
 export default function StartNewExerciseGroupButton({
   exerciseTypes,
   onStartNewExerciseGroup,
+  addNewExerciseType,
 }: {
   exerciseTypes: ExerciseType[];
-  onStartNewExerciseGroup: ({ exerciseTypeId }: { exerciseTypeId: string }) => void;
+  onStartNewExerciseGroup: ({
+    exerciseTypeId,
+  }: {
+    exerciseTypeId: string;
+  }) => void;
+  addNewExerciseType: (exerciseType: ExerciseType) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
-        <Button
-          variant="secondary"
-          className="w-fit"
-        >
+        <Button variant="secondary" className="w-fit">
           <Dumbbell className="mr-2" />
           New exercise
         </Button>
@@ -69,6 +74,7 @@ export default function StartNewExerciseGroupButton({
           <StartNewExerciseGroupForm
             exerciseTypes={exerciseTypes}
             onStartNewExerciseGroup={onStartNewExerciseGroup}
+            addNewExerciseType={addNewExerciseType}
             closeDialog={() => setOpen(false)}
           />
         </div>
@@ -80,10 +86,16 @@ export default function StartNewExerciseGroupButton({
 function StartNewExerciseGroupForm({
   exerciseTypes,
   onStartNewExerciseGroup,
+  addNewExerciseType,
   closeDialog,
 }: {
   exerciseTypes: ExerciseType[];
-  onStartNewExerciseGroup: ({ exerciseTypeId }: { exerciseTypeId: string }) => void;
+  onStartNewExerciseGroup: ({
+    exerciseTypeId,
+  }: {
+    exerciseTypeId: string;
+  }) => void;
+  addNewExerciseType: (exerciseType: ExerciseType) => void;
   closeDialog: () => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -108,20 +120,26 @@ function StartNewExerciseGroupForm({
               <FormItem>
                 <FormLabel>Exercise Type</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select..." />
                     </SelectTrigger>
                     <SelectContent>
-                      {
-                        exerciseTypes.map((exerciseType) => (
-                          <SelectItem key={exerciseType.id} value={exerciseType.id as string}>
-                            {exerciseType.name}
-                          </SelectItem>
-                        ))
-                      }
+                      {exerciseTypes.map((exerciseType) => (
+                        <SelectItem
+                          key={exerciseType.id}
+                          value={exerciseType.id as string}
+                        >
+                          {exerciseType.name}
+                        </SelectItem>
+                      ))}
                       <Separator />
-                      <CreateNewExerciseTypeButton />
+                      <CreateNewExerciseTypeButton
+                        addNewExerciseType={addNewExerciseType}
+                      />
                     </SelectContent>
                   </Select>
                 </FormControl>

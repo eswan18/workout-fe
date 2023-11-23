@@ -47,10 +47,12 @@ export default function ExerciseGroupCard({
             />
           );
         })}
-        { supportsAddingExercise && <CreateNewExerciseButton
-          exerciseTypeName={exerciseType.name}
-          onAddExercise={onAddExercise}
-        /> }
+        {supportsAddingExercise && (
+          <CreateNewExerciseButton
+            exerciseTypeName={exerciseType.name}
+            onAddExercise={onAddExercise}
+          />
+        )}
       </CardContent>
     </Card>
   );

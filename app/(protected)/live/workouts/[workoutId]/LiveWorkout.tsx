@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { formatDurationHMS } from "@/lib/time";
 import StartNewExerciseGroupButton from "./StartNewExerciseGroupButton";
+import { createExerciseType } from "@/lib/resources/exerciseTypes";
 
 type ExerciseGroup = {
   exerciseType: ExerciseType;
@@ -48,6 +49,16 @@ export default function LiveWorkout({
     key: Math.random(),
   }));
 
+  const [exerciseTps, setExerciseTps] = useState<ExerciseType[]>(exerciseTypes);
+  const addNewExerciseType = (exerciseType: ExerciseType) => {
+    createExerciseType(exerciseType).then((result) => {
+      if (!result.success) {
+        return;
+      }
+      const exerciseType = result.data;
+      setExerciseTps([...exerciseTps, exerciseType]);
+    });
+  };
   const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
   const addGroup = (exerciseType: ExerciseType, exercises: Exercise[]) => {
     setGroups([...groups, { exerciseType, exercises, key: Math.random() }]);
@@ -81,16 +92,18 @@ export default function LiveWorkout({
       });
     });
   };
-  const onStartNewExerciseGroup = ({ exerciseTypeId }: { exerciseTypeId: string }) => {
-    const exerciseType = exerciseTypes.find(
-      (type) => type.id === exerciseTypeId,
-    );
+  const onStartNewExerciseGroup = ({
+    exerciseTypeId,
+  }: {
+    exerciseTypeId: string;
+  }) => {
+    const exerciseType = exerciseTps.find((type) => type.id === exerciseTypeId);
     if (!exerciseType) {
       // This should never happen.
       throw new Error("exercise type not found");
     }
-    addGroup(exerciseType, [])
-  }
+    addGroup(exerciseType, []);
+  };
 
   const workoutName = workout.workout_type_name || "Custom Workout";
   return (
@@ -147,7 +160,8 @@ export default function LiveWorkout({
           })}
           <StartNewExerciseGroupButton
             onStartNewExerciseGroup={onStartNewExerciseGroup}
-            exerciseTypes={exerciseTypes}
+            exerciseTypes={exerciseTps}
+            addNewExerciseType={addNewExerciseType}
           />
         </div>
       </div>

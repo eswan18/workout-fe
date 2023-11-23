@@ -19,6 +19,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import { ExerciseType } from "@/lib/resources/apiTypes";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -29,15 +30,17 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-export default function CreateNewExerciseTypeButton() {
+export default function CreateNewExerciseTypeButton({
+  addNewExerciseType,
+}: {
+  addNewExerciseType: (exerciseType: ExerciseType) => void;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
-        <Button variant='secondary'>
-          Add new exercise type
-        </Button>
+        <Button variant="secondary">Add new exercise type</Button>
       </DialogTrigger>
       <DialogContent className="flex flex-row justify-center">
         <div className="sm:w-64">
@@ -46,17 +49,20 @@ export default function CreateNewExerciseTypeButton() {
           </DialogHeader>
           <CreateNewExerciseTypeForm
             closeDialog={() => setOpen(false)}
+            addNewExerciseType={addNewExerciseType}
           />
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 function CreateNewExerciseTypeForm({
   closeDialog,
+  addNewExerciseType,
 }: {
   closeDialog: () => void;
+  addNewExerciseType: (exerciseType: ExerciseType) => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,10 +70,14 @@ function CreateNewExerciseTypeForm({
   const [loading, setLoading] = useState(false);
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    // todo
+    addNewExerciseType({
+      name: values.name,
+      number_of_weights: values.numberOfWeights,
+      notes: values.notes,
+    });
     setLoading(false);
     closeDialog();
-  }
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">

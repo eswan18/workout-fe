@@ -1,5 +1,5 @@
 import { getWorkoutWithDetailsAsExerciseSets } from "@/lib/resources/derived/workoutWithDetails";
-import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/getExerciseTypes";
+import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/read";
 import LiveWorkout from "./LiveWorkout";
 
 export const metadata = {
