@@ -1,11 +1,13 @@
+"use client";
+
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import ExerciseGroupViewCard from "./ExerciseGroupViewCard";
 import { formatDateYMDHM, formatDurationHMS } from "@/lib/time";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit, LineChart } from "lucide-react";
+import ExerciseGroupCard from "../../live/workouts/[workoutId]/exerciseGroupCard";
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
@@ -53,10 +55,13 @@ export default function WorkoutView({
         </div>
         <div className="flex flex-col gap-6">
           {groups.map(({ exerciseType, exercises }) => (
-            <ExerciseGroupViewCard
+            <ExerciseGroupCard
               exerciseType={exerciseType}
               exercises={exercises}
               key={exercises[0].id}
+              editable={false}
+              supportsAddingExercise={false}
+              addExercise={() => {}}
             />
           ))}
         </div>
