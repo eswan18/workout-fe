@@ -18,11 +18,13 @@ import { formatDateYMD } from "@/lib/time";
 interface ExerciseWidgetProps {
   exercise: ExerciseWithType;
   saveStatus: SaveStatus;
+  editable?: boolean;
 }
 
 export default function ExerciseCard({
   exercise,
   saveStatus,
+  editable = false,
 }: ExerciseWidgetProps) {
   return (
     <Dialog>
@@ -34,8 +36,8 @@ export default function ExerciseCard({
       </DialogTrigger>
       <DialogContent className="flex flex-row justify-center">
         <div className="sm:w-64">
-          <DialogHeader className="flex flex-row justify-between items-start gap-4 space-y-0">
-            <div className="flex flex-col">
+          <DialogHeader className="flex flex-row justify-between items-start gap-4 space-y-0 pt-2">
+            <div className="flex flex-col gap-1 sm:gap-2">
               <DialogTitle>{exercise.exercise_type_name}</DialogTitle>
               <span className="text-sm text-muted-foreground">
                 {exercise.start_time
@@ -44,8 +46,24 @@ export default function ExerciseCard({
               </span>
             </div>
             <div className="flex flex-row gap-1 sm:gap-3 justify-end">
-              <Button size="icon" variant="secondary" className="h-8 w-8 p-0.5"><Edit size={16} /></Button>
-              <Button size="icon" variant="destructive" className="h-8 w-8 p-0.5"><Trash size={16} /></Button>
+              {editable && (
+                <>
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="h-8 w-8 p-0.5"
+                  >
+                    <Edit size={16} />
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="destructive"
+                    className="h-8 w-8 p-0.5"
+                  >
+                    <Trash size={16} />
+                  </Button>
+                </>
+              )}
             </div>
           </DialogHeader>
           <div className="flex flex-row justify-center py-4">
@@ -58,7 +76,9 @@ export default function ExerciseCard({
           </div>
           <DialogFooter className="flex flex-row justify-center sm:justify-center">
             <DialogClose asChild>
-              <Button variant="outline" className="w-24">Done</Button>
+              <Button variant="outline" className="w-24">
+                Done
+              </Button>
             </DialogClose>
           </DialogFooter>
         </div>

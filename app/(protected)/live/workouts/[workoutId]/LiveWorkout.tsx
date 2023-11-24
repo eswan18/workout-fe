@@ -148,6 +148,7 @@ export default function LiveWorkout({
                 exercises={exercises}
                 key={key}
                 addExercise={addExercise}
+                editable={true}
                 supportsAddingExercise={supportsAddingExercise}
               />
             );

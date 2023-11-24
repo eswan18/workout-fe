@@ -15,6 +15,7 @@ type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
   exercises: (Exercise | LoadingExercise)[];
   addExercise: (exercise: StandaloneExercise) => void;
+  editable?: boolean;
   supportsAddingExercise: boolean;
 };
 
@@ -29,6 +30,7 @@ export default function ExerciseGroupCard({
   exerciseType,
   exercises,
   addExercise,
+  editable = false,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
   const exercisesWithTypes: ExerciseWithType[] = exercises
@@ -55,7 +57,14 @@ export default function ExerciseGroupCard({
           if ("isLoading" in ex) {
             return;
           }
-          return <ExerciseCard exercise={ex} saveStatus="saved" key={ex.id} />;
+          return (
+            <ExerciseCard
+              exercise={ex}
+              saveStatus="saved"
+              key={ex.id}
+              editable={editable}
+            />
+          );
         })}
         {supportsAddingExercise && (
           <CreateNewExerciseButton
