@@ -27,9 +27,11 @@ export default function Error({
     <div className="m-16">
       <h1 className="text-4xl">Error</h1>
       <div className="my-8">
-      <p className="">Something went wrong!</p>
+        <p className="">Something went wrong!</p>
         <div className="m-4 p-4 border border-muted-foreground">
-          <pre><code>{error.message}</code></pre>
+          <pre>
+            <code>{error.message}</code>
+          </pre>
         </div>
       </div>
     </div>

@@ -88,11 +88,11 @@ export async function request({
     let error;
     console.log(e);
     if (typeof e === "string") {
-      error = new Error(e)
+      error = new Error(e);
     } else if (e instanceof Error) {
-      error = e
+      error = e;
     } else {
-      error = new Error(JSON.stringify(e))
+      error = new Error(JSON.stringify(e));
     }
     return newRequestFailure(error);
   }

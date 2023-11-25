@@ -37,7 +37,7 @@ export default function ExerciseCard({
           <ExerciseCardContent exercise={exercise} saveStatus={saveStatus} />
         </Card>
       </DialogTrigger>
-      <DialogContent className="flex flex-row justify-center">
+      <DialogContent className="flex flex-row justify-center max-w-sm">
         <div className="sm:w-64">
           <DialogHeader className="flex flex-row justify-between items-start gap-4 space-y-0 pt-2">
             <div className="flex flex-col gap-1 sm:gap-2">
