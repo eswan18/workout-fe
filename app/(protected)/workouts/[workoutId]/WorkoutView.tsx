@@ -58,10 +58,11 @@ export default function WorkoutView({
             <ExerciseGroupCard
               exerciseType={exerciseType}
               exercises={exercises}
+              setExercises={() => {}}
               key={exercises[0].id}
               editable={false}
               supportsAddingExercise={false}
-              addExercise={() => {}}
+              workout={workout}
             />
           ))}
         </div>
