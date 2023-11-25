@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
 import SaveStatusOverlayContainer from "./SaveStatusOverlayContainer";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,13 +14,15 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ExerciseWithType } from "@/lib/resources/apiTypes";
+import { Exercise, ExerciseWithType } from "@/lib/resources/apiTypes";
 import { formatDateYMD } from "@/lib/time";
+import EditExerciseDialogContentForm from "./CreateOrEditExercise/EditExerciseDialogContentForm";
 
 interface ExerciseWidgetProps {
   exercise: ExerciseWithType;
   saveStatus: SaveStatus;
   editable?: boolean;
+  updateExercise?: (exercise: Exercise) => void;
   deleteExercise?: () => void;
 }
 
@@ -27,8 +30,12 @@ export default function ExerciseCard({
   exercise,
   saveStatus,
   editable = false,
+  updateExercise,
   deleteExercise = () => {},
 }: ExerciseWidgetProps) {
+  if (editable && !updateExercise) {
+    throw new Error("overwriteExercise must be provided if editable is true");
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -51,7 +58,10 @@ export default function ExerciseCard({
             <div className="flex flex-row gap-1 sm:gap-3 justify-end">
               {editable && (
                 <>
-                  <UpdateExerciseButton />
+                  <UpdateExerciseButton
+                    exercise={exercise}
+                    updateExercise={updateExercise as (exercise: Exercise) => void}
+                  />
                   <DeleteExerciseButton deleteExercise={deleteExercise} />
                 </>
               )}
@@ -91,11 +101,27 @@ function ExerciseCardContent({ exercise, saveStatus }: ExerciseWidgetProps) {
   );
 }
 
-function UpdateExerciseButton() {
+function UpdateExerciseButton({
+  exercise,
+  updateExercise,
+}: {
+  exercise: ExerciseWithType;
+  updateExercise: (exercise: Exercise) => void;
+}) {
+  const [open, setOpen] = useState(false);
   return (
-    <Button size="icon" variant="secondary" className="h-8 w-8 p-0.5">
-      <Edit size={16} />
-    </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size="icon" variant="secondary" className="h-8 w-8 p-0.5">
+          <Edit size={16} />
+        </Button>
+      </DialogTrigger>
+      <EditExerciseDialogContentForm
+        exercise={exercise}
+        updateExercise={updateExercise}
+        closeDialog={() => setOpen(false)}
+      />
+    </Dialog>
   );
 }
 

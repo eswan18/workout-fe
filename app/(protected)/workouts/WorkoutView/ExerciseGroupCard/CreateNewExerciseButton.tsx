@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import CreateNewExerciseDialogContentForm from "./CreateNewExerciseDialogContentForm";
+import { CreateExerciseDialogContentForm } from "./CreateOrEditExercise";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { PlusSquare } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +27,7 @@ export default function CreateNewExerciseButton({
           <PlusSquare size={48} strokeWidth={1.2} className="p-0 m-0" />
         </Button>
       </DialogTrigger>
-      <CreateNewExerciseDialogContentForm
+      <CreateExerciseDialogContentForm
         exerciseTypeName={exerciseTypeName}
         addExercise={addExercise}
         closeDialog={() => setOpen(false)}

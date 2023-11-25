@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -22,33 +20,30 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { StandaloneExercise } from "@/lib/resources/apiTypes";
 
-const formSchema = z.object({
+export const CreateOrEditExerciseFormSchema = z.object({
   weight: z.coerce.number().nonnegative().finite(),
   reps: z.coerce.number().positive().finite().int(),
 });
 
-export default function CreateNewExerciseDialogContentForm({
+export default function CreateOrEditExerciseDialogContentForm({
   exerciseTypeName,
-  addExercise,
-  closeDialog,
+  onSubmit,
 }: {
   exerciseTypeName: string;
-  addExercise: (exercise: StandaloneExercise) => void;
-  closeDialog: () => void;
+  onSubmit: (values: z.infer<typeof CreateOrEditExerciseFormSchema>) => void;
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
   const [loading, setLoading] = useState(false);
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = (
+    values: z.infer<typeof CreateOrEditExerciseFormSchema>,
+  ) => {
     setLoading(true);
-    addExercise({ ...values, start_time: new Date() });
+    onSubmit(values);
     setLoading(false);
-    // Closing the dialog explicitly allows us to close on submit but only if validation succeeds.
-    closeDialog();
   };
+  const form = useForm<z.infer<typeof CreateOrEditExerciseFormSchema>>({
+    resolver: zodResolver(CreateOrEditExerciseFormSchema),
+  });
   return (
     <DialogContent className="flex flex-row justify-center">
       <div className="sm:w-64">
@@ -56,7 +51,7 @@ export default function CreateNewExerciseDialogContentForm({
           <DialogTitle>{exerciseTypeName}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
+          <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
             <div className="flex flex-col gap-4 my-8">
               <FormField
                 control={form.control}

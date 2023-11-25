@@ -11,6 +11,7 @@ import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell } from "lucide-react";
 import { useModifyGroupExercises } from "./useModifyGroupExercises";
+import { overwriteExercise } from "@/lib/resources/exercises";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
@@ -29,7 +30,7 @@ export default function ExerciseGroupCard({
   editable = false,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
-  const { addExercise, deleteExerciseById } = useModifyGroupExercises({
+  const { addExercise, updateExercise, deleteExerciseById } = useModifyGroupExercises({
     exercises,
     setExercises,
     workout,
@@ -59,6 +60,7 @@ export default function ExerciseGroupCard({
             saveStatus="saved"
             key={ex.id}
             editable={editable}
+            updateExercise={updateExercise}
             deleteExercise={() => deleteExerciseById(ex.id)}
           />
         ))}
