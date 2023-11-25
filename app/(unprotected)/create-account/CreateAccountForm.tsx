@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import takeCreateUserAction from "./takeCreateUserAction";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
@@ -26,6 +25,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import createUser from "@/app/_actions/createUser";
 
 const createAccountForm = z.object({
   email: z.string().email(),
@@ -42,14 +42,18 @@ export default function CreateAccountForm() {
 
   const handleSubmit = (values: z.infer<typeof createAccountForm>) => {
     setLoading(true);
-    const valuesAsFormData = new FormData();
-    valuesAsFormData.append("email", values.email);
-    valuesAsFormData.append("password", values.password);
-    takeCreateUserAction(valuesAsFormData)
-      .then(() => {
+    createUser(values)
+      .then((result) => {
+        if (result instanceof Error) {
+          toast({
+            title: "Error",
+            description: result.message,
+          });
+          return;
+        }
         router.push("/api/auth/signin");
         toast({
-          title: "Success!",
+          title: "Success! Account created.",
           description: "Please sign in now.",
         });
       })
