@@ -14,28 +14,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
+const createAccountForm = z.object({
+  email: z.string().email(),
+  password: z.string().min(8).max(64),
+});
 
 export default function CreateAccountForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const form = useForm<z.infer<typeof createAccountForm>>({
+    resolver: zodResolver(createAccountForm),
+  });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (values: z.infer<typeof createAccountForm>) => {
     setLoading(true);
-    const elements = event.currentTarget
-      .elements as HTMLFormControlsCollection & {
-      email: { value: string };
-      password: { value: string };
-    };
-    const email = elements.email.value;
-    const password = elements.password.value;
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
-    takeCreateUserAction(data)
+    const valuesAsFormData = new FormData();
+    valuesAsFormData.append("email", values.email);
+    valuesAsFormData.append("password", values.password);
+    takeCreateUserAction(valuesAsFormData)
       .then(() => {
         router.push("/api/auth/signin");
         toast({
@@ -55,46 +65,62 @@ export default function CreateAccountForm() {
   };
 
   return (
-    <Card>
+    <Card className="sm:w-80">
       <CardHeader>
         <CardTitle>Create Account</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="bobby.tables@gmail.com"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="correcthorsebatterystaple"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            {loading ? (
-              <LoadingSpinner />
-            ) : (
-              <Button size="lg" type="submit" className="flex flex-row gap-2">
-                <p>Create</p>
-                <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
-              </Button>
-            )}
-          </div>
-        </form>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <div className="flex flex-col gap-4 my-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="bobbytables@school.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="correcthorsebatterystaple"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              {loading ? (
+                <LoadingSpinner />
+              ) : (
+                <Button size="lg" type="submit" className="flex flex-row gap-2">
+                  <p>Create</p>
+                  <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
+                </Button>
+              )}
+            </div>
+          </form>
+        </Form>
       </CardContent>
-      <CardFooter className="flex flex-col items-center gap-1">
+      <CardFooter className="flex flex-row justify-center">
         <p className="text-xs">Already have an account?</p>
         <Link href="/login">
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="link">
             Log in
           </Button>
         </Link>
