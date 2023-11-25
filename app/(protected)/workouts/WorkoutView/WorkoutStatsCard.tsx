@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart } from "lucide-react";
 import { formatDurationHMS } from "@/lib/time";
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
-import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
+import { ExerciseGroup } from "@/lib/resources/derived/workoutWithDetails";
 
 type WorkoutStatsCardProps = {
   workout: WorkoutWithType;
-  exerciseGroups: ExerciseSet[];
+  exerciseGroups: ExerciseGroup[];
 };
 
 export default async function WorkoutStatsCard({
