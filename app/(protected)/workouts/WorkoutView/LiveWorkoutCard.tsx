@@ -6,7 +6,11 @@ import { formatDurationHMS } from "@/lib/time";
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { useEffect, useState } from "react";
 
-export default function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
+export default function LiveWorkoutCard({
+  workout,
+}: {
+  workout: WorkoutWithType;
+}) {
   const startTime = new Date(workout.start_time);
   const [now, setNow] = useState(new Date());
 
