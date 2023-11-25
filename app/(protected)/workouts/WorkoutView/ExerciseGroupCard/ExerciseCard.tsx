@@ -1,7 +1,7 @@
 import { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
 import SaveStatusOverlayContainer from "./SaveStatusOverlayContainer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Delete, Edit, Trash, X } from "lucide-react";
+import { Edit, Trash, X } from "lucide-react";
 import {
   Dialog,
   DialogTrigger,
@@ -15,8 +15,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExerciseWithType } from "@/lib/resources/apiTypes";
 import { formatDateYMD } from "@/lib/time";
-import { deleteExercise } from "@/lib/resources/exercises/delete";
-import { del } from "@/lib/requests";
 
 interface ExerciseWidgetProps {
   exercise: ExerciseWithType;
@@ -95,40 +93,31 @@ function ExerciseCardContent({ exercise, saveStatus }: ExerciseWidgetProps) {
 
 function UpdateExerciseButton() {
   return (
-    <Button
-      size="icon"
-      variant="secondary"
-      className="h-8 w-8 p-0.5"
-    >
+    <Button size="icon" variant="secondary" className="h-8 w-8 p-0.5">
       <Edit size={16} />
     </Button>
-  )
+  );
 }
 
-function DeleteExerciseButton({deleteExercise}:{ deleteExercise: () => void }) {
+function DeleteExerciseButton({
+  deleteExercise,
+}: {
+  deleteExercise: () => void;
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          size="icon"
-          variant="destructive"
-          className="h-8 w-8 p-0.5"
-        >
+        <Button size="icon" variant="destructive" className="h-8 w-8 p-0.5">
           <Trash size={16} />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Exercise</DialogTitle>
-          <DialogDescription>
-            Are you sure?
-          </DialogDescription>
+          <DialogDescription>Are you sure?</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button
-            variant="destructive"
-            onClick={() => deleteExercise()}
-          >
+          <Button variant="destructive" onClick={() => deleteExercise()}>
             Delete
           </Button>
           <DialogClose asChild>
@@ -137,5 +126,5 @@ function DeleteExerciseButton({deleteExercise}:{ deleteExercise: () => void }) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

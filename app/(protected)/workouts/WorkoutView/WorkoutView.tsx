@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Exercise,
@@ -11,13 +11,14 @@ import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
-import ExerciseGroupCard from "./exerciseGroupCard";
-import { CheckSquare, Timer } from "lucide-react";
+import ExerciseGroupCard from "./ExerciseGroupCard";
+import { CheckSquare, Edit } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { formatDurationHMS } from "@/lib/time";
+import LiveWorkoutCard from "./LiveWorkoutCard";
 import StartNewExerciseGroupButton from "./StartNewExerciseGroupButton";
 import { createExerciseType } from "@/lib/resources/exerciseTypes";
+import WorkoutStatsCard from "./WorkoutStatsCard";
 
 type ExerciseGroup = {
   exerciseType: ExerciseType;
@@ -25,17 +26,19 @@ type ExerciseGroup = {
   key: number;
 };
 
-type LiveWorkoutProps = {
+type WorkoutViewProps = {
   workout: WorkoutWithType;
   exerciseSets: ExerciseSet[];
   exerciseTypes: ExerciseType[];
+  live?: boolean;
 };
 
-export default function LiveWorkout({
+export default function WorkoutView({
   workout,
   exerciseSets,
   exerciseTypes,
-}: LiveWorkoutProps) {
+  live = false,
+}: WorkoutViewProps) {
   const router = useRouter();
   const { toast } = useToast();
   const startTime = formatDateYMDHM(new Date(workout.start_time));
@@ -110,9 +113,24 @@ export default function LiveWorkout({
               {startTime}
             </span>
             <h1 className="text-4xl">{workoutName}</h1>
+            {!live && (
+              <Link href={`/workouts/live/${workout.id}`} className="text-lg">
+                <Button variant="link" size="sm">
+                  <p className="mr-2">Edit Workout</p>
+                  <Edit size={20} />
+                </Button>
+              </Link>
+            )}
           </div>
           <div className="flex-shrink-0 flex flex-col justify-start items-start min-w-fit">
-            <LiveWorkoutCard workout={workout} />
+            {live ? (
+              <LiveWorkoutCard workout={workout} />
+            ) : (
+              <WorkoutStatsCard
+                workout={workout}
+                exerciseGroups={exerciseSets}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-6">
@@ -121,7 +139,7 @@ export default function LiveWorkout({
               setExercisesForGroup(key, exercises);
             };
             // New exercises can only be added to the last group (this allows us to always group things by start time).
-            const supportsAddingExercise = idx == groups.length - 1;
+            const supportsAddingExercise = live && idx == groups.length - 1;
             return (
               <ExerciseGroupCard
                 key={key}
@@ -129,55 +147,28 @@ export default function LiveWorkout({
                 exercises={exercises}
                 setExercises={setExercises}
                 workout={workout}
-                editable={true}
+                editable={live}
                 supportsAddingExercise={supportsAddingExercise}
               />
             );
           })}
-          <StartNewExerciseGroupButton
-            onStartNewExerciseGroup={onStartNewExerciseGroup}
-            exerciseTypes={exerciseTps}
-            addNewExerciseType={addNewExerciseType}
-          />
+          {live && (
+            <StartNewExerciseGroupButton
+              onStartNewExerciseGroup={onStartNewExerciseGroup}
+              exerciseTypes={exerciseTps}
+              addNewExerciseType={addNewExerciseType}
+            />
+          )}
         </div>
       </div>
       <div className="w-full flex flex-row justify-center text-xl font-bold">
-        <Button onClick={onFinishWorkout} className="mb-4">
-          <p className="text-lg mr-3">Finish Workout</p>
-          <CheckSquare />
-        </Button>
+        {live && (
+          <Button variant="link" onClick={onFinishWorkout} className="mb-4">
+            <p className="text-xl mr-3">Finish Workout</p>
+            <CheckSquare />
+          </Button>
+        )}
       </div>
     </main>
-  );
-}
-
-function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
-  const startTime = new Date(workout.start_time);
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    // Set up an interval to update the elapsed time every second
-    const interval = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-    // Cleanup function to clear the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <Card>
-      <CardHeader className="pt-3 pb-2 animate-pulse-2s">
-        <CardTitle className="text-lg text-center">
-          <Timer size={24} className="pb-1 mr-1 inline" />
-          Live
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-row justify-center items-center gap-1 w-auto text-sm p-3 pt-0">
-        <div className="flex flex-col px-2 py-1 items-center justify-start">
-          <span className="text-muted-foreground">Time Elapsed</span>
-          <span className={`text-lg`}>{formatDurationHMS(startTime, now)}</span>
-        </div>
-      </CardContent>
-    </Card>
   );
 }

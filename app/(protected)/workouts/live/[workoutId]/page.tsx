@@ -1,6 +1,6 @@
 import { getWorkoutWithDetailsAsExerciseSets } from "@/lib/resources/derived/workoutWithDetails";
 import { getAllExerciseTypes } from "@/lib/resources/exerciseTypes/read";
-import LiveWorkout from "./LiveWorkout";
+import WorkoutView from "@/app/(protected)/workouts/WorkoutView";
 
 export const metadata = {
   title: "Live Workout",
@@ -27,10 +27,11 @@ export default async function LiveWorkoutPage({
   const exerciseTypes = exerciseTypesResult.data;
 
   return (
-    <LiveWorkout
+    <WorkoutView
       workout={workout}
       exerciseSets={exerciseSets}
       exerciseTypes={exerciseTypes}
+      live={true}
     />
   );
 }

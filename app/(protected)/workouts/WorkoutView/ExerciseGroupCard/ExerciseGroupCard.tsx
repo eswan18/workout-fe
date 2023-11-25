@@ -10,7 +10,7 @@ import CreateNewExerciseButton from "./CreateNewExerciseButton";
 import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell } from "lucide-react";
-import { useModifyGroupExercises } from "../useModifyGroupExercises";
+import { useModifyGroupExercises } from "./useModifyGroupExercises";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
