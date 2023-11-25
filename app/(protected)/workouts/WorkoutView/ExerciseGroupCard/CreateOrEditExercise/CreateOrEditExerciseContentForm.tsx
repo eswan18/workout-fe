@@ -29,9 +29,11 @@ export const CreateOrEditExerciseFormSchema = z.object({
 export default function CreateOrEditExerciseDialogContentForm({
   exerciseTypeName,
   onSubmit,
+  values,
 }: {
   exerciseTypeName: string;
   onSubmit: (values: z.infer<typeof CreateOrEditExerciseFormSchema>) => void;
+  values?: z.infer<typeof CreateOrEditExerciseFormSchema>;
 }) {
   const [loading, setLoading] = useState(false);
   const handleSubmit = (
@@ -56,6 +58,7 @@ export default function CreateOrEditExerciseDialogContentForm({
               <FormField
                 control={form.control}
                 name="weight"
+                defaultValue={values?.weight}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Weight (pounds)</FormLabel>
@@ -69,6 +72,7 @@ export default function CreateOrEditExerciseDialogContentForm({
               <FormField
                 control={form.control}
                 name="reps"
+                defaultValue={values?.reps}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Reps</FormLabel>

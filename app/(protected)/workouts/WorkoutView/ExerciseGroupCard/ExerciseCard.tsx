@@ -34,7 +34,7 @@ export default function ExerciseCard({
   exercise,
   saveStatus,
   editable = false,
-  updateExercise,
+  updateExercise = undefined,
   deleteExercise = () => {},
 }: ExerciseWidgetProps) {
   const updateExerciseWithId = (standaloneEx: StandaloneExercise) => {

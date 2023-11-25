@@ -26,6 +26,10 @@ export default function EditExerciseDialogContentForm({
     <CreateOrEditExerciseDialogContentForm
       exerciseTypeName={exercise.exercise_type_name}
       onSubmit={handleSubmit}
+      values={{
+        reps: exercise.reps as number,
+        weight: exercise.weight as number,
+      }}
     />
   );
 }
