@@ -71,23 +71,30 @@ export async function request({
   }
   const token = await getAccessToken();
   const url = `${API_URL}${route}`;
-  const response = await fetch(url, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body,
-    signal: controller.signal,
-  })
-    .catch((e) => {
-      console.log(e);
-    })
-    .finally(() => {
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body,
+      signal: controller.signal,
+    }).finally(() => {
       clearTimeout(timeoutId);
     });
-  if (!response) {
-    return newRequestFailure(new Error(`Failed to fetch ${route}`));
+  } catch (e: unknown) {
+    let error;
+    console.log(e);
+    if (typeof e === "string") {
+      error = new Error(e)
+    } else if (e instanceof Error) {
+      error = e
+    } else {
+      error = new Error(JSON.stringify(e))
+    }
+    return newRequestFailure(error);
   }
   if (!response.ok) {
     const payload = await response.text();
