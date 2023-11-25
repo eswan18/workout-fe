@@ -1,41 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
+import { CheckSquare, Edit } from "lucide-react";
+
 import {
   Exercise,
   ExerciseType,
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
-import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
+import { ExerciseGroup } from "@/lib/resources/derived/workoutWithDetails";
+import { createExerciseType } from "@/lib/resources/exerciseTypes";
 import { updateWorkout } from "@/lib/resources/workouts";
-import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
 import ExerciseGroupCard from "./ExerciseGroupCard";
-import { CheckSquare, Edit } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import LiveWorkoutCard from "./LiveWorkoutCard";
-import StartNewExerciseGroupButton from "./StartNewExerciseGroupButton";
-import { createExerciseType } from "@/lib/resources/exerciseTypes";
 import WorkoutStatsCard from "./WorkoutStatsCard";
+import LiveWorkoutCard from "./LiveWorkoutCard";
+import { Button } from "@/components/ui/button";
+import StartNewExerciseGroupButton from "./StartNewExerciseGroupButton";
 
-type ExerciseGroup = {
-  exerciseType: ExerciseType;
-  exercises: Exercise[];
-  key: number;
-};
+type KeyedExerciseGroup = ExerciseGroup & { key: number };
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
-  exerciseSets: ExerciseSet[];
+  exerciseGroups: KeyedExerciseGroup[];
   exerciseTypes: ExerciseType[];
   live?: boolean;
 };
 
 export default function WorkoutView({
   workout,
-  exerciseSets,
+  exerciseGroups,
   exerciseTypes,
   live = false,
 }: WorkoutViewProps) {
@@ -44,9 +41,9 @@ export default function WorkoutView({
   const startTime = formatDateYMDHM(new Date(workout.start_time));
 
   // Workout groupings aren't a construct in the database, so we need to add an artificial key to each set.
-  const initialGroups: ExerciseGroup[] = exerciseSets.map((set) => ({
-    exerciseType: set.exerciseType,
-    exercises: set.exercises,
+  const initialGroups: KeyedExerciseGroup[] = exerciseGroups.map((g) => ({
+    exerciseType: g.exerciseType,
+    exercises: g.exercises,
     key: Math.random(),
   }));
 
@@ -60,7 +57,7 @@ export default function WorkoutView({
       setExerciseTps([...exerciseTps, exerciseType]);
     });
   };
-  const [groups, setGroups] = useState<ExerciseGroup[]>(initialGroups);
+  const [groups, setGroups] = useState<KeyedExerciseGroup[]>(initialGroups);
   const addGroup = (exerciseType: ExerciseType, exercises: Exercise[]) => {
     setGroups([...groups, { exerciseType, exercises, key: Math.random() }]);
   };
@@ -128,7 +125,7 @@ export default function WorkoutView({
             ) : (
               <WorkoutStatsCard
                 workout={workout}
-                exerciseGroups={exerciseSets}
+                exerciseGroups={exerciseGroups}
               />
             )}
           </div>

@@ -9,7 +9,7 @@ type WorkoutStatsCardProps = {
   exerciseGroups: ExerciseSet[];
 };
 
-export default function WorkoutStatsCard({
+export default async function WorkoutStatsCard({
   workout,
   exerciseGroups,
 }: WorkoutStatsCardProps) {

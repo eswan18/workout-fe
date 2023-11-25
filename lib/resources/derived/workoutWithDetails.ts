@@ -75,14 +75,14 @@ export async function getWorkoutWithDetails(
   return await newRequestSuccess(wktWithDtlsTyped);
 }
 
-export type ExerciseSet = {
+export type ExerciseGroup = {
   exerciseType: ExerciseType;
   exercises: Exercise[];
 };
 
-export type WorkoutWithExerciseSets = {
+export type WorkoutWithExerciseGroups = {
   workout: WorkoutWithType;
-  exerciseSets: ExerciseSet[];
+  exerciseGroups: ExerciseGroup[];
 };
 
 function sortExercises(exercises: ExerciseWithType[]): ExerciseWithType[] {
@@ -102,15 +102,15 @@ function sortExercises(exercises: ExerciseWithType[]): ExerciseWithType[] {
   });
 }
 
-function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
+function groupExercises(exercises: ExerciseWithType[]): ExerciseGroup[] {
   let lastSeenTypeId: string | undefined = undefined;
-  let exerciseSets: ExerciseSet[] = [];
-  let currentSet: ExerciseSet | undefined = undefined;
+  let exerciseGroups: ExerciseGroup[] = [];
+  let currentGroup: ExerciseGroup | undefined = undefined;
   exercises.forEach((exercise) => {
     // If there's no active set or if we have a new exercise type, start a new set.
-    if (!currentSet || exercise.exercise_type_id !== lastSeenTypeId) {
+    if (!currentGroup || exercise.exercise_type_id !== lastSeenTypeId) {
       // Create a new, empty set with the current exercise type.
-      currentSet = {
+      currentGroup = {
         exerciseType: {
           id: exercise.exercise_type_id,
           name: exercise.exercise_type_name,
@@ -120,9 +120,9 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
         },
         exercises: [],
       };
-      exerciseSets.push(currentSet);
+      exerciseGroups.push(currentGroup);
     }
-    currentSet.exercises.push({
+    currentGroup.exercises.push({
       id: exercise.id,
       start_time: exercise.start_time,
       weight: exercise.weight,
@@ -136,14 +136,14 @@ function groupExercises(exercises: ExerciseWithType[]): ExerciseSet[] {
     });
     lastSeenTypeId = exercise.exercise_type_id;
   });
-  return exerciseSets;
+  return exerciseGroups;
 }
 
 // Returns workout details as info about the workout and exercises in groups based on
 // multiple iterations of the same type of exercise.
-export async function getWorkoutWithDetailsAsExerciseSets(
+export async function getWorkoutWithDetailsAsExerciseGroups(
   id: string,
-): Promise<RequestResult<WorkoutWithExerciseSets>> {
+): Promise<RequestResult<WorkoutWithExerciseGroups>> {
   const result = await getWorkoutWithDetails(id);
   if (!result.success) {
     return result;
@@ -151,9 +151,9 @@ export async function getWorkoutWithDetailsAsExerciseSets(
   const wktWithDtls = result.data;
   // Sort the exercises by start time, and put nulls last.
   const exercises = sortExercises(wktWithDtls.exercises);
-  const exerciseSets = groupExercises(exercises);
+  const exerciseGroups = groupExercises(exercises);
   return await newRequestSuccess({
     workout: wktWithDtls.workout,
-    exerciseSets: exerciseSets,
+    exerciseGroups: exerciseGroups,
   });
 }

@@ -1,14 +1,12 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Timer } from "lucide-react";
 import { formatDurationHMS } from "@/lib/time";
 import { WorkoutWithType } from "@/lib/resources/apiTypes";
 import { useEffect, useState } from "react";
 
-export default function LiveWorkoutCard({
-  workout,
-}: {
-  workout: WorkoutWithType;
-}) {
+export default function LiveWorkoutCard({ workout }: { workout: WorkoutWithType }) {
   const startTime = new Date(workout.start_time);
   const [now, setNow] = useState(new Date());
 

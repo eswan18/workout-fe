@@ -1,4 +1,4 @@
-import { getWorkoutWithDetailsAsExerciseSets } from "@/lib/resources/derived/workoutWithDetails";
+import { getWorkoutWithDetailsAsExerciseGroups } from "@/lib/resources/derived/workoutWithDetails";
 import WorkoutView from "../WorkoutView";
 import { ExerciseType } from "@/lib/resources/apiTypes";
 
@@ -12,9 +12,13 @@ type PageParams = {
 
 export default async function WorkoutPage({ params }: { params: PageParams }) {
   // This component just pulls the data and then passes the rest to the client component.
-  const result = await getWorkoutWithDetailsAsExerciseSets(params.workoutId);
+  const result = await getWorkoutWithDetailsAsExerciseGroups(params.workoutId);
   if (!result.success) throw result.error;
-  const { workout, exerciseSets } = result.data;
+  const { workout, exerciseGroups } = result.data;
+  const keyedExerciseGroups = exerciseGroups.map((g) => ({
+    ...g,
+    key: Math.random(),
+  }));
   const workoutName = workout.workout_type_name || "Custom";
   metadata.title = `Workout: ${workoutName}`;
   // No need to fetch exercise types for a non-live workout.
@@ -22,7 +26,7 @@ export default async function WorkoutPage({ params }: { params: PageParams }) {
   return (
     <WorkoutView
       workout={workout}
-      exerciseSets={exerciseSets}
+      exerciseGroups={keyedExerciseGroups}
       exerciseTypes={exerciseTypes}
       live={false}
     />
