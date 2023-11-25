@@ -4,7 +4,11 @@ import {
   Exercise,
   StandaloneExercise,
 } from "@/lib/resources/apiTypes";
-import { createExercise, deleteExercise } from "@/lib/resources/exercises";
+import {
+  createExercise,
+  deleteExercise,
+  overwriteExercise,
+} from "@/lib/resources/exercises";
 
 export function useModifyGroupExercises({
   exercises,
@@ -32,14 +36,30 @@ export function useModifyGroupExercises({
     });
   };
   const deleteExerciseById = (exerciseId: string) => {
-    const newExercises = exercises.filter(
-      (ex) => !("id" in ex && ex.id === exerciseId),
+    const newExercises = exercises.filter((ex) => ex.id != exerciseId);
+    deleteExercise(exerciseId).then((result) => {
+      if (!result.success) {
+        return;
+      }
+      setExercises(newExercises);
+    });
+  };
+  const updateExercise = (exercise: Exercise) => {
+    const newExercises = exercises.map((ex) =>
+      ex.id === exercise.id ? exercise : ex,
     );
-    setExercises(newExercises);
-    deleteExercise(exerciseId);
+    overwriteExercise({ id: exercise.id as string, exercise }).then(
+      (result) => {
+        if (!result.success) {
+          return;
+        }
+        setExercises(newExercises);
+      },
+    );
   };
   return {
     addExercise,
     deleteExerciseById,
+    updateExercise,
   };
 }
