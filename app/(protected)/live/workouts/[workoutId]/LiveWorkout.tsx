@@ -10,7 +10,6 @@ import {
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
 import { ExerciseOrLoading } from "./exerciseGroupCard";
-import { createExercise } from "@/lib/resources/exercises";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
@@ -126,28 +125,15 @@ export default function LiveWorkout({
             const setExercises = (exercises: ExerciseOrLoading[]) => {
               setExercisesForGroup(key, exercises);
             };
-            const addExercise = (exercise: StandaloneExercise) => {
-              const newExercise: Exercise = {
-                ...exercise,
-                exercise_type_id: exerciseType.id as string,
-                workout_id: workout.id,
-              };
-              createExercise(newExercise).then((result) => {
-                if (!result.success) {
-                  return;
-                }
-                const exercise = result.data;
-                setExercises([...exercises, exercise]);
-              });
-            };
             // New exercises can only be added to the last group (this allows us to always group things by start time).
             const supportsAddingExercise = idx == groups.length - 1;
             return (
               <ExerciseGroupCard
+                key={key}
                 exerciseType={exerciseType}
                 exercises={exercises}
-                key={key}
-                addExercise={addExercise}
+                setExercises={setExercises}
+                workout={workout}
                 editable={true}
                 supportsAddingExercise={supportsAddingExercise}
               />

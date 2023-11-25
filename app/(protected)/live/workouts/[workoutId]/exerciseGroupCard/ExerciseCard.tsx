@@ -14,17 +14,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExerciseWithType } from "@/lib/resources/apiTypes";
 import { formatDateYMD } from "@/lib/time";
+import { deleteExercise } from "@/lib/resources/exercises/delete";
+import { del } from "@/lib/requests";
 
 interface ExerciseWidgetProps {
   exercise: ExerciseWithType;
   saveStatus: SaveStatus;
   editable?: boolean;
+  deleteExercise?: () => void;
 }
 
 export default function ExerciseCard({
   exercise,
   saveStatus,
   editable = false,
+  deleteExercise = () => {},
 }: ExerciseWidgetProps) {
   return (
     <Dialog>
@@ -59,6 +63,7 @@ export default function ExerciseCard({
                     size="icon"
                     variant="destructive"
                     className="h-8 w-8 p-0.5"
+                    onClick={() => deleteExercise()}
                   >
                     <Trash size={16} />
                   </Button>
