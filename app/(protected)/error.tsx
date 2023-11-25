@@ -12,7 +12,7 @@ export default function Error({
   reset: () => void;
 }) {
   const { toast } = useToast();
-  // Checking the contents of this string seemsl like a hack, but since server errors
+  // Checking the contents of this string seems like a hack, but since server errors
   // are serialized I don't think there's any other way to capture data about error
   // type.
   if (error.message.includes("Could not validate credentials")) {
@@ -24,10 +24,14 @@ export default function Error({
   }
 
   return (
-    <div>
-      <h1>Something went wrong</h1>
-      <p>{error.message}</p>
-      <button onClick={reset}>Try again</button>
+    <div className="m-16">
+      <h1 className="text-4xl">Error</h1>
+      <div className="my-8">
+      <p className="">Something went wrong!</p>
+        <div className="m-4 p-4 border border-muted-foreground">
+          <pre><code>{error.message}</code></pre>
+        </div>
+      </div>
     </div>
   );
 }
