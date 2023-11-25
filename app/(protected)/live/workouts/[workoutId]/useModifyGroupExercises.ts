@@ -5,7 +5,6 @@ import {
   StandaloneExercise,
 } from "@/lib/resources/apiTypes";
 import { createExercise, deleteExercise } from "@/lib/resources/exercises";
-import { ExerciseOrLoading } from "./exerciseGroupCard";
 
 export function useModifyGroupExercises({
   exercises,
@@ -13,8 +12,8 @@ export function useModifyGroupExercises({
   exerciseType,
   workout,
 }: {
-  exercises: (Exercise | ExerciseOrLoading)[];
-  setExercises: (exercises: (Exercise | ExerciseOrLoading)[]) => void;
+  exercises: Exercise[];
+  setExercises: (exercises: Exercise[]) => void;
   exerciseType: ExerciseType;
   workout: WorkoutWithType;
 }) {

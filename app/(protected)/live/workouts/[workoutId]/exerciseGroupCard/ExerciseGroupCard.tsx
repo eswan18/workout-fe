@@ -14,19 +14,12 @@ import { useModifyGroupExercises } from "../useModifyGroupExercises";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
-  exercises: (Exercise | LoadingExercise)[];
-  setExercises: (exercises: (Exercise | LoadingExercise)[]) => void;
+  exercises: Exercise[];
+  setExercises: (exercises: Exercise[]) => void;
   workout: WorkoutWithType;
   editable?: boolean;
   supportsAddingExercise: boolean;
 };
-
-export type LoadingExercise = {
-  id: number;
-  isLoading: true;
-};
-
-export type ExerciseOrLoading = Exercise | LoadingExercise;
 
 export default function ExerciseGroupCard({
   exerciseType,
@@ -42,18 +35,16 @@ export default function ExerciseGroupCard({
     workout,
     exerciseType,
   });
-  const exercisesWithTypes: ExerciseWithType[] = exercises
-    .filter((ex): ex is Exercise => !("isLoading" in ex))
-    .map((ex) => {
-      return {
-        ...ex,
-        id: ex.id as string,
-        user_id: ex.user_id as string,
-        exercise_type_name: exerciseType.name,
-        exercise_type_id: exerciseType.id as string,
-        exercise_type_owner_user_id: exerciseType.owner_user_id,
-      };
-    });
+  const exercisesWithTypes: ExerciseWithType[] = exercises.map((ex) => {
+    return {
+      ...ex,
+      id: ex.id as string,
+      user_id: ex.user_id as string,
+      exercise_type_name: exerciseType.name,
+      exercise_type_id: exerciseType.id as string,
+      exercise_type_owner_user_id: exerciseType.owner_user_id,
+    };
+  });
   return (
     <Card>
       <CardHeader>
@@ -62,20 +53,15 @@ export default function ExerciseGroupCard({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row justify-left gap-2 overflow-x-scroll">
-        {exercisesWithTypes.map((ex) => {
-          if ("isLoading" in ex) {
-            return;
-          }
-          return (
-            <ExerciseCard
-              exercise={ex}
-              saveStatus="saved"
-              key={ex.id}
-              editable={editable}
-              deleteExercise={() => deleteExerciseById(ex.id)}
-            />
-          );
-        })}
+        {exercisesWithTypes.map((ex) => (
+          <ExerciseCard
+            exercise={ex}
+            saveStatus="saved"
+            key={ex.id}
+            editable={editable}
+            deleteExercise={() => deleteExerciseById(ex.id)}
+          />
+        ))}
         {supportsAddingExercise && (
           <CreateNewExerciseButton
             exerciseTypeName={exerciseType.name}

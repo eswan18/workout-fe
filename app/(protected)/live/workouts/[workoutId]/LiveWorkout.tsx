@@ -5,11 +5,9 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   Exercise,
   ExerciseType,
-  StandaloneExercise,
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
 import { ExerciseSet } from "@/lib/resources/derived/workoutWithDetails";
-import { ExerciseOrLoading } from "./exerciseGroupCard";
 import { updateWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
 import { formatDateYMDHM } from "@/lib/time";
@@ -23,7 +21,7 @@ import { createExerciseType } from "@/lib/resources/exerciseTypes";
 
 type ExerciseGroup = {
   exerciseType: ExerciseType;
-  exercises: ExerciseOrLoading[];
+  exercises: Exercise[];
   key: number;
 };
 
@@ -63,10 +61,7 @@ export default function LiveWorkout({
   const addGroup = (exerciseType: ExerciseType, exercises: Exercise[]) => {
     setGroups([...groups, { exerciseType, exercises, key: Math.random() }]);
   };
-  const setExercisesForGroup = (
-    key: number,
-    exercises: ExerciseOrLoading[],
-  ) => {
+  const setExercisesForGroup = (key: number, exercises: Exercise[]) => {
     const newGroups = groups.map((g) => {
       if (g.key === key) {
         return { ...g, exercises };
@@ -122,7 +117,7 @@ export default function LiveWorkout({
         </div>
         <div className="flex flex-col gap-6">
           {groups.map(({ exerciseType, exercises, key }, idx) => {
-            const setExercises = (exercises: ExerciseOrLoading[]) => {
+            const setExercises = (exercises: Exercise[]) => {
               setExercisesForGroup(key, exercises);
             };
             // New exercises can only be added to the last group (this allows us to always group things by start time).
