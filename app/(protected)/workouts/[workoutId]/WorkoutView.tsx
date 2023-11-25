@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit, LineChart } from "lucide-react";
-import ExerciseGroupCard from "../../live/workouts/[workoutId]/exerciseGroupCard";
+import ExerciseGroupCard from "../live/[workoutId]/exerciseGroupCard";
 
 type WorkoutViewProps = {
   workout: WorkoutWithType;
@@ -35,7 +35,7 @@ export default function WorkoutView({
             </span>
             <h1 className="text-4xl">
               {workoutName}
-              <Link href={`/live/workouts/${workout.id}`} title="Edit workout">
+              <Link href={`/workouts/live/${workout.id}`} title="Edit workout">
                 <Button
                   variant="secondary"
                   size="sm"

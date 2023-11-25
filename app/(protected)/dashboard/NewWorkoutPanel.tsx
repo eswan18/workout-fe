@@ -51,7 +51,7 @@ export default function NewWorkoutPanel({
     const onClick = () => {
       if (!workoutType.id) throw new Error("Workout type id is null");
       createAndStartWorkout(workoutType.id).then((workout) =>
-        router.push(`/live/workouts/${workout.id}`),
+        router.push(`/workouts/live/${workout.id}`),
       );
     };
     return (
@@ -118,7 +118,7 @@ function WorkoutTypeMenuItem({ workoutType }: { workoutType: WorkoutType }) {
   const router = useRouter();
   const onClick = () => {
     createAndStartWorkout(workoutType.id).then((workout) => {
-      router.push(`/live/workouts/${workout.id}`);
+      router.push(`/workouts/live/${workout.id}`);
     });
   };
   return (
