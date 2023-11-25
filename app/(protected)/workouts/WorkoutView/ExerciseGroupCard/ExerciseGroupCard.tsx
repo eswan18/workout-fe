@@ -30,12 +30,13 @@ export default function ExerciseGroupCard({
   editable = false,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
-  const { addExercise, updateExercise, deleteExerciseById } = useModifyGroupExercises({
-    exercises,
-    setExercises,
-    workout,
-    exerciseType,
-  });
+  const { addExercise, updateExercise, deleteExerciseById } =
+    useModifyGroupExercises({
+      exercises,
+      setExercises,
+      workout,
+      exerciseType,
+    });
   const exercisesWithTypes: ExerciseWithType[] = exercises.map((ex) => {
     return {
       ...ex,

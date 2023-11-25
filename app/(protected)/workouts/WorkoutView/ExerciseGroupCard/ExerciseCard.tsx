@@ -14,7 +14,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Exercise, ExerciseWithType } from "@/lib/resources/apiTypes";
+import {
+  Exercise,
+  ExerciseWithType,
+  StandaloneExercise,
+} from "@/lib/resources/apiTypes";
 import { formatDateYMD } from "@/lib/time";
 import EditExerciseDialogContentForm from "./CreateOrEditExercise/EditExerciseDialogContentForm";
 
@@ -33,9 +37,18 @@ export default function ExerciseCard({
   updateExercise,
   deleteExercise = () => {},
 }: ExerciseWidgetProps) {
-  if (editable && !updateExercise) {
-    throw new Error("overwriteExercise must be provided if editable is true");
-  }
+  const updateExerciseWithId = (standaloneEx: StandaloneExercise) => {
+    if (!updateExercise) {
+      throw new Error("updateExercise must be provided if editable is true");
+    }
+    const newExercise: Exercise = {
+      ...standaloneEx,
+      id: exercise.id,
+      exercise_type_id: exercise.exercise_type_id,
+      workout_id: exercise.workout_id,
+    };
+    updateExercise(newExercise);
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -60,7 +73,7 @@ export default function ExerciseCard({
                 <>
                   <UpdateExerciseButton
                     exercise={exercise}
-                    updateExercise={updateExercise as (exercise: Exercise) => void}
+                    updateExercise={updateExerciseWithId}
                   />
                   <DeleteExerciseButton deleteExercise={deleteExercise} />
                 </>
@@ -106,7 +119,7 @@ function UpdateExerciseButton({
   updateExercise,
 }: {
   exercise: ExerciseWithType;
-  updateExercise: (exercise: Exercise) => void;
+  updateExercise: (exercise: StandaloneExercise) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
