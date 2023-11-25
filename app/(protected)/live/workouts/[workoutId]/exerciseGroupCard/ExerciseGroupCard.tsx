@@ -4,15 +4,13 @@ import {
   Exercise,
   ExerciseType,
   ExerciseWithType,
-  StandaloneExercise,
   WorkoutWithType,
 } from "@/lib/resources/apiTypes";
-import { createExercise } from "@/lib/resources/exercises";
 import CreateNewExerciseButton from "./CreateNewExerciseButton";
 import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell } from "lucide-react";
-import { deleteExercise } from "@/lib/resources/exercises/delete";
+import { useModifyGroupExercises } from "../useModifyGroupExercises";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
@@ -38,27 +36,12 @@ export default function ExerciseGroupCard({
   editable = false,
   supportsAddingExercise = false,
 }: ExerciseGroupWidgetProps) {
-  const addExercise = (exercise: StandaloneExercise) => {
-    const newExercise: Exercise = {
-      ...exercise,
-      exercise_type_id: exerciseType.id as string,
-      workout_id: workout.id,
-    };
-    createExercise(newExercise).then((result) => {
-      if (!result.success) {
-        return;
-      }
-      const exercise = result.data;
-      setExercises([...exercises, exercise]);
-    });
-  };
-  const deleteExerciseById = (exerciseId: string) => {
-    const newExercises = exercises.filter(
-      (ex) => !("id" in ex && ex.id === exerciseId),
-    );
-    setExercises(newExercises);
-    deleteExercise(exerciseId);
-  }
+  const { addExercise, deleteExerciseById } = useModifyGroupExercises({
+    exercises,
+    setExercises,
+    workout,
+    exerciseType,
+  });
   const exercisesWithTypes: ExerciseWithType[] = exercises
     .filter((ex): ex is Exercise => !("isLoading" in ex))
     .map((ex) => {
