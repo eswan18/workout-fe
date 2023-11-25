@@ -1,7 +1,7 @@
 import { SaveStatus } from "@/components/indicators/SaveStatusIndicator";
 import SaveStatusOverlayContainer from "./SaveStatusOverlayContainer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Edit, Trash, X } from "lucide-react";
+import { Delete, Edit, Trash, X } from "lucide-react";
 import {
   Dialog,
   DialogTrigger,
@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogFooter,
   DialogClose,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ExerciseWithType } from "@/lib/resources/apiTypes";
@@ -52,21 +53,8 @@ export default function ExerciseCard({
             <div className="flex flex-row gap-1 sm:gap-3 justify-end">
               {editable && (
                 <>
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    className="h-8 w-8 p-0.5"
-                  >
-                    <Edit size={16} />
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="destructive"
-                    className="h-8 w-8 p-0.5"
-                    onClick={() => deleteExercise()}
-                  >
-                    <Trash size={16} />
-                  </Button>
+                  <UpdateExerciseButton />
+                  <DeleteExerciseButton deleteExercise={deleteExercise} />
                 </>
               )}
             </div>
@@ -103,4 +91,51 @@ function ExerciseCardContent({ exercise, saveStatus }: ExerciseWidgetProps) {
       </div>
     </CardContent>
   );
+}
+
+function UpdateExerciseButton() {
+  return (
+    <Button
+      size="icon"
+      variant="secondary"
+      className="h-8 w-8 p-0.5"
+    >
+      <Edit size={16} />
+    </Button>
+  )
+}
+
+function DeleteExerciseButton({deleteExercise}:{ deleteExercise: () => void }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          size="icon"
+          variant="destructive"
+          className="h-8 w-8 p-0.5"
+        >
+          <Trash size={16} />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Delete Exercise</DialogTitle>
+          <DialogDescription>
+            Are you sure?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            variant="destructive"
+            onClick={() => deleteExercise()}
+          >
+            Delete
+          </Button>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
