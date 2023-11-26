@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import WorkoutTypeTable from "./WorkoutTypeTable";
 import ExerciseTypeTable from "./ExerciseTypeTable";
+import ExerciseTypeDisplay from "./ExerciseTypeDisplay";
 
 export default async function AccountPage() {
   const meResult = await getMe();
@@ -33,13 +34,7 @@ export default async function AccountPage() {
         </Button>
       </div>
       <WorkoutTypeTable workoutTypes={workoutTypes} />
-      <div className="flex flex-row justify-start items-center gap-2 mt-14 mb-4">
-        <h2 className="text-2xl">Exercise Types</h2>
-        <Button variant="secondary" size="sm" className="ml-2">
-          New <Plus size={18} className="ml-1" />
-        </Button>
-      </div>
-      <ExerciseTypeTable exerciseTypes={exerciseTypes} />
+      <ExerciseTypeDisplay exerciseTypes={exerciseTypes} />
     </main>
   );
 }
