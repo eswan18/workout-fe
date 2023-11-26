@@ -168,7 +168,7 @@ function CreateWorkoutTypeForm({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Start</Button>
+              <Button type="submit">Create</Button>
             </>
           )}
         </DialogFooter>

@@ -84,7 +84,7 @@ function CreateExerciseTypeForm({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Chest Flys" {...field} />
+                  <Input placeholder="e.g. Chest Flys" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -97,7 +97,7 @@ function CreateExerciseTypeForm({
               <FormItem>
                 <FormLabel>Number of Weights</FormLabel>
                 <FormControl>
-                  <Input placeholder="1" {...field} />
+                  <Input placeholder="e.g. 1" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -127,7 +127,7 @@ function CreateExerciseTypeForm({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Start</Button>
+              <Button type="submit">Create</Button>
             </>
           )}
         </DialogFooter>
