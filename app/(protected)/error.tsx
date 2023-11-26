@@ -29,7 +29,7 @@ export default function Error({
       <div className="my-8">
         <p className="">Something went wrong!</p>
         <div className="m-4 p-4 border border-muted-foreground">
-          <pre>
+          <pre className="whitespace-pre-wrap">
             <code>{error.message}</code>
           </pre>
         </div>
