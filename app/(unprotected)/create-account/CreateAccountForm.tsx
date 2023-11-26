@@ -26,6 +26,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import createUser from "@/app/_actions/createUser";
+import { UserPlus } from "lucide-react";
 
 const createAccountForm = z.object({
   email: z.string().email(),
@@ -115,6 +116,7 @@ export default function CreateAccountForm() {
                 <Button size="lg" type="submit" className="flex flex-row gap-2">
                   <p>Create</p>
                   <i className="text-lg fi fi-sr-arrow-circle-right inline-flex align-[-0.2rem]" />
+                  <UserPlus size={20} />
                 </Button>
               )}
             </div>
