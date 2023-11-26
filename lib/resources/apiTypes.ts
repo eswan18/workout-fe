@@ -1,12 +1,10 @@
-import { UUID } from "crypto";
-
 export type UserIn = {
   email: string;
   password: string;
 };
 
 export type UserOut = {
-  id: UUID;
+  id: string;
   email: string;
 };
 
@@ -26,8 +24,8 @@ export type WorkoutType = {
   name: string;
   notes?: string;
   // Relations
-  parent_workout_type_id?: UUID | undefined;
-  owner_user_id?: UUID | undefined;
+  parent_workout_type_id?: string | undefined;
+  owner_user_id?: string | undefined;
 };
 
 export type Exercise = {

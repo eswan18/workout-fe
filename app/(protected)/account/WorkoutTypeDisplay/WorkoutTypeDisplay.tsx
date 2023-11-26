@@ -7,6 +7,7 @@ import WorkoutTypeTable from "./WorkoutTypeTable";
 import { WorkoutType } from "@/lib/resources/apiTypes";
 import { createWorkoutType } from "@/lib/resources/workoutTypes";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import CreateWorkoutTypeDialogContent from "@/components/dialogs/CreateWorkoutTypeDialogContent";
 
 export default function WorkoutTypeDisplay({
   workoutTypes,
@@ -21,7 +22,7 @@ export default function WorkoutTypeDisplay({
       if (!result.success) throw result.error;
       setWktTps([...wktTps, result.data]);
     });
-  }
+  };
 
   return (
     <>
@@ -33,9 +34,14 @@ export default function WorkoutTypeDisplay({
               New <Plus size={18} className="ml-1" />
             </Button>
           </DialogTrigger>
+          <CreateWorkoutTypeDialogContent
+            closeDialog={() => setOpen(false)}
+            createWorkoutType={createWorkoutTypeAndUpdateState}
+            workoutTypes={workoutTypes}
+          />
         </Dialog>
       </div>
-      <WorkoutTypeTable workoutTypes={workoutTypes} />
+      <WorkoutTypeTable workoutTypes={wktTps} />
     </>
   );
 }
