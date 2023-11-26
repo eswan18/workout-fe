@@ -46,7 +46,7 @@ const formSchema = z.object({
 export default function StartNewExerciseGroupButton({
   exerciseTypes,
   onStartNewExerciseGroup,
-  addNewExerciseType,
+  createExerciseType,
 }: {
   exerciseTypes: ExerciseType[];
   onStartNewExerciseGroup: ({
@@ -54,7 +54,7 @@ export default function StartNewExerciseGroupButton({
   }: {
     exerciseTypeId: string;
   }) => void;
-  addNewExerciseType: (exerciseType: ExerciseType) => void;
+  createExerciseType: (exerciseType: ExerciseType) => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -74,7 +74,7 @@ export default function StartNewExerciseGroupButton({
           <StartNewExerciseGroupForm
             exerciseTypes={exerciseTypes}
             onStartNewExerciseGroup={onStartNewExerciseGroup}
-            addNewExerciseType={addNewExerciseType}
+            createExerciseType={createExerciseType}
             closeDialog={() => setOpen(false)}
           />
         </div>
@@ -86,7 +86,7 @@ export default function StartNewExerciseGroupButton({
 function StartNewExerciseGroupForm({
   exerciseTypes,
   onStartNewExerciseGroup,
-  addNewExerciseType,
+  createExerciseType,
   closeDialog,
 }: {
   exerciseTypes: ExerciseType[];
@@ -95,7 +95,7 @@ function StartNewExerciseGroupForm({
   }: {
     exerciseTypeId: string;
   }) => void;
-  addNewExerciseType: (exerciseType: ExerciseType) => void;
+  createExerciseType: (exerciseType: ExerciseType) => void;
   closeDialog: () => void;
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -138,7 +138,7 @@ function StartNewExerciseGroupForm({
                       ))}
                       <Separator />
                       <CreateNewExerciseTypeButton
-                        addNewExerciseType={addNewExerciseType}
+                        createExerciseType={createExerciseType}
                       />
                     </SelectContent>
                   </Select>

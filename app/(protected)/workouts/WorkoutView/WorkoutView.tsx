@@ -48,7 +48,7 @@ export default function WorkoutView({
   }));
 
   const [exerciseTps, setExerciseTps] = useState<ExerciseType[]>(exerciseTypes);
-  const addNewExerciseType = (exerciseType: ExerciseType) => {
+  const createExerciseTypeAndUpdateState = (exerciseType: ExerciseType) => {
     createExerciseType(exerciseType).then((result) => {
       if (!result.success) {
         return;
@@ -153,7 +153,7 @@ export default function WorkoutView({
             <StartNewExerciseGroupButton
               onStartNewExerciseGroup={onStartNewExerciseGroup}
               exerciseTypes={exerciseTps}
-              addNewExerciseType={addNewExerciseType}
+              createExerciseType={createExerciseTypeAndUpdateState}
             />
           )}
         </div>

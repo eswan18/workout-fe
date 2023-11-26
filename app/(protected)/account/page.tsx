@@ -21,10 +21,8 @@ export default async function AccountPage() {
 
   return (
     <main className="flex flex-col justify-start p-10 lg:p-16">
-      <div className="my-12">
-        <h1 className="text-4xl">Account</h1>
-      </div>
-      <div className="flex flex-row justify-start gap-3">
+      <h1 className="text-4xl">Account</h1>
+      <div className="flex flex-row justify-start gap-3 mt-8">
         <span className="text-muted-foreground">Account email:</span>
         <span className="text-foreground">{me.email}</span>
       </div>
