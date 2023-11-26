@@ -1,17 +1,17 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export type ExerciseTypeSchema = {
+export type WorkoutTypeSchema = {
   id: string;
   name: string;
   owner_user_id?: string;
   notes?: string;
 };
 
-export const columns: ColumnDef<ExerciseTypeSchema>[] = [
+export const columns: ColumnDef<WorkoutTypeSchema>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {

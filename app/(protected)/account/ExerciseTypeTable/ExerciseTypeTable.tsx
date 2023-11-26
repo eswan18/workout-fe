@@ -11,7 +11,5 @@ export default function ExerciseTypeTable({
     ...exerciseType,
     id: exerciseType.id as string,
   }));
-  return (
-    <DataTable columns={columns} data={exerciseTypesInSchemaFormat} />
-  );
+  return <DataTable columns={columns} data={exerciseTypesInSchemaFormat} />;
 }
