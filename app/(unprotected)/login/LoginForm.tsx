@@ -119,7 +119,7 @@ export default function LoginForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-row jusitfy-center">
+      <CardFooter className="flex flex-col jusitfy-center mt-1">
         <p className="text-xs">Don&apos;t have an account?</p>
         <Link href="/create-account">
           <Button size="sm" variant="link">

@@ -123,7 +123,7 @@ export default function CreateAccountForm() {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-row justify-center">
+      <CardFooter className="flex flex-col justify-center mt-1">
         <p className="text-xs">Already have an account?</p>
         <Link href="/login">
           <Button size="sm" variant="link">
