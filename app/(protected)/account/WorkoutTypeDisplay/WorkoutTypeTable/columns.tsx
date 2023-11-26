@@ -1,8 +1,18 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import DestructiveConfirmDialogContent from "@/components/dialogs/DestructiveConfirmDialogContent";
 
 export type WorkoutTypeSchema = {
   id: string;
@@ -57,5 +67,35 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
   {
     accessorKey: "notes",
     header: "Notes",
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <MoreHorizontal size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DestructiveConfirmDialogContent
+            titleText={`Confirm Delete: ${row.original.name}`}
+            bodyText="Are you sure you want to delete this workout type?"
+            action={() => {}}
+            closeDialog={() => {}}
+          />
+        </Dialog>
+      );
+    },
   },
 ];
