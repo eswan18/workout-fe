@@ -18,7 +18,10 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -127,25 +130,26 @@ function CreateWorkoutTypeForm({
               <FormItem>
                 <FormLabel>Parent Workout Type</FormLabel>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select onValueChange={field.onChange} defaultValue="null">
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select..." />
+                      <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem key="" value="null">
-                        None
+                        No parent
                       </SelectItem>
-                      {workoutTypes.map((workoutType) => (
-                        <SelectItem
-                          key={workoutType.id}
-                          value={workoutType.id as string}
-                        >
-                          {workoutType.name}
-                        </SelectItem>
-                      ))}
+                      <SelectSeparator />
+                      <SelectGroup>
+                        <SelectLabel>Other Workout Types</SelectLabel>
+                        {workoutTypes.map((workoutType) => (
+                          <SelectItem
+                            key={workoutType.id}
+                            value={workoutType.id as string}
+                          >
+                            {workoutType.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </FormControl>
