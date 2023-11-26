@@ -28,14 +28,14 @@ export default async function AccountPage() {
         <span className="text-muted-foreground">Account email:</span>
         <span className="text-foreground">{me.email}</span>
       </div>
-      <div className="flex flex-row justify-start items-center gap-2 mt-12 mb-4">
+      <div className="flex flex-row justify-start items-center gap-2 mt-14 mb-4">
         <h2 className="text-2xl">Workout Types</h2>
         <Button variant="secondary" size="sm" className="ml-2">
           New <Plus size={18} className="ml-1" />
         </Button>
       </div>
       <WorkoutTypeTable workoutTypes={workoutTypes} />
-      <div className="flex flex-row justify-start items-center gap-2 mt-12 mb-4">
+      <div className="flex flex-row justify-start items-center gap-2 mt-14 mb-4">
         <h2 className="text-2xl">Exercise Types</h2>
         <Button variant="secondary" size="sm" className="ml-2">
           New <Plus size={18} className="ml-1" />
