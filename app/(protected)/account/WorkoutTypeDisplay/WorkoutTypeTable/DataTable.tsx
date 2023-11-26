@@ -22,16 +22,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-interface DataTableProps<TData, TValue> {
+type WithId = { id: string };
+
+interface DataTableProps<TData extends WithId, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  setData: (data: TData[]) => void;
 }
 
 // Pulled from here: https://ui.shadcn.com/docs/components/data-table
 // There are more features in the tutorial that I could come back for later.
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends WithId, TValue>({
   columns,
   data,
+  setData,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -44,6 +48,11 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: { sorting, columnFilters },
+    meta: {
+      deleteRowById: (id: string) => {
+        setData(data.filter((row) => "id" in row && row.id !== id));
+      },
+    },
   });
 
   return (

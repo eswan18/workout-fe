@@ -4,12 +4,16 @@ import { DataTable } from "./DataTable";
 
 export default function WorkoutTypeTable({
   workoutTypes,
+  setWorkoutTypes,
 }: {
   workoutTypes: WorkoutType[];
+  setWorkoutTypes: (workoutTypes: WorkoutType[]) => void;
 }) {
-  const wktTpsInSchemaFormat = workoutTypes.map((wktTp) => ({
-    ...wktTp,
-    id: wktTp.id as string,
-  }));
-  return <DataTable columns={columns} data={wktTpsInSchemaFormat} />;
+  return (
+    <DataTable
+      columns={columns}
+      data={workoutTypes}
+      setData={setWorkoutTypes}
+    />
+  );
 }

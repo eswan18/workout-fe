@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import DestructiveConfirmDialogContent from "@/components/dialogs/DestructiveConfirmDialogContent";
+import { deleteWorkoutType } from "@/lib/resources/workoutTypes";
 
 export type WorkoutTypeSchema = {
   id: string;
@@ -71,7 +72,23 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const deleteWorkoutTypeForRow = () => {
+        const id = row.original.id;
+        if (typeof id !== "string") {
+          // This shouldn't happen, but just in case.
+          return;
+        }
+        deleteWorkoutType(id).then(
+          (result) => {
+            if (!result.success) throw result.error;
+            table.options.meta?.deleteRowById(id);
+          },
+          (error) => {
+            console.error(error);
+          },
+        );
+      };
       return (
         <Dialog>
           <DropdownMenu>
@@ -89,9 +106,9 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
           <DestructiveConfirmDialogContent
-            titleText={`Confirm Delete: ${row.original.name}`}
+            titleText={`Confirm Delete: ${row.getValue("name") as string}`}
             bodyText="Are you sure you want to delete this workout type?"
-            action={() => {}}
+            action={deleteWorkoutTypeForRow}
             closeDialog={() => {}}
           />
         </Dialog>

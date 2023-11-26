@@ -41,7 +41,7 @@ export default function WorkoutTypeDisplay({
           />
         </Dialog>
       </div>
-      <WorkoutTypeTable workoutTypes={wktTps} />
+      <WorkoutTypeTable workoutTypes={wktTps} setWorkoutTypes={setWktTps} />
     </>
   );
 }

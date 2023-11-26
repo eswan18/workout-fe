@@ -20,7 +20,7 @@ export type Workout = {
 };
 
 export type WorkoutType = {
-  id?: string;
+  id: string;
   name: string;
   notes?: string;
   // Relations
