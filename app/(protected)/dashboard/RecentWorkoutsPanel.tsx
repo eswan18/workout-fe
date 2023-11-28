@@ -25,7 +25,7 @@ export default async function RecentWorkoutsPanel({
     return bDate.getTime() - aDate.getTime();
   });
   return (
-    <div className="w-full flex flex-col justify-start items-start gap-2">
+    <div className="w-full flex flex-col justify-start items-start gap-3">
       <h2 className="text-2xl">Recent Workouts</h2>
       <div className="flex flex-row gap-4 flex-wrap mt-2 justify-center lg:justify-start">
         {wktsWithDetails.length > 0 ? (

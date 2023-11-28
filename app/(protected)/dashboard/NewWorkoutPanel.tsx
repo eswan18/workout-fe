@@ -15,6 +15,8 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
+const maxWorkoutTypesToDisplay = 5;
+
 async function createAndStartWorkout(
   workoutTypeId: string | undefined,
 ): Promise<Workout> {
@@ -39,23 +41,35 @@ export default function NewWorkoutPanel({
   const router = useRouter();
   // The parent component should pass workout types in order of display priority
   // (descending), so we can just pull the first few.
-  const newWorkoutCards = workoutTypes.slice(0, 5).map((workoutType, index) => {
-    const onClick = () => {
-      if (!workoutType.id) throw new Error("Workout type id is null");
-      createAndStartWorkout(workoutType.id).then((workout) =>
-        router.push(`/workouts/live/${workout.id}`),
+  const newWorkoutCards = workoutTypes
+    .slice(0, maxWorkoutTypesToDisplay)
+    .map((workoutType, index) => {
+      const onClick = () => {
+        if (!workoutType.id) throw new Error("Workout type id is null");
+        createAndStartWorkout(workoutType.id).then((workout) =>
+          router.push(`/workouts/live/${workout.id}`),
+        );
+      };
+      return (
+        <NewWorkoutButton
+          name={workoutType.name}
+          onClick={onClick}
+          key={index}
+        />
       );
-    };
-    return (
-      <NewWorkoutButton name={workoutType.name} onClick={onClick} key={index} />
-    );
-  });
+    });
   return (
-    <div className="w-full pt-2 flex flex-col justify-start items-start gap-2">
+    <div className="w-full flex flex-col justify-start items-start gap-3">
       <h2 className="text-2xl">New Workout</h2>
-      <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-start items-center">
-        {newWorkoutCards}
-        <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
+      <div className="w-full pt-2 flex flex-col justify-start items-start gap-1">
+        <div className="flex flex-row flex-wrap gap-2 lg:gap-4 justify-start items-center my-1">
+          <h3>Recents:</h3>
+          {newWorkoutCards}
+        </div>
+        <div className="flex flex-row flex-wrap gap-2 lg:gap-4 justify-start items-center my-1">
+          <h3>Or choose from</h3>
+          <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
+        </div>
       </div>
     </div>
   );
@@ -69,11 +83,10 @@ type NewWorkoutButtonProps = {
 function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
   return (
     <Button
-      variant="secondary"
-      className="w-auto h-16 flex flex-col justify-between items-center"
+      variant="outline"
+      className="flex flex-row justify-start items-center"
       onClick={onClick}
     >
-      <Dumbbell strokeWidth={3} />
       <p>{name}</p>
     </Button>
   );
@@ -88,11 +101,11 @@ function AllWorkoutTypesButtonWithDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="secondary"
-          className="h-16 w-auto flex flex-col justify-between items-center"
+          variant="outline"
+          className="flex flex-row justify-start items-center"
         >
-          <MoreHorizontal />
-          <p>All workouts</p>
+          <p>All Workout Types</p>
+          <MoreHorizontal className="ml-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

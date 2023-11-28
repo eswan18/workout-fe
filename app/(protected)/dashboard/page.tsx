@@ -33,18 +33,20 @@ export default async function DashboardPage() {
   });
 
   return (
-    <main className="flex flex-col justify-start gap-10 p-10 lg:p-16">
+    <main className="flex flex-col justify-start p-10 lg:p-16">
       <div className="mb-4">
         <h1 className="text-4xl">Your Dashboard</h1>
       </div>
-      <div className="w-full items-center justify-around lg:flex">
-        <NewWorkoutPanel workoutTypes={orderedWorkoutTypes} />
-      </div>
-      {allWorkouts.length > 0 ? (
+      <div className="flex flex-col justify-start items-start gap-12 mt-12">
         <div className="w-full items-center justify-around lg:flex">
-          <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
+          <NewWorkoutPanel workoutTypes={orderedWorkoutTypes} />
         </div>
-      ) : null}
+        {allWorkouts.length > 0 ? (
+          <div className="w-full items-center justify-around lg:flex">
+            <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
+          </div>
+        ) : null}
+      </div>
     </main>
   );
 }
