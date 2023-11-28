@@ -1,6 +1,6 @@
 import { WorkoutType } from "@/lib/resources/apiTypes";
 import { columns } from "./columns";
-import { DataTable } from "./DataTable";
+import { DataTable } from "@/components/ui/data-table";
 
 export default function WorkoutTypeTable({
   workoutTypes,

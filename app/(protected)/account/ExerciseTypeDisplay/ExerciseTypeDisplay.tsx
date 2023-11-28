@@ -40,7 +40,7 @@ export default function ExerciseTypeDisplay({
           />
         </Dialog>
       </div>
-      <ExerciseTypeTable exerciseTypes={excTps} />
+      <ExerciseTypeTable exerciseTypes={excTps} setExerciseTypes={setExcTps} />
     </>
   );
 }

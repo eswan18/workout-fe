@@ -102,7 +102,9 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DialogTrigger asChild>
-                <DropdownMenuItem disabled={!ownedByUser}>Delete</DropdownMenuItem>
+                <DropdownMenuItem disabled={!ownedByUser}>
+                  Delete
+                </DropdownMenuItem>
               </DialogTrigger>
             </DropdownMenuContent>
           </DropdownMenu>

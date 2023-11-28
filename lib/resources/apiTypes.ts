@@ -43,7 +43,7 @@ export type Exercise = {
 };
 
 export type ExerciseType = {
-  id?: string;
+  id: string;
   owner_user_id?: string;
   name: string;
   number_of_weights?: number;

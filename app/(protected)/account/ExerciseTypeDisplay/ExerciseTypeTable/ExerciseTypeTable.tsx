@@ -1,15 +1,19 @@
 import { ExerciseType } from "@/lib/resources/apiTypes";
 import { columns } from "./columns";
-import { DataTable } from "./DataTable";
+import { DataTable } from "@/components/ui/data-table";
 
 export default function ExerciseTypeTable({
   exerciseTypes,
+  setExerciseTypes,
 }: {
   exerciseTypes: ExerciseType[];
+  setExerciseTypes: (exerciseTypes: ExerciseType[]) => void;
 }) {
-  const exerciseTypesInSchemaFormat = exerciseTypes.map((exerciseType) => ({
-    ...exerciseType,
-    id: exerciseType.id as string,
-  }));
-  return <DataTable columns={columns} data={exerciseTypesInSchemaFormat} />;
+  return (
+    <DataTable
+      columns={columns}
+      data={exerciseTypes}
+      setData={setExerciseTypes}
+    />
+  );
 }
