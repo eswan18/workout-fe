@@ -15,7 +15,7 @@ export default async function DashboardPage() {
   // Get the most popular workouts for this user based on how many times they've been used.
   const wktIds = allWorkouts
     .map((wkt) => wkt.workout.workout_type_id)
-    .filter((item): item is string => item != null && item != undefined);
+    .filter((id): id is string => id != null && id != undefined);
   const favoriteWktTypeIds = nMostCommon(5, wktIds);
 
   const workoutTypesResult = await getAllWorkoutTypes();

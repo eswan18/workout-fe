@@ -64,7 +64,7 @@ export default function NewWorkoutPanel({
       <div className="w-full pt-2 flex flex-col justify-start items-start gap-1">
         <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
         <div className="h-2"/>
-        <h3>Recent workout types</h3>
+        <h3>Quick start</h3>
         <div className="flex flex-row flex-wrap gap-2 lg:gap-x-4 justify-start items-center my-1">
           {newWorkoutCards}
         </div>
@@ -96,6 +96,7 @@ function AllWorkoutTypesButtonWithDropdown({
 }: {
   workoutTypes: WorkoutType[];
 }) {
+  const nWorkoutTypes = workoutTypes.length;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -104,7 +105,7 @@ function AllWorkoutTypesButtonWithDropdown({
           size="lg"
           className="flex flex-row justify-start items-center"
         >
-          All workout types
+          Choose workout type ({nWorkoutTypes})
           <ChevronDown className="ml-2" />
         </Button>
       </DropdownMenuTrigger>
