@@ -59,13 +59,15 @@ export default function StartNewExerciseGroupButton({
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
-        <Button variant="ghost" className="w-fit">
-          <PlusCircle className="mr-2" />
-          New exercise
-        </Button>
-      </DialogTrigger>
+      <div className="flex flex-row justify-start">
+        <DialogTrigger asChild>
+          {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
+          <Button variant="ghost">
+            <PlusCircle className="mr-3" />
+            <span className="text-base">New exercise</span>
+          </Button>
+        </DialogTrigger>
+      </div>
       <DialogContent className="flex flex-row justify-center">
         <div className="sm:w-64">
           <DialogHeader>
