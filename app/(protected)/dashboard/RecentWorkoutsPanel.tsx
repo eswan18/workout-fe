@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CandlestickChart, LineChart } from "lucide-react";
+import { LineChart } from "lucide-react";
 
 type RecentWorkoutsPanelProps = {
   wktsWithDetails: WorkoutWithDetails[];
@@ -25,8 +25,8 @@ export default async function RecentWorkoutsPanel({
     return bDate.getTime() - aDate.getTime();
   });
   return (
-    <div className="w-full flex flex-col justify-start items-start">
-      <h2 className="text-xl">Recent Workouts</h2>
+    <div className="w-full flex flex-col justify-start items-start gap-2">
+      <h2 className="text-2xl">Recent Workouts</h2>
       <div className="flex flex-row gap-4 flex-wrap mt-2 justify-center lg:justify-start">
         {wktsWithDetails.length > 0 ? (
           wktsWithDetails.map((wktWithDetails) => (

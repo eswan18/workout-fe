@@ -4,15 +4,7 @@ import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
 import { createWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
-import {
-  Dumbbell,
-  LineChart,
-  LucideActivity,
-  LucideBarChartHorizontalBig,
-  LucideDumbbell,
-  MoreHorizontal,
-  Weight,
-} from "lucide-react";
+import { Dumbbell, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -59,8 +51,8 @@ export default function NewWorkoutPanel({
     );
   });
   return (
-    <div className="w-full pt-2 flex flex-col justify-start items-start">
-      <h2 className="text-xl">New Workout</h2>
+    <div className="w-full pt-2 flex flex-col justify-start items-start gap-2">
+      <h2 className="text-2xl">New Workout</h2>
       <div className="flex flex-row flex-wrap mt-2 gap-2 lg:gap-4 justify-start items-center">
         {newWorkoutCards}
         <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
