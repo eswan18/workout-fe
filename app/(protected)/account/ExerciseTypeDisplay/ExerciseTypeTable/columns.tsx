@@ -94,9 +94,11 @@ export const columns: ColumnDef<ExerciseTypeSchema>[] = [
         <Dialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
-                <MoreHorizontal size={18} />
-              </Button>
+              {ownedByUser && (
+                <Button variant="ghost" size="sm" hidden={!ownedByUser}>
+                  <MoreHorizontal size={18} />
+                </Button>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
