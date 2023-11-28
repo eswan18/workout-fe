@@ -82,6 +82,7 @@ export const columns: ColumnDef<ExerciseTypeSchema>[] = [
         deleteExerciseType(id).then(
           (result) => {
             if (!result.success) throw result.error;
+            // @ts-ignore
             table.options.meta?.deleteRowById(id);
           },
           (error) => {
