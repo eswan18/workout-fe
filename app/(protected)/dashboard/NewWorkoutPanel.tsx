@@ -4,7 +4,7 @@ import { Workout, WorkoutType } from "@/lib/resources/apiTypes";
 
 import { createWorkout } from "@/lib/resources/workouts";
 import { useRouter } from "next/navigation";
-import { Dumbbell, MoreHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -62,13 +62,11 @@ export default function NewWorkoutPanel({
     <div className="w-full flex flex-col justify-start items-start gap-3">
       <h2 className="text-2xl">New Workout</h2>
       <div className="w-full pt-2 flex flex-col justify-start items-start gap-1">
-        <div className="flex flex-row flex-wrap gap-2 lg:gap-4 justify-start items-center my-1">
-          <h3>Recents:</h3>
+        <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
+        <div className="h-2"/>
+        <h3>Recent workout types</h3>
+        <div className="flex flex-row flex-wrap gap-2 lg:gap-x-4 justify-start items-center my-1">
           {newWorkoutCards}
-        </div>
-        <div className="flex flex-row flex-wrap gap-2 lg:gap-4 justify-start items-center my-1">
-          <h3>Or choose from</h3>
-          <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
         </div>
       </div>
     </div>
@@ -85,6 +83,7 @@ function NewWorkoutButton({ name, onClick }: NewWorkoutButtonProps) {
     <Button
       variant="outline"
       className="flex flex-row justify-start items-center"
+      size="lg"
       onClick={onClick}
     >
       <p>{name}</p>
@@ -102,14 +101,15 @@ function AllWorkoutTypesButtonWithDropdown({
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
+          size="lg"
           className="flex flex-row justify-start items-center"
         >
-          <p>All Workout Types</p>
-          <MoreHorizontal className="ml-2" />
+          All workout types
+          <ChevronDown className="ml-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>All Workouts</DropdownMenuLabel>
+        <DropdownMenuLabel>Workout Types</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {workoutTypes.map((wktType) => (
           <WorkoutTypeMenuItem workoutType={wktType} key={wktType.id} />
