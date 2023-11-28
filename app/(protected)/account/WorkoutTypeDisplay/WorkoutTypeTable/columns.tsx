@@ -89,6 +89,7 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
           },
         );
       };
+      const ownedByUser = row.original.owner_user_id != null;
       return (
         <Dialog>
           <DropdownMenu>
@@ -101,7 +102,7 @@ export const columns: ColumnDef<WorkoutTypeSchema>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DialogTrigger asChild>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem disabled={!ownedByUser}>Delete</DropdownMenuItem>
               </DialogTrigger>
             </DropdownMenuContent>
           </DropdownMenu>
