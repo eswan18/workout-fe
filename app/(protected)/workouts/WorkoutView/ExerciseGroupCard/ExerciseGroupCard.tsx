@@ -9,9 +9,7 @@ import {
 import CreateNewExerciseButton from "./CreateNewExerciseButton";
 import ExerciseCard from "./ExerciseCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dumbbell } from "lucide-react";
 import { useModifyGroupExercises } from "./useModifyGroupExercises";
-import { overwriteExercise } from "@/lib/resources/exercises";
 
 type ExerciseGroupWidgetProps = {
   exerciseType: ExerciseType;
@@ -50,9 +48,7 @@ export default function ExerciseGroupCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          <Dumbbell size={36} className="inline mr-2" /> {exerciseType.name}
-        </CardTitle>
+        <CardTitle>{exerciseType.name}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row justify-left gap-2 overflow-x-scroll">
         {exercisesWithTypes.map((ex) => (

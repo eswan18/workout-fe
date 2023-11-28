@@ -30,7 +30,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { Dumbbell } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import CreateNewExerciseTypeButton from "./CreateNewExerciseTypeButton";
@@ -61,8 +61,8 @@ export default function StartNewExerciseGroupButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
-        <Button variant="secondary" className="w-fit">
-          <Dumbbell className="mr-2" />
+        <Button variant="ghost" className="w-fit">
+          <PlusCircle className="mr-2" />
           New exercise
         </Button>
       </DialogTrigger>

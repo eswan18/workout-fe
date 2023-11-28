@@ -22,7 +22,7 @@ export default function CreateNewExerciseButton({
         <Button
           className="w-20 h-20 flex flex-col flex-shrink-0 justify-center items-center p-0"
           title="Record new set"
-          variant="secondary"
+          variant="ghost"
         >
           <PlusSquare size={48} strokeWidth={1.2} className="p-0 m-0" />
         </Button>

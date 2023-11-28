@@ -3,6 +3,7 @@ import { ExerciseType } from "@/lib/resources/apiTypes";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import CreateExerciseTypeDialogContent from "@/components/dialogs/CreateExerciseTypeDialogContent";
+import { Plus, PlusCircle } from "lucide-react";
 
 export default function CreateNewExerciseTypeButton({
   createExerciseType,
@@ -14,7 +15,10 @@ export default function CreateNewExerciseTypeButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {/* This button has to be inline in this function (not a separate component) for the alert trigger to work */}
-        <Button variant="secondary">Add new exercise type</Button>
+        <Button size="sm" variant="ghost">
+          <Plus size={18} className="mr-1" />
+          Add a new exercise type
+        </Button>
       </DialogTrigger>
       <CreateExerciseTypeDialogContent
         createExerciseType={createExerciseType}

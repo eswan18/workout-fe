@@ -63,7 +63,7 @@ export default function NewWorkoutPanel({
       <h2 className="text-2xl">New Workout</h2>
       <div className="w-full pt-2 flex flex-col justify-start items-start gap-1">
         <AllWorkoutTypesButtonWithDropdown workoutTypes={workoutTypes} />
-        <div className="h-2"/>
+        <div className="h-2" />
         <h3>Quick start</h3>
         <div className="flex flex-row flex-wrap gap-2 lg:gap-x-4 justify-start items-center my-1">
           {newWorkoutCards}
