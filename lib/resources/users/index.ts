@@ -1,1 +1,0 @@
-export { getMe } from "./read";

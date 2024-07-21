@@ -1,52 +1,45 @@
-import { getAllWorkoutTypes } from "@/lib/resources/workoutTypes/getWorkoutTypes";
-import { getAllWorkoutsWithDetails } from "@/lib/resources/derived/workoutWithDetails";
-import NewWorkoutPanel from "./NewWorkoutPanel";
-import RecentWorkoutsPanel from "./RecentWorkoutsPanel";
-import { nMostCommon } from "@/lib/mostCommon";
+import DeployButton from "@/components/DeployButton";
+import AuthButton from "@/components/AuthButton";
+import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
+import Header from "@/components/Header";
 
-const N_EXERCISES = 4;
-
-export default async function DashboardPage() {
-  const workoutsResult = await getAllWorkoutsWithDetails({
-    limit: N_EXERCISES,
-  });
-  if (!workoutsResult.success) throw workoutsResult.error;
-  const allWorkouts = workoutsResult.data;
-  // Get the most popular workouts for this user based on how many times they've been used.
-  const wktIds = allWorkouts
-    .map((wkt) => wkt.workout.workout_type_id)
-    .filter((id): id is string => id != null && id != undefined);
-  const favoriteWktTypeIds = nMostCommon(5, wktIds);
-
-  const workoutTypesResult = await getAllWorkoutTypes();
-  if (!workoutTypesResult.success) throw workoutTypesResult.error;
-  const workoutTypes = workoutTypesResult.data;
-  // Put the favorite workouts first in the list if they're present.
-  const orderedWorkoutTypes = workoutTypes.sort((a, b) => {
-    // This crazy solution brought to you by ChatGPT.
-    const indexOfAInFavs = favoriteWktTypeIds.indexOf(a.id as string);
-    const indexOfBInFavs = favoriteWktTypeIds.indexOf(b.id as string);
-    return (
-      (indexOfAInFavs === -1 ? Infinity : indexOfAInFavs) -
-      (indexOfBInFavs === -1 ? Infinity : indexOfBInFavs)
-    );
-  });
-
+export default async function ProtectedPage() {
   return (
-    <main className="flex flex-col justify-start p-10 lg:p-16">
-      <div className="mb-4">
-        <h1 className="text-4xl">Your Dashboard</h1>
-      </div>
-      <div className="flex flex-col justify-start items-start gap-12 mt-12">
-        <div className="w-full items-center justify-around lg:flex">
-          <NewWorkoutPanel workoutTypes={orderedWorkoutTypes} />
+    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <div className="w-full">
+        <div className="py-6 font-bold bg-purple-950 text-center">
+          This is a protected page that you can only see as an authenticated
+          user
         </div>
-        {allWorkouts.length > 0 ? (
-          <div className="w-full items-center justify-around lg:flex">
-            <RecentWorkoutsPanel wktsWithDetails={allWorkouts} />
+        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+          <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+            <DeployButton />
+            <AuthButton />
           </div>
-        ) : null}
+        </nav>
       </div>
-    </main>
+
+      <div className="flex-1 flex flex-col gap-20 max-w-4xl px-3">
+        <Header />
+        <main className="flex-1 flex flex-col gap-6">
+          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
+          <FetchDataSteps />
+        </main>
+      </div>
+
+      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
+        <p>
+          Powered by{" "}
+          <a
+            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+            target="_blank"
+            className="font-bold hover:underline"
+            rel="noreferrer"
+          >
+            Supabase
+          </a>
+        </p>
+      </footer>
+    </div>
   );
 }

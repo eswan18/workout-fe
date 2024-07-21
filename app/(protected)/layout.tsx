@@ -1,18 +1,19 @@
-import { getCurrentUser } from "@/lib/session";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-
-interface ProtectedLayoutProps {
-  children: React.ReactNode;
-}
 
 export default async function ProtectedLayout({
   children,
-}: ProtectedLayoutProps) {
-  const user = await getCurrentUser();
+}: {
+  children: React.ReactNode;
+}) {
+  /* This provides protection to all the routes that use this layout */
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
-    console.log("User is not logged in. Redirecting to login page.");
-    // In the long run, it would be nice for this to return the user to the specific page they requested.
-    redirect("api/auth/signin?callbackUrl=/dashboard");
+    return redirect("/login");
   }
-  return <>{children}</>;
+  return children;
 }
