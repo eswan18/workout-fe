@@ -1,33 +1,38 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "@/components/ui/SubmitButton";
-import SignInWithProviderButton from "./SignInWithProviderButton";
-import invertocatLogo from "./github-mark.png";
 
 export default function Login({
   searchParams,
 }: {
   searchParams: { message: string };
 }) {
-  const signIn = async (formData: FormData) => {
+  const signUp = async (formData: FormData) => {
     "use server";
 
+    const origin = headers().get("origin");
     const email = formData.get("email") as string;
+    const name = formData.get("full-name") as string;
     const password = formData.get("password") as string;
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: `${origin}/auth/callback`,
+      },
     });
 
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/dashboard");
+    return redirect("/login?message=Check email to continue sign in process");
   };
+
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
@@ -55,6 +60,24 @@ export default function Login({
       <div>
         <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
           <label className="text-md" htmlFor="email">
+            Username
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            name="username"
+            placeholder="bobbyt420"
+            required
+          />
+          <label className="text-md" htmlFor="full-name">
+            Name
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-6"
+            name="full-name"
+            placeholder="Bobby Tables"
+            required
+          />
+          <label className="text-md" htmlFor="email">
             Email
           </label>
           <input
@@ -74,10 +97,10 @@ export default function Login({
             required
           />
           <SubmitButton
-            formAction={signIn}
-            pendingText="Signing In..."
+            formAction={signUp}
+            pendingText="Signing Up..."
           >
-            Sign In
+            Create Account
           </SubmitButton>
           {searchParams?.message && (
             <p className="mt-4 p-4 bg-foreground/10 text-center">
@@ -85,20 +108,11 @@ export default function Login({
             </p>
           )}
         </form>
-        <ProviderSignInPanel />
         <div className="w-full flex flex-row justify-center gap-2">
-          <span>Don't have an account?</span>
-          <Link href="/create-account" className="underline">Sign up</Link>
+          <span>Already have an account?</span>
+          <Link href="/login" className="underline">Sign in</Link>
         </div>
       </div>
     </div>
   );
-}
-
-function ProviderSignInPanel() {
-  return (
-    <ul className="flex flex-row justify-center gap-2 my-2 mx-4">
-      <SignInWithProviderButton provider="github" name="GitHub" logo={invertocatLogo} />
-    </ul>
-  )
 }

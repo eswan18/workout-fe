@@ -3,7 +3,7 @@ import AuthButton from "@/components/AuthButton";
 import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
 import Header from "@/components/Header";
 
-export default async function ProtectedPage() {
+export default async function DashboardPage() {
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <div className="w-full">

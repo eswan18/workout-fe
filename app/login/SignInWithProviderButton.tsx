@@ -3,8 +3,10 @@
 import { redirect } from "next/navigation";
 import useSupabaseClient from "../lib/supabase/client";
 import { Provider } from "@supabase/supabase-js";
+import Image, { StaticImageData } from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
 
-export default function SignInWithProviderButton({ provider, providerName }: { provider: Provider, providerName?: string }) {
+export default function SignInWithProviderButton({ provider, name, logo }: { provider: Provider, name?: string, logo: StaticImageData }) {
 
   const supabase = useSupabaseClient();
 
@@ -18,17 +20,14 @@ export default function SignInWithProviderButton({ provider, providerName }: { p
     return redirect("/protected");
   }
 
-  providerName = providerName || provider;
+  const providerName = name || provider;
 
   return (
-    <div className="flex flex-col w-full justify-center gap-2">
-      <a
-        onClick={signIn}
-        className="bg-foreground rounded-md px-4 py-2 text-background mb-2"
-        role="button"
-      >
-        {`Sign In with ${providerName}`}
-      </a>
-    </div>
+    <a onClick={signIn} role="button">
+      <Card className="p-4 flex flex-col justify-center items-center gap-2">
+        <Image src={logo} alt={providerName} width={36} height={36} />
+        <span>{providerName}</span>
+      </Card >
+    </a>
   );
 }
