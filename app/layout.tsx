@@ -2,8 +2,11 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  ? `https://${process.env.VERCEL_URL}` : (process.env.CODESPACE_NAME ?
+    `https://${process.env.CODESPACE_NAME}-3000.app.github.dev`
+    : "http://localhost:3000"
+  );
+
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
