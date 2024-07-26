@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 import SignInWithProviderButton from "./SignInWithProviderButton";
-import invertocatLogo from "./github-mark.png";
+import invertocatLogo from "./invertocat.png";
 
 export default function Login({
   searchParams,
@@ -85,11 +85,11 @@ export default function Login({
             </p>
           )}
         </form>
-        <ProviderSignInPanel />
-        <div className="w-full flex flex-row justify-center gap-2">
+        <div className="w-full flex flex-row justify-center gap-2 mt-4">
           <span>Don't have an account?</span>
           <Link href="/create-account" className="underline">Sign up</Link>
         </div>
+        <ProviderSignInPanel />
       </div>
     </div>
   );
@@ -97,8 +97,11 @@ export default function Login({
 
 function ProviderSignInPanel() {
   return (
-    <ul className="flex flex-row justify-center gap-2 my-2 mx-4">
-      <SignInWithProviderButton provider="github" name="GitHub" logo={invertocatLogo} />
-    </ul>
+    <div className="my-12">
+      <h3 className="text-md">Sign in with other providers</h3>
+      <ul className="flex flex-row justify-start gap-2 my-2 gap-x-4">
+        <SignInWithProviderButton provider="github" name="GitHub" logo={invertocatLogo} />
+      </ul>
+    </div>
   )
 }

@@ -24,8 +24,8 @@ export default function SignInWithProviderButton({ provider, name, logo }: { pro
 
   return (
     <a onClick={signIn} role="button">
-      <Card className="p-4 flex flex-col justify-center items-center gap-2">
-        <Image src={logo} alt={providerName} width={36} height={36} />
+      <Card className="p-2 flex flex-col justify-center items-center gap-2">
+        <Image src={logo} alt={providerName} width={30} height={30} />
         <span>{providerName}</span>
       </Card >
     </a>

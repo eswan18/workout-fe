@@ -108,7 +108,7 @@ export default function Login({
             </p>
           )}
         </form>
-        <div className="w-full flex flex-row justify-center gap-2">
+        <div className="w-full flex flex-row justify-center gap-2 mt-4">
           <span>Already have an account?</span>
           <Link href="/login" className="underline">Sign in</Link>
         </div>
