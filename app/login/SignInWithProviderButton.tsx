@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import useSupabaseClient from "../lib/supabase/client";
 import { Provider } from "@supabase/supabase-js";
 import Image, { StaticImageData } from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 export default function SignInWithProviderButton({ provider, name, logo }: { provider: Provider, name?: string, logo: StaticImageData }) {
 
@@ -17,7 +17,7 @@ export default function SignInWithProviderButton({ provider, name, logo }: { pro
         redirectTo: `${location.origin}/auth/callback`,
       },
     });
-    return redirect("/protected");
+    return redirect("/dashboard");
   }
 
   const providerName = name || provider;
